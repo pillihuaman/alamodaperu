@@ -32,7 +32,9 @@
               }
             ],
             "styles": [
-              "src/styles.sass"
+              "src/custom-theme.scss",
+              "src/styles.sass",
+              "node_modules/@angular/material/prebuilt-themes/azure-blue.css"
             ],
             "scripts": [],
             "server": "src/main.server.ts",
@@ -96,12 +98,17 @@
               }
             ],
             "styles": [
-              "src/styles.sass"
+              "@angular/material/prebuilt-themes/azure-blue.css",
+              "src/styles.sass",
+              "node_modules/@angular/material/prebuilt-themes/azure-blue.css"
             ],
             "scripts": []
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "a0e6c6c7-07f6-45bb-92ac-cd50dbccef88"
   }
 }
