@@ -64,14 +64,14 @@ export const appConfig: ApplicationConfig = {
       NbToastrModule.forRoot(),
     ),
 
-    //provideAppInitializer(
-     // () => inject(Const).loadCommonConfig(),
-    //),
+    provideAppInitializer(
+      () => inject(Const).loadCommonConfig(),
+    ),
 
     // ✅ Fix: HTTP Interceptors (Ensure No Circular Dependency)
-   /* { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true },*/
+    { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true },
 
     { provide: MAT_DATE_LOCALE, useValue: 'es-PE' }, 
     { provide: LOCALE_ID, useValue: 'es-PE' },
