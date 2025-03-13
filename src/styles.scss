@@ -1,0 +1,7 @@
+@use '@nebular/theme/styles/theming' as *;
+@use '@nebular/theme/styles/globals' as *;
+
+// Agregar instalación de tema
+@include nb-install() {
+  @include nb-theme-global();
+}
