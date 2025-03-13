@@ -1,22 +1,23 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NbSidebarService, NbThemeService, NbLayoutModule, NbButtonModule, NbSidebarModule } from '@nebular/theme';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { NbButtonModule, NbLayoutModule, NbSidebarModule, NbSidebarService } from '@nebular/theme';
+import { NbThemeService } from '@nebular/theme';
 import { NebularSharedModule } from '../../@domain/nebular-shared.module';
-
+import { ReactiveFormsModule } from '@angular/forms';
 @Component({
-  selector: 'app-auth',
-  templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss'],
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
     RouterModule, // ✅ Se agrega para que reconozca <router-outlet>
     NbLayoutModule,
-    NbButtonModule,NbSidebarModule,NbLayoutModule,NebularSharedModule
+    NbButtonModule,NbSidebarModule,NbLayoutModule,NebularSharedModule,ReactiveFormsModule 
   ]
 })
-export class AuthComponent {
+export class HomeComponent {
   constructor(
     private sidebarService: NbSidebarService,
     private nbThemeService: NbThemeService
@@ -31,3 +32,6 @@ export class AuthComponent {
     this.sidebarService.collapse('menu-barapp');
   }
 }
+
+
+

@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <div
+      *ngFor="let listImagenes of lstIMf"
+      class="col-md-12 col-sm-12 col-lg-6 custom"
+      [attr.id]="listImagenes.tokenCol"
+    >
+      <div *ngIf="listImagenes.lstCorouseImages?.length" class="carousel-container">
+        <div *ngFor="let image of listImagenes.lstCorouseImages" class="imagenContainer">
+          <div *ngIf="image.indicators !== null || image.imageCountainerToken === selectCountainerToken">
+            <div (click)="changeImage(listImagenes, image)" [ngClass]="[image.imagetoken === selectToken ? 'row-left' : 'row-left-off']">
+              <span class="material-icons dot">arrow_back_ios</span>
+            </div>
+
+            <app-imagen-catch-information
+              [ngClass]="[image.firstObject !== null ? 'image-active' : 'image-active-off']"
+              (click)="enviarData(image)"
+              (mouseover)="changeImage(listImagenes, image)"
+              [image]="image"
+              [attr.id]="image.imagetoken"
+            >
+            </app-imagen-catch-information>
+
+            <div (click)="changeImage(listImagenes, image)" [ngClass]="[image.imagetoken === selectToken ? 'row-right' : 'row-right-off']" [attr.id]="image.imageCountainerToken">
+              <span class="material-icons dot">arrow_forward_ios</span>
+            </div>
+
+            <div (click)="changeImage(listImagenes, image)" [ngClass]="[image.imagetoken === selectToken ? 'row-detail' : 'row-right-off']" [attr.id]="image.imageCountainerToken">
+              <a [routerLink]="['/homedetail']" [state]="listImagenes">Ver Detalle</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
