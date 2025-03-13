@@ -1,0 +1,7 @@
+{
+  "routes": {
+    "/auth": {},
+    "/auth/login": {},
+    "/auth/user-register": {}
+  }
+}
