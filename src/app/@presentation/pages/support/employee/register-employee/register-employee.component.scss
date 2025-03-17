@@ -1,0 +1,28 @@
+
+
+.custom-modal {
+    width: 80vw; /* Adjust this value for the desired modal width */
+    max-width: 100%;
+    height: auto; /* Ensures the modal expands based on content */
+    padding: 20px; /* Add padding if needed */
+  }
+  
+  @media (max-width: 768px) {
+    .custom-modal {
+      width: 90vw; /* Wider modal on smaller screens */
+      padding: 10px; /* Less padding on smaller screens */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .custom-modal {
+      width: 95vw; /* Almost full screen on very small devices */
+      padding: 5px;
+    }
+  }
+  
+  .form-group {
+    margin-bottom: 15px; /* Add space between form fields */
+  }
+
+  

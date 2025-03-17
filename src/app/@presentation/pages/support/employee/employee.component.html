@@ -1,0 +1,69 @@
+<div class="container">
+  <form [formGroup]="employeRequestForm">
+    <nb-accordion multi="true">
+      <nb-accordion-item expanded="true">
+        <nb-accordion-item-header>
+          Search Information
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <div class="row">
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group">
+               
+                  <input nbInput fullWidth type="text" placeholder="ID" formControlName="idToFind" (input)="checkInputs()" />
+                
+                <app-validation-message *ngIf="employeRequestForm.get('idToFind')?.value"
+                  [control]="employeRequestForm.get('idToFind')" [errorMessages]="listError">
+                </app-validation-message>
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group">
+                  <input nbInput fullWidth type="text" placeholder="Name" formControlName="nameToFind" (input)="checkInputs()" />
+                
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group">
+         
+                  <input nbInput fullWidth type="text" placeholder="Last Name" formControlName="lastNameToFind"
+                    (input)="checkInputs()" />
+      
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group">
+    
+                  <input nbInput fullWidth type="text" placeholder="Document" formControlName="documentToFind"
+                    (input)="checkInputs()" />
+                
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12 d-flex justify-content-between">
+                <button type="button" nbButton status="primary" (click)="findByparameter()"
+                  [disabled]="searchButtonDisabled">Search</button>
+
+                <button type="button" nbButton status="success" (click)="onNewClick()">New</button>
+              </div>
+            </div>
+          </div>
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
+
+    <app-table-datasource [datas]="datas" [defaultColumns]="defaultColumnsInput"
+      (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"
+       [typeOfSearch]="typeOfSearch">
+    </app-table-datasource>
+
+  </form>
+</div>
+<!--
+
+
+   (deleteAction)="deleting($event)" 
+[isdelelete]="isdelelete" [hasMorePages]="hasMorePagesT"
+(editAction)="handleEditicionAction($event)"-->

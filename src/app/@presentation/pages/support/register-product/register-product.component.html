@@ -1,0 +1,39 @@
+<form [formGroup]="myForm">
+
+  <div class="form-row">
+
+    <nb-autocomplete formControlName="type" [(ngModel)]="selectedTypeProduct"></nb-autocomplete>
+
+    <nb-card size="small">
+      <nb-card-body>
+
+        <input #autoInput nbInput type="text" (input)="onChange()" placeholder="Enter value" [nbAutocomplete]="auto" />
+
+        <nb-autocomplete #auto (selectedChange)="onSelectionChange($event)">
+
+          <nb-option *ngFor="let option of filteredOptions$ | async" [value]="option">
+            {{ option }}
+          </nb-option>
+
+        </nb-autocomplete>
+
+      </nb-card-body>
+    </nb-card>
+
+
+    <div class="form-group paddingObect col-sm-10">
+      <label for="formGroupExampleInput">*Name Product</label>
+      <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Name" formControlName="name" />
+    </div>
+    <div class="form-group paddingObect col-sm-10">
+      <label for="formGroupExampleInput2">*Description Product</label>
+      <textarea type="text" class="form-control" id="formGroupExampleInput2" placeholder="Description"
+        formControlName="description"></textarea>
+    </div>
+    <div class="form-group paddingObect">
+      <div class="col-sm-10">
+        <button (click)="save()" class="btn btn-primary">Register</button>
+      </div>
+    </div>
+  </div>
+</form>

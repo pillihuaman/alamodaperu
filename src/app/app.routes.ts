@@ -5,12 +5,23 @@ import { AuthComponent } from './@presentation/auth/auth.component';
 import { DetailMainPageComponent } from './@presentation/home/main/detail-main-page/detail-main-page.component';
 import { MainPageComponent } from './@presentation/home/main/main-page/main-page.component';
 import { HomeComponent } from './@presentation/home/home.component';
+import path from 'path';
+import { PageComponent } from './@presentation/pages/page.component';
+import { CreateRandonImagenColorComponent } from './@presentation/pages/support/create-randon-imagen-color/create-randon-imagen-color.component';
+import { EmployeeComponent } from './@presentation/pages/support/employee/employee.component';
+import { ParametersComponent } from './@presentation/pages/support/parameters/parameters.component';
+import { RegisterControlComponent } from './@presentation/pages/support/register-control/register-control.component';
+import { RegisterImageByProductComponent } from './@presentation/pages/support/register-image-by-product/register-image-by-product.component';
+import { RegisterPageComponent } from './@presentation/pages/support/register-page/register-page.component';
+import { RegisterProductComponent } from './@presentation/pages/support/register-product/register-product.component';
+import { RegisterStockComponent } from './@presentation/pages/support/register-stock/register-stock.component';
+import { RegisterSystemComponent } from './@presentation/pages/support/register-system/register-system.component';
 
 export const routes: Routes = [
   {
-    path: '', component: HomeComponent ,
+    path: '', component: HomeComponent,
     children: [
-       
+
       { path: 'main', component: MainPageComponent },
       { path: 'detail', component: DetailMainPageComponent }, // Detalle de una imagen
     ],
@@ -27,69 +38,46 @@ export const routes: Routes = [
     ],
   },
   { path: '**', redirectTo: '' }, // Redirigir cualquier ruta desconocida a la página principal
-
-  /*
-   {
-     path: 'pages',
-     loadComponent: () =>
-       import('./@presentation/pages/page.component').then((c) => c.PageComponent),
-      canActivate: [AuthGuard],
-     children: [
-       {
-         path: 'employee',
-         component: EmployeeComponent,
-       }
+  {
+    path: 'support',
+    component: PageComponent,
+    children: [
       {
-         path: 'register-product',
-         component: RegisterProductComponent,
-       },
-       {
-         path: 'register-imagen-product',
-         component: RegisterImageByProductComponent,
-       },
-       {
-         path: 'register-product-stock',
-         component: RegisterStockComponent,
-       },
-       {
-         path: 'register-control',
-         component: RegisterControlComponent,
-       },
-       {
-         path: 'register-parameter',
-         component: ParametersComponent,
-       },
-       {
-         path: 'register-system',
-         component: RegisterSystemComponent,
-       },
-       {
-         path: 'register-page',
-         component: RegisterPageComponent,
-       },
-       {
-         path: 'generate-random-color-imagen',
-         component: CreateRandonImagenColorComponent,
-       },
-       {
-         path: 'system',
-         component: SystemManagementComponent,
-       },
-       {
-         path: 'employee',
-         component: EmployeeComponent,
-       },  
-       {
-         path: 'stock',
-         component: StockComponent,
-       },
-     ],
-     
-   },
-   {
-     path: 'auth',
-     loadComponent: () =>
-       import('./@presentation/auth/auth.component').then((c) => c.AuthComponent),
-     // canActivate: [NotauthGuard],
-   },*/
+        path: 'product',
+        component: RegisterProductComponent,
+      },
+      {
+        path: 'imagen-product',
+        component: RegisterImageByProductComponent,
+      },
+      {
+        path: 'product-stock',
+        component: RegisterStockComponent,
+      },
+      {
+        path: 'control',
+        component: RegisterControlComponent,
+      },
+      {
+        path: 'parameter',
+        component: ParametersComponent,
+      },
+      {
+        path: 'system',
+        component: RegisterSystemComponent,
+      },
+      {
+        path: 'page',
+        component: RegisterPageComponent,
+      },
+      {
+        path: 'generate-random-color-imagen',
+        component: CreateRandonImagenColorComponent,
+      },
+      {
+        path: 'employee',
+        component: EmployeeComponent,
+      },
+    ],
+  }
 ];

@@ -1,0 +1,121 @@
+<div class="container">
+  <form [formGroup]="pageRequestForm" (ngSubmit)="onSubmit()">
+    <nb-accordion multi=true>
+      <nb-accordion-item>
+        <nb-accordion-item-header>
+          Register New Page
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <div class="form-group" *ngIf="!isNewPage()">
+            <mat-form-field>
+              <input matInput type="text" placeholder="ID" required formControlName="id" />
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Title" required formControlName="title" />
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field>
+              <textarea matInput placeholder="Content" formControlName="content"></textarea>
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field>
+              <input matInput type="text" placeholder="URL" formControlName="url" />
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <nb-checkbox formControlName="isPublished">Published</nb-checkbox>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Meta Keywords" formControlName="metaKeywords" />
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Meta Description" formControlName="metaDescription" />
+            </mat-form-field>
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+          </div>
+
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+
+      <nb-accordion-item expanded=true disabled="false">
+        <nb-accordion-item-header>
+          Search Information
+        </nb-accordion-item-header>
+        <nb-accordion-item-body>
+          <div class="row">
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput type="text" placeholder="ID" formControlName="idToFind" (input)="checkInputs()" />
+                </mat-form-field>
+                <app-validation-message *ngIf="pageRequestForm.get('idToFind')?.value" [control]="pageRequestForm.get('idToFind')"
+                  [errorMessages]="listError">
+                </app-validation-message>
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput type="text" placeholder="Title" formControlName="titleToFind"
+                    (input)="checkInputs()" />
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput type="text" placeholder="Content" formControlName="contentToFind"
+                    (input)="checkInputs()" />
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group">
+                <mat-form-field>
+                  <input matInput type="text" placeholder="URL" formControlName="urlToFind" (input)="checkInputs()" />
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6">
+              <div class="form-group">
+                <button type="button" class="btn btn-primary" (click)="findByparameter()"
+                  [disabled]="searchButtonDisabled">Search</button>
+
+              </div>
+            </div>
+          </div>
+
+          <app-table-datasource [datas]="datas" [defaultColumns]="defaultColumnsInput"
+            
+          (pageChange)="onPageChange($event)"
+            (pageSizeChange)="onPageSizeChange($event)" 
+
+            (deleteAction)="handleActionClick($event)"
+            [typeOfSearch]="typeOfSearch"></app-table-datasource>
+
+            
+
+        </nb-accordion-item-body>
+      </nb-accordion-item>
+    </nb-accordion>
+  </form>
+</div>

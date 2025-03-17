@@ -3,11 +3,25 @@ import { Subscription } from 'rxjs';
 import { Control } from '../../../@data/model/general/control';
 import { AuthenticationService } from '../../../@data/services/authentication.service';
 import { DataService } from '../../../@data/services/data.service';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { NbLayoutModule, NbButtonModule, NbSidebarModule, NbIconModule, NbCardModule, NbInputModule } from '@nebular/theme';
+import { NebularSharedModule } from '../../../@domain/nebular-shared.module';
 
 @Component({
   selector: 'app-router-button',
   templateUrl: './router-button.component.html',
-  styleUrls: ['./router-button.component.scss'],
+  styleUrls: ['./router-button.component.scss'],  standalone: true,
+    imports: [
+      CommonModule,
+      RouterModule, // ✅ Se agrega para que reconozca <router-outlet>
+      NbLayoutModule,
+      NbButtonModule,NbSidebarModule,NbLayoutModule,NebularSharedModule,ReactiveFormsModule ,NbIconModule,FormsModule,   
+       ReactiveFormsModule,
+          NbCardModule,
+          NbInputModule,
+    ]
 })
 export class RouterButtonComponent implements OnInit {
   //@Input() textButton: string = '';
