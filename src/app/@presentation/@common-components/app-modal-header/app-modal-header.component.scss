@@ -1,0 +1,56 @@
+.no-border {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.modal-header {
+  border-bottom: none !important;
+  background: transparent !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+
+  h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+}
+
+.custom-modal {
+  width: 600px; /* Ancho estándar */
+  max-width: 90vw; /* Evita que se haga demasiado grande en pantallas pequeñas */
+  height: auto;
+  max-height: 90vh; /* Evita que el modal sea más grande que la pantalla */
+  overflow: auto; /* Agrega scroll si el contenido es muy grande */
+  padding: 20px;
+  background: var(--nb-background-basic);
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .custom-modal {
+    width: 90vw; /* En pantallas pequeñas, usa el 90% del ancho */
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-modal {
+    width: 95vw; /* En móviles, usa el 95% del ancho */
+    padding: 5px;
+  }
+}
+
+
+.nb-theme-dark nb-card.custom-modal {
+  margin-bottom: 0.875rem !important;
+}

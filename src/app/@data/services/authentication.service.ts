@@ -53,15 +53,15 @@ export class AuthenticationService extends AuthenticationRepository {
     return this.verifyCredentials(email, password).pipe(
       map((response: ResponseBody) => {
         const usuario = response.payload.user as User;
-        usuario.access_token = response.payload.access_token;
-
+        usuario.access_token = response.payload.accessToken;
+  
         this.currentUserSubject.next(usuario);
-
+  
         if (this.isBrowser) {
           localStorage.setItem('usuario', JSON.stringify(usuario));
-          localStorage.setItem('token', response.payload.access_token);
+          localStorage.setItem('token', response.payload.accessToken);
         }
-
+  
         return usuario;
       }),
       catchError((error) => {
@@ -70,7 +70,6 @@ export class AuthenticationService extends AuthenticationRepository {
       })
     );
   }
-
   /**
    * Logs out the user and clears the session.
    */

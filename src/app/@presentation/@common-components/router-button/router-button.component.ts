@@ -6,7 +6,7 @@ import { DataService } from '../../../@data/services/data.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NbLayoutModule, NbButtonModule, NbSidebarModule, NbIconModule, NbCardModule, NbInputModule } from '@nebular/theme';
+import { NbButtonModule, NbIconModule, NbCardModule, NbInputModule } from '@nebular/theme';
 import { NebularSharedModule } from '../../../@domain/nebular-shared.module';
 
 @Component({
@@ -16,8 +16,8 @@ import { NebularSharedModule } from '../../../@domain/nebular-shared.module';
     imports: [
       CommonModule,
       RouterModule, // ✅ Se agrega para que reconozca <router-outlet>
-      NbLayoutModule,
-      NbButtonModule,NbSidebarModule,NbLayoutModule,NebularSharedModule,ReactiveFormsModule ,NbIconModule,FormsModule,   
+    
+      NbButtonModule,NebularSharedModule,ReactiveFormsModule ,NbIconModule,FormsModule,   
        ReactiveFormsModule,
           NbCardModule,
           NbInputModule,

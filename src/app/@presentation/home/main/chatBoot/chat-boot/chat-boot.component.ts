@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NbLayoutModule, NbButtonModule, NbSidebarModule } from '@nebular/theme';
+import {  NbButtonModule,  } from '@nebular/theme';
 import { ReqSpeech } from '../../../../../@data/model/general/reqSpeech';
 import { NebularSharedModule } from '../../../../../@domain/nebular-shared.module';
 import { ChatRepository } from '../../../../../@domain/repository/repository/chat.repository';
@@ -15,9 +15,8 @@ import { ChatRepository } from '../../../../../@domain/repository/repository/cha
   imports: [
     CommonModule,
     RouterModule, // ✅ Necessary for <router-outlet>
-    NbLayoutModule,
     NbButtonModule,
-    NbSidebarModule,
+
     NebularSharedModule
   ]
 })

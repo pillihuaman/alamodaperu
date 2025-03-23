@@ -1,61 +1,98 @@
 
-import { RouterModule, RouterOutlet } from '@angular/router';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewEncapsulation } from '@angular/core';
-import { NbEvaIconsModule } from '@nebular/eva-icons';
-import { NbLayoutModule, NbSidebarModule, NbButtonModule, NbThemeService, NbSidebarService, NbDatepickerModule } from '@nebular/theme';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { NbLayoutModule, NbSidebarModule, NbButtonModule, NbThemeService, NbSidebarService, NbDatepickerModule, NbDialogModule } from '@nebular/theme';
 import { CommonModule } from '@angular/common';
-import { Observable, timer } from 'rxjs';
-import { Control } from './@data/model/general/control';
-import { User } from './@domain/repository/models/user';
 import { NebularSharedModule } from './@domain/nebular-shared.module';
+import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'serv-pillihuaman-app',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
   standalone: true,
   template: `<router-outlet></router-outlet>`,
-  imports: [CommonModule, RouterModule,NbSidebarModule,    CommonModule,
+  imports: [CommonModule, RouterModule,    CommonModule,NbDialogModule,
       RouterModule, // ✅ Se agrega para que reconozca <router-outlet>
-      NbLayoutModule,
-      NbButtonModule,NbSidebarModule,NbLayoutModule,NebularSharedModule] // ✅ Importa CommonModule y RouterModule
+      NbLayoutModule,FormsModule,
+      NbButtonModule,NbSidebarModule,NebularSharedModule] // ✅ Importa CommonModule y RouterModule
 })
 export class AppComponent implements OnInit {
-  nombreEmpresa = 'Pillihuman Corporation app';
-  estado: boolean = true;
-  cantidadUsuario: number = 3;
-  user: User | undefined;
-  listaUsuario: Array<User> = [];
-  lstControlVariable?: Control[];
-  everySecond$: Observable<number> = timer(0, 100);
-
-  constructor(
-    private sidebarService: NbSidebarService,
-    private nbthemeservice: NbThemeService
-  ) {}
-
-  ngOnInit() {
-      console.log('✅ AppComponent Loaded');
-    this.nombreEmpresa = 'Gamachicas.com';
-    this.user = {
-      name: 'zarmir',
-      lastName: 'pillihuaman',
-      code: 1,
-      estatus: false,
-      password: '',
-      numTypeDocument: '46178209',
-    };
-    this.listaUsuario.push(this.user);
-    console.log(this.listaUsuario);
-    if (this.cantidadUsuario !== 1) {
-      this.estado = false;
+   isSearchVisible = false;
+    searchQuery: string = '';
+    themes = ['default', 'cosmic', 'corporate', 'dark']; 
+    selectedTheme = 'default';
+    constructor(
+      private router: Router,
+      private sidebarService: NbSidebarService,
+      private nbThemeService: NbThemeService,private http: HttpClient,private cdRef: ChangeDetectorRef ,
+      
+    ) {
+      this.router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          console.log('Current Route:', event.url);
+        }
+      });
     }
-    console.log('✅ AppComponent Loaded');
+  ngOnInit(): void {
+    console.log('init page compone')
   }
 
-  toggle(): boolean {
-    this.sidebarService.toggle(true, 'mevsdvasdvu-barapp');
-    return false;
+    changeTheme(theme: string) {
+      this.selectedTheme = theme;
+      this.nbThemeService.changeTheme(theme);
+    }
+    toggleSearch() {
+  
+      this.isSearchVisible = !this.isSearchVisible;
+      console.log('isSearchVisible:', this.isSearchVisible);
+      this.cdRef.detectChanges(); // ✅ Force UI update
+    }
+  
+    onFind() {
+      debugger;
+      this.isSearchVisible = true;
+      console.log('isSearchVisible:', this.isSearchVisible);
+      this.cdRef.detectChanges(); // ✅ Force UI update
+    }
+  
+    onSearch() {
+      debugger;
+      console.log('Searching for:', this.searchQuery);
+  
+      if (this.searchQuery.trim()) {
+        const apiUrl = `https://tu-api.com/search?query=${this.searchQuery}`;
+  
+        this.http.get(apiUrl).subscribe(
+          (response) => {
+            console.log('Resultados:', response);
+          },
+          (error) => {
+            console.error('Error en la búsqueda:', error);
+          }
+        );
+      }
+    }
+    toggle(): boolean {
+      this.sidebarService.toggle(true, 'menu-barapp');
+      return false;
+    }
+  
+    toggleout(): void {
+      this.sidebarService.collapse('menu-barapp');
+    }
+    goHome() {
+      this.router.navigate(['/home']); // Navigate to Home page
+    
+    }
+  
+  
+  
+    onLogin() {
+      this.router.navigate(['/auth/login']);
+    }
   }
-
-  toggleout() {
-    this.sidebarService.collapse('menu-barapp');
-  }
-}
+  
+  
+  
+  

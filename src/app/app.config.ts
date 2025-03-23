@@ -10,7 +10,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { NbThemeModule, NbLayoutModule, NbToastrModule, NbDialogModule, NbSidebarModule, NbMenuModule, NbWindowModule, NbOverlayModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbToastrModule, NbDialogModule, NbSidebarModule, NbMenuModule, NbWindowModule, NbOverlayModule, NbOverlayContainer, NbOverlayContainerAdapter, NbDialogService, NbDatepickerModule, NbTimepickerModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BasicAuthInterceptor, ErrorInterceptor } from './@data/interceptors';
@@ -26,6 +26,8 @@ import { UserService } from './@data/services/user.service';
 import { UserRepository } from './@domain/repository/repository/user.repository';
 import { Const } from './utils/const';
 import { ModalRepository } from './@domain/repository/repository/modal.repository ';
+import { SupportRepository } from './@domain/repository/repository/support.repository';
+import { SupportService } from './@data/services/support.service';
 
 export function initConfig(constService: Const) {
   return () =>
@@ -39,11 +41,12 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
     provideAnimations(),
-    
+    { provide: NbOverlayContainer, useClass: NbOverlayContainerAdapter }, // ✅ FIX
     provideHttpClient(withFetch(), withInterceptorsFromDi()), // ✅ Fix: No manual interceptor injection
 
     importProvidersFrom(
       NbOverlayModule, // ✅ Move to the top to ensure `_NbOverlayService` is available
+      NbLayoutModule,
       CommonModule,
       BrowserAnimationsModule,
       FormsModule,
@@ -54,14 +57,14 @@ export const appConfig: ApplicationConfig = {
       MatDialogModule,
       MatDatepickerModule,
       MatNativeDateModule,
-      NbThemeModule.forRoot({ name: 'default' }),
-      NbLayoutModule,
+      NbThemeModule.forRoot({ name: 'corporate' }),
       NbEvaIconsModule,
       NbSidebarModule.forRoot(),
       NbDialogModule.forRoot(),
       NbMenuModule.forRoot(),
       NbWindowModule.forRoot(),
-      NbToastrModule.forRoot(),
+      NbToastrModule.forRoot(),  NbDatepickerModule.forRoot(), // ✅ Ya agregado
+      NbTimepickerModule.forRoot(),
     ),
 
     provideAppInitializer(
@@ -75,14 +78,14 @@ export const appConfig: ApplicationConfig = {
 
     { provide: MAT_DATE_LOCALE, useValue: 'es-PE' }, 
     { provide: LOCALE_ID, useValue: 'es-PE' },
-
+   
     { provide: AuthenticationRepository, useClass: AuthenticationService },
     { provide: ModalRepository, useClass: ModalService },
     { provide: UserRepository, useClass: UserService },
-
+    { provide: SupportRepository, useClass: SupportService },
     Const,
     ApiService,
     DataService,
-    SpinnerService,
+    SpinnerService,NbDialogService
   ],
 };

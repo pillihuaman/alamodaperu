@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NbSidebarService, NbThemeService, NbLayoutModule, NbButtonModule, NbSidebarModule } from '@nebular/theme';
+import { NbSidebarService, NbThemeService, NbButtonModule} from '@nebular/theme';
 import { RouterModule } from '@angular/router';
 import { NebularSharedModule } from '../../@domain/nebular-shared.module';
 
@@ -12,8 +12,7 @@ import { NebularSharedModule } from '../../@domain/nebular-shared.module';
   imports: [
     CommonModule,
     RouterModule, // ✅ Se agrega para que reconozca <router-outlet>
-    NbLayoutModule,
-    NbButtonModule,NbSidebarModule,NbLayoutModule,NebularSharedModule
+    NbButtonModule,NebularSharedModule, NbButtonModule
   ]
 })
 export class AuthComponent {

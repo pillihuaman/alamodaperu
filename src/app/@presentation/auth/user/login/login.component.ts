@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NbButtonModule, NbCardModule, NbInputModule, NbLayoutModule, NbSidebarService } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbInputModule,  NbSidebarService } from '@nebular/theme';
 import { Observable, Subscription, timer } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { SupportService } from '../../../../@data/services/support.service';
@@ -10,8 +10,6 @@ import { User } from '../../../../@domain/repository/models/user';
 import { AuthenticationRepository } from '../../../../@domain/repository/repository/authentication.repository';
 import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
 import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-login',

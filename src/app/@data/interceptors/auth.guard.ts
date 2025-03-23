@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
 
     const currentUser = this.authenticationService.getCurrentUserValue;
     const snapshot = route.routeConfig?.path;
-
+    
     if (currentUser) {
       const helper = new JwtHelperService();
       const token = localStorage.getItem('token');

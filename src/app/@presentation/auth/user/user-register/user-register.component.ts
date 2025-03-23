@@ -9,6 +9,7 @@ import { ModalComponent } from '../../../@common-components/modal/modal.componen
 import { GeneralConstans } from '../../../../utils/generalConstant';
 import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
 import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
+import { EmployeeDetailComponent } from '../../../pages/support/employee-detail/employee-detail.component';
 
 @Component({
   selector: 'app-user-register',
@@ -83,4 +84,15 @@ export class UserRegisterComponent implements OnInit {
       }
     );
   }
+  
+  
+    onNewClick(): void {
+      debugger;
+      this.dialogService.open(EmployeeDetailComponent, {
+        closeOnBackdropClick: false,
+        hasBackdrop: true,
+      }).onClose.subscribe(result => {
+        console.log('Dialog closed', result);
+      });
+    }
 }

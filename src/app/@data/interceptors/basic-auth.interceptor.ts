@@ -24,6 +24,7 @@ export class BasicAuthInterceptor implements HttpInterceptor {
     };
 
     if (!request.headers.has('Authorization')) {
+      
       const currentUser = this.authenticationService.getCurrentUserValue;
       if (currentUser?.access_token) {
         headersConfig.Authorization = `Bearer ${currentUser.access_token}`;

@@ -1,20 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageComponent } from './page.component';
+import { AppModalFooterComponent } from './app-modal-footer.component';
 
-describe('PageComponent', () => {
-  let component: PageComponent;
-  let fixture: ComponentFixture<PageComponent>;
+describe('AppModalFooterComponent', () => {
+  let component: AppModalFooterComponent;
+  let fixture: ComponentFixture<AppModalFooterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PageComponent ]
+      imports: [AppModalFooterComponent]
     })
     .compileComponents();
-  });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PageComponent);
+    fixture = TestBed.createComponent(AppModalFooterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

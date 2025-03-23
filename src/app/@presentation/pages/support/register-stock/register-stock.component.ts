@@ -19,7 +19,7 @@ import { DatePickerComponent } from "../../../@common-components/date-picker/dat
 import { CommonModule } from "@angular/common";
 import { MatDialogModule } from "@angular/material/dialog";
 import { RouterModule } from "@angular/router";
-import { NbDialogModule, NbLayoutModule, NbButtonModule, NbSidebarModule, NbCardModule, NbInputModule, NbIconModule } from "@nebular/theme";
+import { NbDialogModule, NbButtonModule, NbCardModule, NbInputModule, NbIconModule } from "@nebular/theme";
 import { NebularSharedModule } from "../../../../@domain/nebular-shared.module";
 
 interface customStock {
@@ -41,9 +41,8 @@ interface customStock {
     MatDialogModule,
     NbDialogModule,
     RouterModule,
-    NbLayoutModule,
+  
     NbButtonModule,
-    NbSidebarModule,
     NbCardModule,
     NbInputModule,
     NbIconModule,

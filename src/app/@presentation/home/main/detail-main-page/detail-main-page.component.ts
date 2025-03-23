@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule, ActivatedRoute } from '@angular/router';
-import { NbLayoutModule, NbButtonModule, NbSidebarModule, NbCardModule, NbInputModule } from '@nebular/theme';
+import {  NbButtonModule,  NbCardModule, NbInputModule } from '@nebular/theme';
 import { Router } from '@angular/router'; // ✅ Esto es correcto
 import { CorouselImage } from '../../../../@data/model/general/corouselImage';
 import { listCorouseImages } from '../../../../@data/model/general/listCorouseImages';
@@ -18,8 +18,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     RouterModule, // ✅ Se agrega para que reconozca <router-outlet>
-    NbButtonModule, NbSidebarModule, NbLayoutModule,
-    ReactiveFormsModule,
+    NbButtonModule,    ReactiveFormsModule,
     NbCardModule,
     NbButtonModule,
     NbInputModule,

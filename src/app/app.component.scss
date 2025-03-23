@@ -1,0 +1,83 @@
+::ng-deep .main-container {
+    width: 100%;
+    min-height: 100vh; // Ajuste para que el contenedor ocupe toda la altura de la pantalla
+    display: flex;
+    flex-direction: column;
+  }
+  
+  ::ng-deep nb-layout-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+  }
+  
+  ::ng-deep nb-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-left: auto; /* Empuja los elementos hacia la derecha */
+  }
+  
+  ::ng-deep nb-action {
+
+    font-size: 1.2rem; /* Asegura tamaño adecuado de los íconos */
+  }
+  
+  /* Diseño responsivo */
+  @media (max-width: 768px) {
+    ::ng-deep nb-layout-header {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    ::ng-deep nb-actions {
+      justify-content: center;
+      width: 100%;
+    }
+  
+    ::ng-deep nb-sidebar {
+      width: 80px !important; /* Sidebar más pequeño en pantallas pequeñas */
+    }
+  }
+  ::ng-deep .search-container {
+    position: fixed;
+    top: 70px; /* Adjust this value based on header height */
+    right: 20px;
+    width: 300px;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  ::ng-deep .search-container input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  ::ng-deep .search-container button {
+    width: 100%;
+  }
+    ::ng-deep nb-dialog-container nb-card {
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh; /* Prevents modal from exceeding 80% of the viewport height */
+    overflow: hidden; /* Ensures that only the body scrolls */
+  }
+  
+  ::ng-deep nb-card-body {
+    flex-grow: 1; /* Allows content to take up available space */
+    overflow-y: auto; /* Enables vertical scrolling */
+    max-height: 60vh; /* Adjusts max height of scrollable content */
+    padding: 1rem; /* Adds padding for readability */
+  }
+  
+  ::ng-deep app-modal-footer {
+    padding: 1rem;
+    border-top: 1px solid var(--nb-border-basic);
+    background: var(--nb-bg);
+  }
+  

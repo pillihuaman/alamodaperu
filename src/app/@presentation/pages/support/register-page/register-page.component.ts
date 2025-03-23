@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { NbButtonModule, NbCardModule, NbComponentStatus, NbDialogModule, NbDialogService, NbIconModule, NbInputModule, NbLayoutModule, NbSidebarModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbComponentStatus, NbDialogModule, NbDialogService, NbIconModule, NbInputModule } from '@nebular/theme';
 import { map } from 'rxjs';
 import { ModalType } from '../../../../@data/model/general/enumModal';
 import { Modal } from '../../../../@data/model/general/modal';
@@ -32,9 +32,8 @@ import { TableDatasourceComponent } from "../../../@common-components/table-data
     MatDialogModule,
     NbDialogModule,
     RouterModule,
-    NbLayoutModule,
     NbButtonModule,
-    NbSidebarModule,
+
     NbCardModule,
     NbInputModule,
     NbIconModule,

@@ -2,22 +2,17 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { RouterModule } from '@angular/router';
-import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbMenuModule, NbButtonModule, NbCardModule, NbInputModule, NbIconModule, NbSelectModule, NbToastrModule, NbDatepickerModule, NbDialogModule, NbTooltipModule, NbUserModule, NbCheckboxModule, NbRadioModule, NbAccordionModule, NbContextMenuModule, NbPopoverModule, NbStepperModule, NbListModule, NbTreeGridModule, NbActionsModule, NbSearchModule, NbSpinnerModule, NbTabsetModule, NbProgressBarModule, NbBadgeModule, NbAlertModule, NbChatModule, NbWindowModule, NbToggleModule, NbAutocompleteModule, NbCalendarModule } from '@nebular/theme';
+import { NbThemeModule, NbMenuModule, NbButtonModule, NbCardModule, NbInputModule, NbIconModule, NbSelectModule, NbToastrModule, NbDatepickerModule, NbDialogModule, NbTooltipModule, NbUserModule, NbCheckboxModule, NbRadioModule, NbAccordionModule, NbContextMenuModule, NbPopoverModule, NbStepperModule, NbListModule, NbTreeGridModule, NbActionsModule, NbSearchModule, NbSpinnerModule, NbTabsetModule, NbProgressBarModule, NbBadgeModule, NbAlertModule, NbChatModule, NbWindowModule, NbToggleModule, NbAutocompleteModule, NbCalendarModule } from '@nebular/theme';
 
 @NgModule({
   imports: [
     NbThemeModule.forRoot({ name: 'default' }),
-    NbLayoutModule,
-    NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     NbButtonModule,
     NbCardModule,
     NbInputModule,
     NbIconModule,
     NbSelectModule,
-    NbToastrModule.forRoot(),
-    NbDatepickerModule.forRoot(),
-    NbDialogModule.forRoot(),
     NbTooltipModule,
     NbUserModule,
     NbCheckboxModule,
@@ -42,8 +37,6 @@ import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbMenuModule, NbButtonM
     NbCalendarModule,
   ],
   exports: [
-    NbLayoutModule,
-    NbSidebarModule,
     NbMenuModule,
     NbButtonModule,
     NbCardModule,

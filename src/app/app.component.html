@@ -1,16 +1,23 @@
-<nb-layout window>
-  <nb-layout-header fixed>
+<nb-layout>
+  <nb-layout-header fixed class="main-header">
     <a href="#" (click)="toggle()" class="content">
-      <span class="material-icons"> format_list_bulleted </span>
+      <span class="material-icons">format_list_bulleted</span>
     </a>
-      <nb-actions>
-        <nb-action icon="home-outline" (click)="goHome()" nbTooltip="Home"></nb-icon>
-        <nb-icon nbTooltip="Find" (click)="onFind()" icon="search-outline"></nb-icon>
-        <nb-icon nbButton status="success" (click)="onLogin()" icon="log-in-outline"></nb-icon>
+    <nb-actions class="header-actions">
+      <nb-action>
+        <select nbSelect [(ngModel)]="selectedTheme" (change)="changeTheme(selectedTheme)">
+          <option *ngFor="let theme of themes" [value]="theme">{{ theme | titlecase }}</option>
+        </select>
+      </nb-action>
+      <nb-action icon="home-outline" (click)="goHome()" nbTooltip="Home"></nb-action>
+      <nb-action icon="search-outline" (click)="onFind()" nbTooltip="Find"></nb-action>
+      <nb-action icon="laog-in-outline" nbButton status="success" (click)="onLogin()" nbTooltip="Log in"></nb-action>
+    </nb-actions>
   </nb-layout-header>
-  <nb-sidebar tag="menu-barapp" state="collapsed"> </nb-sidebar>
+
+  <nb-sidebar tag="menu-barapp" state="collapsed"></nb-sidebar>
+
   <nb-layout-column class="colored-column-basic" (click)="toggleout()">
-    <div>     <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   </nb-layout-column>
 </nb-layout>

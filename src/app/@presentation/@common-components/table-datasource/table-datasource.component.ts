@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { NbIconModule, NbSortDirection, NbSortRequest, NbTreeGridDataSource, NbTreeGridDataSourceBuilder, NbTreeGridModule } from '@nebular/theme';
 import { GeneralConstans } from '../../../utils/generalConstant';
 import { NebularSharedModule } from '../../../@domain/nebular-shared.module';
-import { AppTableDatasourceCustomComponent } from '../app-table-datasource-custom/app-table-datasource-custom.component';
 import { TableDatasourceCustomComponent } from '../table-datasource-custom/table-datasource-custom.component';
 
 interface TreeNode<T> {

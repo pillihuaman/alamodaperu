@@ -11,7 +11,7 @@ import { AuthenticationRepository } from '../../../../@domain/repository/reposit
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
-import { NbDialogModule, NbLayoutModule, NbButtonModule, NbSidebarModule, NbCardModule, NbInputModule, NbIconModule } from '@nebular/theme';
+import { NbDialogModule, NbButtonModule, NbCardModule, NbInputModule, NbIconModule } from '@nebular/theme';
 import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
 import { RouterButtonComponent } from '../../../@common-components/router-button/router-button.component';
 
@@ -26,9 +26,9 @@ import { RouterButtonComponent } from '../../../@common-components/router-button
         MatDialogModule,
         NbDialogModule,
         RouterModule,
-        NbLayoutModule,
+
         NbButtonModule,
-        NbSidebarModule,
+
         NbCardModule,
         NbInputModule,
         NbIconModule,

@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NbLayoutModule, NbButtonModule, NbSidebarModule } from '@nebular/theme';
-import { Subject } from 'rxjs';
+import {  NbButtonModule } from '@nebular/theme';
 import { CorouselImage } from '../../../../@data/model/general/corouselImage';
 import { listCorouseImages } from '../../../../@data/model/general/listCorouseImages';
 import { DataService } from '../../../../@data/services/data.service';
@@ -20,9 +19,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     RouterModule,
-    NbLayoutModule,
     NbButtonModule,
-    NbSidebarModule,
+
     NebularSharedModule,
     ImagenCatchInformationComponent,ReactiveFormsModule  // Asegúrate de agregar el componente aquí si es standalone
   ],

@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SupportService } from '../../../@data/services/support.service';
 import { Const } from '../../../utils/const';
 import { HttpClientModule } from '@angular/common/http';
-import { NbButtonModule, NbLayoutModule, NbSidebarModule } from '@nebular/theme';
+import { NbButtonModule} from '@nebular/theme';
 import { RouterModule } from '@angular/router';
 import { NebularSharedModule } from '../../../@domain/nebular-shared.module';
 
@@ -14,9 +14,7 @@ import { NebularSharedModule } from '../../../@domain/nebular-shared.module';
   standalone: true,
   imports: [CommonModule,  NbButtonModule,
       RouterModule,
-      NbLayoutModule,
       NbButtonModule,
-      NbSidebarModule,
       NebularSharedModule ], // Importar módulos necesarios
 })
 export class ImagenCatchInformationComponent implements OnInit {

@@ -8,7 +8,7 @@ import { SupportRepository } from '../../../../@domain/repository/repository/sup
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
-import { NbDialogModule, NbLayoutModule, NbButtonModule, NbSidebarModule, NbCardModule, NbInputModule, NbIconModule } from '@nebular/theme';
+import { NbDialogModule,  NbButtonModule, NbCardModule, NbInputModule, NbIconModule } from '@nebular/theme';
 import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
 
 @Component({
@@ -21,9 +21,7 @@ import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
     MatDialogModule,
     NbDialogModule,
     RouterModule,
-    NbLayoutModule,
     NbButtonModule,
-    NbSidebarModule,
     NbCardModule,
     NbInputModule,
     NbIconModule,
@@ -59,6 +57,7 @@ export class RegisterProductComponent implements OnInit {
 
   
   ngOnInit(): void {
+    debugger
     this.options = ['Option 1', 'Option 2', 'Option 3'];
     this.filteredOptions$ = of(this.options);
     this.getParameter();

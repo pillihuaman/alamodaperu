@@ -28,6 +28,13 @@ export class ModalService extends ModalRepository {
     super();
   }
 
+  openModal(component: any, context?: any) {
+    return this.dialogService.open(component, {
+      context,
+      closeOnBackdropClick: false,
+    });
+  }
+
   open(closeOnBackdropClick: boolean) {
     this.dialogService.open(ModalComponent, {
       closeOnBackdropClick: closeOnBackdropClick, // Use the parameter here

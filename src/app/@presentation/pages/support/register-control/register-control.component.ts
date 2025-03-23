@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NbButtonModule, NbCardModule, NbComponentStatus, NbDialogModule, NbIconModule, NbInputModule, NbLayoutModule, NbSidebarModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbComponentStatus, NbDialogModule, NbIconModule, NbInputModule, } from '@nebular/theme';
 import { Control } from '../../../../@data/model/general/control';
 import { SupportService } from '../../../../@data/services/support.service';
 import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
@@ -22,9 +22,8 @@ import { RouterButtonComponent } from '../../../@common-components/router-button
       MatDialogModule,
       NbDialogModule,
       RouterModule,
-      NbLayoutModule,
       NbButtonModule,
-      NbSidebarModule,
+
       NbCardModule,
       NbInputModule,
       NbIconModule,
