@@ -1,121 +1,35 @@
 <nb-card>
   <nb-card-body>
     <app-modal-header [title]="'Employee Detail'"></app-modal-header>
-
     <form [formGroup]="employeRequestForm" (ngSubmit)="onSubmit()">
       <div class="form-container">
-        <div class="form-group">
-          <input nbInput type="text" placeholder="ID" required formControlName="id" readonly />
+        
+        <input nbInput type="text" placeholder="ID" required formControlName="id" readonly />
+
+        <input nbInput type="text" placeholder="Name" required formControlName="name" />
+
+        <input nbInput type="text" placeholder="Last Name" required formControlName="lastName" />
+
+        <div class="datepicker-group">
+          <input nbInput placeholder="Start Date" formControlName="startDate" [nbDatepicker]="startDate">
+          <nb-datepicker #startDate format="dd/MM/yyyy"></nb-datepicker>
         </div>
 
-        <div class="form-group">
-          <input nbInput type="text" placeholder="Name" required formControlName="name" />
+          <div class="datepicker-group">
+          <input nbInput placeholder="End Date" formControlName="finishDate" [nbDatepicker]="finishDate">
+          <nb-datepicker #finishDate format="dd/MM/yyyy"></nb-datepicker>
         </div>
 
-        <div class="form-group">
-          <input nbInput type="text" placeholder="Last Name" required formControlName="lastName" />
-        </div>
-        <div class="form-group datepicker-group">
-          <div class="datepicker-container">
-            <input nbInput placeholder="Start Date" formControlName="startDate" [nbDatepicker]="startDate">
-            <nb-date-timepicker #startDate withSeconds [format]="'dd/MM/yyyy HH:mm:ss'"></nb-date-timepicker>
-          </div>
+        <input nbInput type="text" placeholder="Type Document" formControlName="typeDocument" />
 
-          <div class="datepicker-container">
-            <input nbInput placeholder="End Date" formControlName="finishDate" [nbDatepicker]="finishDate">
-            <nb-date-timepicker withSeconds #finishDate [format]="'dd/MM/yyyy HH:mm:ss'"></nb-date-timepicker>
-          </div>
-        </div>
+        <input nbInput type="number" placeholder="Salary Hours" formControlName="salaryHours" />
 
-        <div class="form-group">
-          <input nbInput type="text" placeholder="Type Document" formControlName="typeDocument" />
-        </div>
-
-        <div class="form-group col-md-2">
-          <input nbInput type="number" placeholder="Salary Hours" formControlName="salaryHours" />
-        </div>
-
-        <div class="form-group">
-          <input nbInput type="text" placeholder="Document" formControlName="document" />
-        </div>
+        <input nbInput type="text" placeholder="Document" formControlName="document" />
       </div>
-      <div class="form-container">
-        <div class="form-group">
-          <input nbInput type="text" placeholder="ID" required formControlName="id" readonly />
-        </div>
-
-        <div class="form-group">
-          <input nbInput type="text" placeholder="Name" required formControlName="name" />
-        </div>
-
-        <div class="form-group">
-          <input nbInput type="text" placeholder="Last Name" required formControlName="lastName" />
-        </div>
-        <div class="form-group datepicker-group">
-          <div class="datepicker-container">
-            <input nbInput placeholder="Start Date" formControlName="startDate" [nbDatepicker]="startDate">
-            <nb-date-timepicker #startDate withSeconds [format]="'dd/MM/yyyy HH:mm:ss'"></nb-date-timepicker>
-          </div>
-
-          <div class="datepicker-container">
-            <input nbInput placeholder="End Date" formControlName="finishDate" [nbDatepicker]="finishDate">
-            <nb-date-timepicker withSeconds #finishDate [format]="'dd/MM/yyyy HH:mm:ss'"></nb-date-timepicker>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <input nbInput type="text" placeholder="Type Document" formControlName="typeDocument" />
-        </div>
-
-        <div class="form-group col-md-2">
-          <input nbInput type="number" placeholder="Salary Hours" formControlName="salaryHours" />
-        </div>
-
-        <div class="form-group">
-          <input nbInput type="text" placeholder="Document" formControlName="document" />
-        </div>
-      </div>
-      <div class="form-container">
-        <div class="form-group">
-          <input nbInput type="text" placeholder="ID" required formControlName="id" readonly />
-        </div>
-
-        <div class="form-group">
-          <input nbInput type="text" placeholder="Name" required formControlName="name" />
-        </div>
-
-        <div class="form-group">
-          <input nbInput type="text" placeholder="Last Name" required formControlName="lastName" />
-        </div>
-        <div class="form-group datepicker-group">
-          <div class="datepicker-container">
-            <input nbInput placeholder="Start Date" formControlName="startDate" [nbDatepicker]="startDate">
-            <nb-date-timepicker #startDate withSeconds [format]="'dd/MM/yyyy HH:mm:ss'"></nb-date-timepicker>
-          </div>
-
-          <div class="datepicker-container">
-            <input nbInput placeholder="End Date" formControlName="finishDate" [nbDatepicker]="finishDate">
-            <nb-date-timepicker withSeconds #finishDate [format]="'dd/MM/yyyy HH:mm:ss'"></nb-date-timepicker>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <input nbInput type="text" placeholder="Type Document" formControlName="typeDocument" />
-        </div>
-
-        <div class="form-group col-md-2">
-          <input nbInput type="number" placeholder="Salary Hours" formControlName="salaryHours" />
-        </div>
-
-        <div class="form-group">
-          <input nbInput type="text" placeholder="Document" formControlName="document" />
-        </div>
-      </div>
+      <app-modal-footer class="button-container">
+        <button nbButton hero status="success" type="submit">Save</button>
+        <button nbButton hero status="danger" type="button" (click)="closeDialog()">Cancel</button>
+      </app-modal-footer>
     </form>
-
-  <app-modal-footer>
-    <button nbButton hero status="success" type="submit">Save</button>
-    <button nbButton hero status="danger" (click)="closeDialog()">Cancel</button>
-  </app-modal-footer>
-</nb-card-body>
+  </nb-card-body>
 </nb-card>

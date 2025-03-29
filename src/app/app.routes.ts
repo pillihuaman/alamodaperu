@@ -2,12 +2,13 @@ import { Routes } from '@angular/router';
 import { AuthComponent } from './@presentation/auth/auth.component';
 import { HomeComponent } from './@presentation/home/home.component';
 import { PageComponent } from './@presentation/pages/page.component';
-
-
-
+import { AuthGuard } from './@data/interceptors';
+import { NotauthGuard } from './@data/interceptors/notauth.guard';
 export const routes: Routes = [
   {
-    path: 'home', component: HomeComponent, // 🔹 HomeComponent como componente principal
+    path: 'home',
+    component: HomeComponent, 
+    canActivate: [AuthGuard], // ⛔ Protected: Requires authentication
     children: [
       { path: 'main', loadComponent: () => import('./@presentation/home/main/main-page/main-page.component').then(m => m.MainPageComponent) },
       { path: 'detail', loadComponent: () => import('./@presentation/home/main/detail-main-page/detail-main-page.component').then(m => m.DetailMainPageComponent) },
@@ -16,6 +17,7 @@ export const routes: Routes = [
   {
     path: 'auth',
     component: AuthComponent,
+    canActivate: [NotauthGuard], // 🚫 Prevents logged-in users from accessing auth pages
     children: [
       { path: 'login', loadComponent: () => import('./@presentation/auth/user/login/login.component').then(m => m.LoginComponent) },
       { path: 'user-register', loadComponent: () => import('./@presentation/auth/user/user-register/user-register.component').then(m => m.UserRegisterComponent) },
@@ -24,6 +26,7 @@ export const routes: Routes = [
   {
     path: 'support',
     component: PageComponent,
+   // canActivate: [AuthGuard], // ⛔ Protected: Requires authentication
     children: [
       { path: 'product', loadComponent: () => import('./@presentation/pages/support/register-product/register-product.component').then(m => m.RegisterProductComponent) },
       { path: 'imagen-product', loadComponent: () => import('./@presentation/pages/support/register-image-by-product/register-image-by-product.component').then(m => m.RegisterImageByProductComponent) },
@@ -33,8 +36,8 @@ export const routes: Routes = [
       { path: 'system', loadComponent: () => import('./@presentation/pages/support/register-system/register-system.component').then(m => m.RegisterSystemComponent) },
       { path: 'page', loadComponent: () => import('./@presentation/pages/support/register-page/register-page.component').then(m => m.RegisterPageComponent) },
       { path: 'generate-random-color-imagen', loadComponent: () => import('./@presentation/pages/support/create-randon-imagen-color/create-randon-imagen-color.component').then(m => m.CreateRandonImagenColorComponent) },
-      { path: 'employee', loadComponent: () => import('./@presentation/pages/support/employee/employee.component').then(m => m.EmployeeComponent) }, // 🔹 Se añadió correctamente
-
+      { path: 'employee', loadComponent: () => import('./@presentation/pages/support/employee/employee.component').then(m => m.EmployeeComponent) }, 
     ],
-  }
+  },
+  { path: '**', redirectTo: 'home/main', pathMatch: 'full' }, // Redirect unknown routes to home
 ];

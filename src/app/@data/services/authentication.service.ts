@@ -26,13 +26,13 @@ export class AuthenticationService extends AuthenticationRepository {
   ) {
     super();
     this.isBrowser = isPlatformBrowser(this.platformId);
-
+  
     let storedUser: User | null = null;
     if (this.isBrowser) {
       const userJson = localStorage.getItem('usuario');
       storedUser = userJson ? JSON.parse(userJson) : null;
     }
-
+  
     this.currentUserSubject = new BehaviorSubject<User | null>(storedUser);
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -41,7 +41,15 @@ export class AuthenticationService extends AuthenticationRepository {
    * ✅ FIX: Now returns `null` instead of throwing an error when no user is logged in.
    */
   public get getCurrentUserValue(): User | null {
-    return this.currentUserSubject ? this.currentUserSubject.value : null;
+    if (!this.currentUserSubject.value && this.isBrowser) {
+      const storedUser = localStorage.getItem('usuario');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        this.currentUserSubject.next(user);
+        return user;
+      }
+    }
+    return this.currentUserSubject.value;
   }
 
   /**
@@ -54,14 +62,10 @@ export class AuthenticationService extends AuthenticationRepository {
       map((response: ResponseBody) => {
         const usuario = response.payload.user as User;
         usuario.access_token = response.payload.accessToken;
-  
         this.currentUserSubject.next(usuario);
-  
         if (this.isBrowser) {
-          localStorage.setItem('usuario', JSON.stringify(usuario));
           localStorage.setItem('token', response.payload.accessToken);
         }
-  
         return usuario;
       }),
       catchError((error) => {

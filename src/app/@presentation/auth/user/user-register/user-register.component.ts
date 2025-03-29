@@ -87,7 +87,7 @@ export class UserRegisterComponent implements OnInit {
   
   
     onNewClick(): void {
-      debugger;
+
       this.dialogService.open(EmployeeDetailComponent, {
         closeOnBackdropClick: false,
         hasBackdrop: true,

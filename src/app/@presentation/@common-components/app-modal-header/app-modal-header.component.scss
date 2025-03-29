@@ -10,47 +10,42 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 4px 8px; /* Reduce el padding */
+}
 
-  h3 {
-    margin: 0;
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
+.modal-header h3 {
+  font-size: 1rem; /* Reduce el tamaño del título */
+  margin: 0;
+}
 
-  button {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-  }
+.modal-header button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 2px; /* Reduce padding del botón */
 }
 
 .custom-modal {
-  width: 600px; /* Ancho estándar */
-  max-width: 90vw; /* Evita que se haga demasiado grande en pantallas pequeñas */
+  width: 500px; /* Reduce el ancho */
+  max-width: 90vw;
   height: auto;
-  max-height: 90vh; /* Evita que el modal sea más grande que la pantalla */
-  overflow: auto; /* Agrega scroll si el contenido es muy grande */
-  padding: 20px;
+  max-height: 80vh; /* Reduce la altura máxima */
+  overflow: auto;
+  padding: 10px; /* Reduce el padding general */
   background: var(--nb-background-basic);
-  border-radius: 8px;
+  border-radius: 6px; /* Reduce las esquinas */
 }
 
 @media (max-width: 768px) {
   .custom-modal {
-    width: 90vw; /* En pantallas pequeñas, usa el 90% del ancho */
-    padding: 10px;
+    width: 85vw;
+    padding: 8px;
   }
 }
 
 @media (max-width: 480px) {
   .custom-modal {
-    width: 95vw; /* En móviles, usa el 95% del ancho */
+    width: 95vw;
     padding: 5px;
   }
-}
-
-
-.nb-theme-dark nb-card.custom-modal {
-  margin-bottom: 0.875rem !important;
 }

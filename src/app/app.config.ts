@@ -28,6 +28,8 @@ import { Const } from './utils/const';
 import { ModalRepository } from './@domain/repository/repository/modal.repository ';
 import { SupportRepository } from './@domain/repository/repository/support.repository';
 import { SupportService } from './@data/services/support.service';
+import { NbDateFnsDateModule } from '@nebular/date-fns';
+import { NbMomentDateModule } from '@nebular/moment';
 
 export function initConfig(constService: Const) {
   return () =>
@@ -64,7 +66,7 @@ export const appConfig: ApplicationConfig = {
       NbMenuModule.forRoot(),
       NbWindowModule.forRoot(),
       NbToastrModule.forRoot(),  NbDatepickerModule.forRoot(), // ✅ Ya agregado
-      NbTimepickerModule.forRoot(),
+      NbTimepickerModule.forRoot(),NbMomentDateModule,NbDateFnsDateModule
     ),
 
     provideAppInitializer(

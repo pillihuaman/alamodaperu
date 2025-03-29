@@ -38,7 +38,6 @@ export class MainPageComponent implements OnInit {
   @Output() updateImagen = new EventEmitter<CorouselImage>();
 
   ngOnInit(): void {
-    debugger;
     this.imagenTempService
       .listMainTopImagen(GeneralConstans.page, GeneralConstans.perPage)
       .subscribe(

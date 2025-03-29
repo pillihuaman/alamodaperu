@@ -50,14 +50,12 @@ export class AppComponent implements OnInit {
     }
   
     onFind() {
-      debugger;
       this.isSearchVisible = true;
       console.log('isSearchVisible:', this.isSearchVisible);
       this.cdRef.detectChanges(); // ✅ Force UI update
     }
   
     onSearch() {
-      debugger;
       console.log('Searching for:', this.searchQuery);
   
       if (this.searchQuery.trim()) {
@@ -82,7 +80,7 @@ export class AppComponent implements OnInit {
       this.sidebarService.collapse('menu-barapp');
     }
     goHome() {
-      this.router.navigate(['/home']); // Navigate to Home page
+      this.router.navigate(['/support/employee']);
     
     }
   

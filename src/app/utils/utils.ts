@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { BusinessConstan } from './businnessConstant';
 import moment from 'moment';
-
+import { format, parse } from 'date-fns';
 declare var $: any;
 
 export class Utils {
@@ -30,9 +30,7 @@ export class Utils {
     return 0;
   };
 
-  static parseDate(date: Date, format: string) {
-    return date != null ? moment(date).format(format) : null;
-  }
+
 
   static getfechaActual() {
     moment.locale('es');
@@ -105,10 +103,30 @@ export class Utils {
       return null;
     }
   }
-  static convertDateToString(date: Date): string {
-    //debuger
-    const format = 'dd/MM/yyyy HH:mm:ss';
-    const datePipe = new DatePipe('en-US');
-    return datePipe.transform(date, format) || ''; // Use empty string as default if transformation fails
+  static convertDateToString(date: Date | string): string {
+    debugger;
+    if (!date) return '';
+  
+    let parsedDate: Date;
+  
+    if (typeof date === 'string') {
+      parsedDate = parse(date, 'dd/MM/yyyy', new Date()); // Parse dd/MM/yyyy format
+    } else {
+      parsedDate = date;
+    }
+  
+    if (isNaN(parsedDate.getTime())) {
+      console.error("Invalid date:", date);
+      return '';
+    }
+  
+    return format(parsedDate, 'dd/MM/yyyy'); // Format to dd/MM/yyyy
+  }
+  
+
+  static  parseDate(dateString: string | undefined): string | null {
+    if (!dateString) return null;
+    const [day, month, year] = dateString.split('/').map(Number);
+    return new Date(year, month - 1, day).toISOString().split('T')[0]; // Convert to "yyyy-MM-dd"
   }
 }

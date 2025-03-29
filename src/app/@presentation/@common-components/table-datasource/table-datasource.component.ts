@@ -1,9 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { 
+  Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges, ViewChild 
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NbIconModule, NbSortDirection, NbSortRequest, NbTreeGridDataSource, NbTreeGridDataSourceBuilder, NbTreeGridModule } from '@nebular/theme';
+import { 
+  NbIconModule, NbSortDirection, NbSortRequest, NbTreeGridDataSource, NbTreeGridDataSourceBuilder, NbTreeGridModule 
+} from '@nebular/theme';
 import { GeneralConstans } from '../../../utils/generalConstant';
 import { NebularSharedModule } from '../../../@domain/nebular-shared.module';
-import { TableDatasourceCustomComponent } from '../table-datasource-custom/table-datasource-custom.component';
 
 interface TreeNode<T> {
   data: T;
@@ -11,17 +14,10 @@ interface TreeNode<T> {
   expanded?: boolean;
 }
 
-interface FSEntry {
-  name: string;
-  size: string;
-  kind: string;
-  items?: number;
-}
-
 @Component({
   selector: 'app-table-datasource',
   standalone: true,
-  imports: [CommonModule, NebularSharedModule, NbTreeGridModule,NbIconModule,TableDatasourceCustomComponent],
+  imports: [CommonModule, NebularSharedModule, NbTreeGridModule, NbIconModule],
   templateUrl: './table-datasource.component.html',
   styleUrls: ['./table-datasource.component.scss']
 })
@@ -31,11 +27,16 @@ export class TableDatasourceComponent implements OnInit, OnChanges {
   @Input() typeOfSearch?: string;
   @Input() isdelelete: any;
   @Input() hasMorePages: boolean = true;
+
   @Output() pageChange = new EventEmitter<number>();
   @Output() pageSizeChange = new EventEmitter<number>();
   @Output() dataChange = new EventEmitter<TreeNode<any>[]>();
   @Output() deleteAction = new EventEmitter<TreeNode<any>>();
   @Output() editAction = new EventEmitter<TreeNode<any>>();
+  @Output() noData = new EventEmitter<boolean>();
+  @Output() loadMoreData = new EventEmitter<number>();
+
+  @ViewChild('tableHeader', { static: true }) tableHeader!: ElementRef;
 
   allColumns = ['acciones', ...this.defaultColumns];
   dataSource: NbTreeGridDataSource<any>;
@@ -45,66 +46,26 @@ export class TableDatasourceComponent implements OnInit, OnChanges {
 
   pageSize = GeneralConstans.pageSizeTable;
   currentPage = GeneralConstans.currentPageTable;
-  paginator = 1;
+  allData: TreeNode<any>[] = [];
+  filteredData: TreeNode<any>[] = [];
   paginatedData: TreeNode<any>[] = [];
-  initialData: any[] = [];
-  additionalData: any[] = [];
   showTable = false;
-  showTableCustom = false;
-  defaultColumnsBySearchType: any = [];
-  datasBySearchType: any;
   searchTerm: string = '';
 
-  constructor(private dataSourceBuilder: NbTreeGridDataSourceBuilder<any>) {
-    this.datas = [...this.initialData, ...this.additionalData];
-    this.dataSource = this.dataSourceBuilder.create(this.datas);
-    this.filteredDataSource = this.datas;
+  constructor(
+    private dataSourceBuilder: NbTreeGridDataSourceBuilder<any>, 
+    private renderer: Renderer2
+  ) {
+    this.dataSource = this.dataSourceBuilder.create([]);
   }
 
   ngOnInit(): void {
-    this.buildTable();
+    this.initializeData();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['defaultColumns'] || changes['datas']) {
-      this.allColumns = [...this.defaultColumns];
-
-      if (!changes['datas'].isFirstChange()) {
-        if (changes['datas'].currentValue?.length > 0) {
-          if (this.typeOfSearch === GeneralConstans.typeSearchEspecific) {
-            this.showTableCustom = true;
-            this.showTable = false;
-            this.additionalData = [];
-            this.defaultColumnsBySearchType = this.defaultColumns;
-            this.datasBySearchType = this.datas;
-          } else {
-            this.showTableCustom = false;
-            this.showTable = true;
-            if (this.isdelelete?.data === undefined) {
-              this.additionalData = [...changes['datas'].currentValue];
-            } else {
-              this.additionalData = [...this.additionalData, ...changes['datas'].currentValue];
-            }
-            this.datas = [...this.initialData, ...this.additionalData];
-            this.dataSource = this.dataSourceBuilder.create(this.datas);
-            this.buildTable();
-          }
-        } else {
-          if (this.typeOfSearch === GeneralConstans.typeSearchDefault) {
-            this.showTableCustom = false;
-            this.showTable = true;
-            this.additionalData = [...this.additionalData, ...changes['datas'].currentValue];
-            this.datas = [...this.initialData, ...this.additionalData];
-            this.dataSource = this.dataSourceBuilder.create(this.datas);
-            this.buildTable();
-            this.hasMorePages = false;
-          } else {
-            this.defaultColumnsBySearchType = this.defaultColumns;
-            this.datasBySearchType = this.datas;
-            this.resetTable();
-          }
-        }
-      }
+    if (changes['datas']?.currentValue) {
+      this.updateTableData();
     }
 
     if (this.isdelelete?.data?.ID !== undefined) {
@@ -112,18 +73,49 @@ export class TableDatasourceComponent implements OnInit, OnChanges {
     }
   }
 
-  deleteItem(): void {
-    const id: string = this.isdelelete.data.ID;
-    this.datas = this.datas.filter((dataItem: { data: { ID: any } }) => dataItem.data.ID !== id);
-    this.dataChange.emit(this.datas);
-    this.dataSource = this.dataSourceBuilder.create(this.datas);
+  private initializeData(): void {
+    this.allData = [...this.datas || []];
+    this.filteredData = [...this.datas || []];
     this.buildTable();
   }
 
-  resetTable(): void {
-    this.initialData = [];
-    this.additionalData = [];
-    this.dataSource = this.dataSourceBuilder.create(this.datas);
+  private updateTableData(): void {
+    this.allData = [...this.datas || []];
+    this.filteredData = [...this.datas || []];
+
+    this.showTable = this.datas?.length > 0;
+    this.noData.emit(!this.showTable);
+    this.buildTable();
+  }
+
+  deleteItem(): void {
+    const id: string = this.isdelelete.data.ID;
+    this.allData = this.allData.filter(dataItem => dataItem.data.ID !== id);
+    this.filteredData = this.filteredData.filter(dataItem => dataItem.data.ID !== id);
+    this.dataChange.emit(this.filteredData);
+    this.buildTable();
+  }
+
+  buildTable(): void {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedData = this.filteredData.slice(startIndex, endIndex);
+    this.dataSource = this.dataSourceBuilder.create(this.paginatedData);
+  }
+
+  onSearch(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+    this.searchTerm = inputElement.value.trim().toLowerCase();
+  
+    this.filteredData = this.searchTerm
+      ? this.allData.filter(row =>
+          Object.values(row.data).some(value =>
+            value?.toString().toLowerCase().includes(this.searchTerm)
+          )
+        )
+      : [...this.allData];
+
+    this.currentPage = 1;
     this.buildTable();
   }
 
@@ -140,26 +132,13 @@ export class TableDatasourceComponent implements OnInit, OnChanges {
     this.editAction.emit(row);
   }
 
-  buildTable(): void {
-    const startIndex = (this.currentPage - 1) * this.pageSize;
-    const endIndex = startIndex + this.pageSize;
-    this.paginatedData = this.datas.slice(startIndex, endIndex);
-    this.dataSource = this.dataSourceBuilder.create(this.paginatedData);
+  onDelete(row: TreeNode<any>): void {
+    this.deleteAction.emit(row);
   }
 
   onPageChange(page: number): void {
-    if (this.hasMorePages) {
-      this.currentPage = page;
-      this.buildTable();
-    } else {
-      this.paginator++;
-      this.pageChange.emit(this.paginator);
-      this.currentPage = page;
-    }
-  }
-
-  onDelete(row: TreeNode<FSEntry>): void {
-    this.deleteAction.emit(row);
+    this.currentPage = page;
+    this.buildTable();
   }
 
   getHeaderColumns(): string[] {
@@ -170,25 +149,19 @@ export class TableDatasourceComponent implements OnInit, OnChanges {
     return [...this.defaultColumns, 'acciones'];
   }
 
-  handleDeleteAction(row: TreeNode<FSEntry>): void {
-    this.deleteAction.emit(row);
+  getNextSortDirection(column: string): NbSortDirection {
+    if (this.sortColumn !== column) return NbSortDirection.ASCENDING;
+    return this.sortDirection === NbSortDirection.ASCENDING
+      ? NbSortDirection.DESCENDING
+      : NbSortDirection.NONE;
   }
 
-  onItemDeleted(item: TreeNode<any>): void {
-    this.datas = this.datas.filter((dataItem: { data: { ID: any } }) => dataItem.data.ID !== item.data.ID);
-    this.buildTable();
+  getSortIcon(column: string): string {
+    if (this.sortColumn !== column) return 'swap-outline';
+    return this.sortDirection === NbSortDirection.ASCENDING ? 'arrow-up-outline' : 'arrow-down-outline';
   }
 
-  getShowOn(index: number): number {
-    const minWidthForMultipleColumns = 400;
-    const nextColumnStep = 100;
-    return minWidthForMultipleColumns + nextColumnStep * index;
-  }
-  onPageChangeBack(page: number): void {
-    this.hasMorePages = true;
-    this.currentPage = page;
-    this.buildTable();
-
-
+  onLoadMore(): void {
+    this.loadMoreData.emit(500);
   }
 }

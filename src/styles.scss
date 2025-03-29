@@ -28,3 +28,15 @@ nb-card-body {
     max-height: 60vh; /* Reduce la altura máxima del modal en móviles */
   }
 }
+
+
+.custom-backdrop {
+  background-color: rgba(0, 0, 0, 0.7) !important; // Fondo oscuro con opacidad
+}
+
+.custom-dialog {
+  border-radius: 10px !important;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3) !important;
+}
+
+

@@ -1,5 +1,5 @@
-import { catchError, Observable, throwError } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, PLATFORM_ID, Injectable, inject } from '@angular/core';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -7,15 +7,19 @@ import {
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-
-import { NbComponentStatus } from '@nebular/theme';
+import { catchError, Observable, throwError } from 'rxjs';
 import { AuthenticationRepository } from '../../@domain/repository/repository/authentication.repository';
 import { ModalRepository } from '../../@domain/repository/repository/modal.repository ';
-import { inject } from '@angular/core';
 
+@Injectable()
 export class BasicAuthInterceptor implements HttpInterceptor {
   private authenticationService = inject(AuthenticationRepository);
   private modalRepository = inject(ModalRepository);
+  private isBrowser: boolean;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {
+    this.isBrowser = isPlatformBrowser(this.platformId); // ✅ Detectamos si estamos en el navegador
+  }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const headersConfig: any = {
@@ -24,10 +28,14 @@ export class BasicAuthInterceptor implements HttpInterceptor {
     };
 
     if (!request.headers.has('Authorization')) {
-      
-      const currentUser = this.authenticationService.getCurrentUserValue;
-      if (currentUser?.access_token) {
-        headersConfig.Authorization = `Bearer ${currentUser.access_token}`;
+      let token: string | null = null;
+
+      if (this.isBrowser) { // ✅ Verificar si estamos en el navegador antes de usar localStorage
+        token = localStorage.getItem('token');
+      }
+
+      if (token) {
+        headersConfig.Authorization = `Bearer ${token}`;
       }
     }
 
@@ -35,8 +43,7 @@ export class BasicAuthInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        const nbComponentStatus: NbComponentStatus = 'danger';
-        this.modalRepository.showToast(nbComponentStatus, error.message, "Basic");
+        this.modalRepository.showToast('danger', error.message, 'Basic');
         return throwError(() => error);
       })
     );

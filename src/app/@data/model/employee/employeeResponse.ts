@@ -7,6 +7,7 @@ export interface EmployeeResponse {
   totalHours?: number;
   department?: string;
   salaryMonth?: number;
+  salaryHours?: number;
   typeDocument?: string;
   document?:string;
 }

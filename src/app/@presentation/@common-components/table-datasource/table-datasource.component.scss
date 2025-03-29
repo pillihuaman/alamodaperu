@@ -74,3 +74,65 @@ button[nbButton] {
 .pagination button {
   margin: 0 5px; /* Adjust the margin as needed */
 }
+.no-data-container {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: #999;
+  margin: 20px 0;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px; /* Adjust height as needed */
+}
+
+.table-header {
+  position: sticky;
+  top: 0;
+  background: rgb(20, 133, 185);
+  color: white;
+  z-index: 100;
+}
+
+.table-header table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header th {
+  padding: 10px;
+  text-align: left;
+  background: rgb(20, 133, 185);
+  color: white;
+  font-weight: bold;
+}
+
+.table-body {
+  overflow-y: auto;
+  max-height: 350px; /* Enables scrolling */
+}
+
+.table-body table {
+  width: 100%;
+  border-collapse: collapse;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.nb-tree-grid {
+  display: block;
+  overflow-y: auto;
+  max-height: 350px;
+}
+
+.nb-tree-grid-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgb(20, 133, 185);
+  color: white;
+}

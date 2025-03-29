@@ -57,7 +57,6 @@ export class RegisterProductComponent implements OnInit {
 
   
   ngOnInit(): void {
-    debugger
     this.options = ['Option 1', 'Option 2', 'Option 3'];
     this.filteredOptions$ = of(this.options);
     this.getParameter();

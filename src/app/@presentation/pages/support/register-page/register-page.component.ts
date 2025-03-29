@@ -41,7 +41,7 @@ import { TableDatasourceComponent } from "../../../@common-components/table-data
     ReactiveFormsModule,
     FormsModule,
     ValidationMessageComponent,
-    TableDatasourceComponent
+    
 ],
 })
 export class RegisterPageComponent  extends BaseImplementation implements OnInit {
