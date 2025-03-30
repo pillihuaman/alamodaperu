@@ -1,0 +1,20 @@
+{
+  "routes": {
+    "/auth": {},
+    "/auth/login": {},
+    "/auth/user-register": {},
+    "/home": {},
+    "/home/detail": {},
+    "/home/main": {},
+    "/support": {},
+    "/support/control": {},
+    "/support/employee": {},
+    "/support/generate-random-color-imagen": {},
+    "/support/imagen-product": {},
+    "/support/page": {},
+    "/support/parameter": {},
+    "/support/product": {},
+    "/support/product-stock": {},
+    "/support/system": {}
+  }
+}

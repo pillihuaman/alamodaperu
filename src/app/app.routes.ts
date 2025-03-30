@@ -34,9 +34,9 @@ export const routes: Routes = [
       { path: 'control', loadComponent: () => import('./@presentation/pages/support/register-control/register-control.component').then(m => m.RegisterControlComponent) },
       { path: 'parameter', loadComponent: () => import('./@presentation/pages/support/parameters/parameters.component').then(m => m.ParametersComponent) },
       { path: 'system', loadComponent: () => import('./@presentation/pages/support/register-system/register-system.component').then(m => m.RegisterSystemComponent) },
-      { path: 'page', loadComponent: () => import('./@presentation/pages/support/register-page/register-page.component').then(m => m.RegisterPageComponent) },
+      //{ path: 'page', loadComponent: () => import('./@presentation/pages/support/register-page/register-page.component').then(m => m.RegisterPageComponent) },
       { path: 'generate-random-color-imagen', loadComponent: () => import('./@presentation/pages/support/create-randon-imagen-color/create-randon-imagen-color.component').then(m => m.CreateRandonImagenColorComponent) },
-      { path: 'employee', loadComponent: () => import('./@presentation/pages/support/employee/employee.component').then(m => m.EmployeeComponent) }, 
+      { path: 'employee', loadComponent: () => import('./@presentation/pages/support/workers/employee/employee.component').then(m => m.EmployeeComponent) }, 
     ],
   },
   { path: '**', redirectTo: 'home/main', pathMatch: 'full' }, // Redirect unknown routes to home

@@ -9,7 +9,7 @@ import { ModalComponent } from '../../../@common-components/modal/modal.componen
 import { GeneralConstans } from '../../../../utils/generalConstant';
 import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
 import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
-import { EmployeeDetailComponent } from '../../../pages/support/employee-detail/employee-detail.component';
+import { EmployeeDetailComponent } from '../../../pages/support/workers/employee-detail/employee-detail.component';
 
 @Component({
   selector: 'app-user-register',

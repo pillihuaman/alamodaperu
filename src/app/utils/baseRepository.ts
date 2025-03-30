@@ -8,6 +8,9 @@ export abstract class BaseRepository{
       abstract  onPageSizeChange(pageSize: number): void ;
       abstract  findByparameter() : void ;
       abstract   findByDefualt():void;
+      abstract closeDialog(): void;
+      abstract handleEscKey(event: KeyboardEvent): void;
+      
     }
   
 
