@@ -6,10 +6,10 @@ import { NbButtonModule, NbCardModule, NbInputModule,  NbSidebarService } from '
 import { Observable, Subscription, timer } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { SupportService } from '../../../../@data/services/support.service';
-import { User } from '../../../../@domain/repository/models/user';
 import { AuthenticationRepository } from '../../../../@domain/repository/repository/authentication.repository';
 import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
 import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
+import { User } from '../../../../@data/model/User/user';
 
 @Component({
   selector: 'app-login',

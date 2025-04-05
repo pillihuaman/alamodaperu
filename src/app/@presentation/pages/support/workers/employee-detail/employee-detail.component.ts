@@ -110,33 +110,8 @@ export class EmployeeDetailComponent extends BaseImplementation<EmployeeResponse
   
     this.spinnerService.show();
     this.supportService.saveEmployee(formValues).subscribe({
-      next: () => {
-        debugger
-
-        let nbComponentStatus: NbComponentStatus = 'success';
-        this.modalRepository.showToast(nbComponentStatus, 'Save Success', 'Success');
-        this.formData.reset();
-        this.spinnerService.hide(); // ✅ Close modal and pass 'true' to indicate data change
-        if (this.dialogRef) {
-          this.entityUpdated.emit(formValues); // Emitir evento
-          this.dialogRef.close(formValues);
-              this.spinnerService.show();
-        }
-        //this.closeDialog();
- 
-
-      },
-      error: (error) => {
-        if ((error.status === 422 || error.status === 500) && error.error?.data?.payload) {
-          error.error.data.payload.forEach((errorItem: any) => {
-            const controlName = errorItem.propertyPath;
-            const errorMessage = errorItem.valExceptionDescription;
-            this.formData.get(controlName)?.setErrors({ invalid: true, customError: errorMessage });
-          });
-        }
-        this.spinnerService.hide();
-      }
-      
+      next: () => this.handleSuccessResponseSaveOrUpdate(formValues),
+      error: (error) => this.handleErrorResponseSaveOrUpdate(error)
     });
   }
 

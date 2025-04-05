@@ -7,10 +7,11 @@ import { catchError, map } from 'rxjs/operators';
 import { NbToastrService } from '@nebular/theme';
 
 import { AuthenticationRepository } from '../../@domain/repository/repository/authentication.repository';
-import { User } from './../../@domain/repository/models/user';
+
 import { ResponseBody } from '../model/general/responseBody';
 import { Utils } from '../../utils/utils';
 import { Const } from './../../utils/const';
+import { User } from '../model/User/user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService extends AuthenticationRepository {

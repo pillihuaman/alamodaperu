@@ -80,12 +80,12 @@ export class RegisterImageByProductComponent implements OnInit {
   ngOnInit(): void {
     const currentUser = this.authenticationService.getCurrentUserValue;
     
-    if (!currentUser?.id_user) {
+    if (!currentUser?.rolId) {
       console.error('No user is logged in.');
       return;
     }
   
-    const prod: Product = { idUser: currentUser.id_user };
+    const prod: Product = { idHeadImagen: currentUser.rolId };
   
     this.imagenTempService.listProdutByUser(prod).subscribe(response => {
       this.listProductByUser = response.payload;

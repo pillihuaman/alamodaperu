@@ -65,7 +65,7 @@ import { NbDateFnsDateModule } from '@nebular/date-fns';
     NbWindowModule,
     NbToggleModule,
     NbAutocompleteModule,
-    NbCalendarModule,ReactiveFormsModule,RouterModule,NbMomentDateModule,NbDateFnsDateModule,
+    NbCalendarModule,ReactiveFormsModule,RouterModule,NbMomentDateModule,NbDateFnsDateModule
   ],
 })
 export class NebularSharedModule {}

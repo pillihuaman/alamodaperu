@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { User } from '../models/user';
+
 import { ImagenTemp } from '../../../@data/model/imagen/imagenTemp';
 
 export abstract class ImagenTempRepository {

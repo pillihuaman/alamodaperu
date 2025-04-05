@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { User } from '../../../@data/model/User/user';
 /* import { User } from "../../@data/model/user";
 import { Observable } from "rxjs";
 import { RegistroPostulante } from '../models/registro.postulante';
@@ -8,7 +9,7 @@ import { EntidadOferta } from '../../@data/model/home/entidadoferta';
 import { Ubigeo } from '../../@data/model/ubigeo';
 import { Convocatoria } from '../../@data/model/convocatoria/convocatoria'; */
 
-import { User } from '../models/user';
+
 
 export abstract class AuthenticationRepository {
   abstract get getCurrentUserValue(): User | null;

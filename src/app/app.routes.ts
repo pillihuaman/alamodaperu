@@ -28,15 +28,17 @@ export const routes: Routes = [
     component: PageComponent,
    // canActivate: [AuthGuard], // ⛔ Protected: Requires authentication
     children: [
-      { path: 'product', loadComponent: () => import('./@presentation/pages/support/register-product/register-product.component').then(m => m.RegisterProductComponent) },
+     // { path: 'product', loadComponent: () => import('./@presentation/pages/support/register-product/register-product.component').then(m => m.RegisterProductComponent) },
       { path: 'imagen-product', loadComponent: () => import('./@presentation/pages/support/register-image-by-product/register-image-by-product.component').then(m => m.RegisterImageByProductComponent) },
-      { path: 'product-stock', loadComponent: () => import('./@presentation/pages/support/register-stock/register-stock.component').then(m => m.RegisterStockComponent) },
+      { path: 'product', loadComponent: () => import('./@presentation/pages/support/product/product.component').then(m => m.ProductComponent) },
       { path: 'control', loadComponent: () => import('./@presentation/pages/support/register-control/register-control.component').then(m => m.RegisterControlComponent) },
       { path: 'parameter', loadComponent: () => import('./@presentation/pages/support/parameters/parameters.component').then(m => m.ParametersComponent) },
       { path: 'system', loadComponent: () => import('./@presentation/pages/support/register-system/register-system.component').then(m => m.RegisterSystemComponent) },
       //{ path: 'page', loadComponent: () => import('./@presentation/pages/support/register-page/register-page.component').then(m => m.RegisterPageComponent) },
       { path: 'generate-random-color-imagen', loadComponent: () => import('./@presentation/pages/support/create-randon-imagen-color/create-randon-imagen-color.component').then(m => m.CreateRandonImagenColorComponent) },
       { path: 'employee', loadComponent: () => import('./@presentation/pages/support/workers/employee/employee.component').then(m => m.EmployeeComponent) }, 
+      { path: 'store', loadComponent: () => import('./@presentation/pages/support/stores/store.component').then(m => m.StoreComponent) }, 
+
     ],
   },
   { path: '**', redirectTo: 'home/main', pathMatch: 'full' }, // Redirect unknown routes to home

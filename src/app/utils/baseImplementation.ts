@@ -162,6 +162,28 @@ export class BaseImplementation<T = any> implements BaseRepository {
     }
     this.spinnerService.hide();
   }
+   handleSuccessResponseSaveOrUpdate(formValues: any): void {
+    debugger
+    let nbComponentStatus: NbComponentStatus = 'success';
+    this.modalRepository.showToast(nbComponentStatus, 'Save Success', 'Success');
+    this.formData.reset();
+    
+    if (this.dialogRef) {
+      this.entityUpdated.emit(formValues); // Emitir evento
+      this.dialogRef.close(formValues);
+      this.spinnerService.hide(); 
+    }
+  }
   
+   handleErrorResponseSaveOrUpdate(error: any): void {
+    if ((error.status === 422 || error.status === 500) && error.error?.data?.payload) {
+      error.error.data.payload.forEach((errorItem: any) => {
+        const controlName = errorItem.propertyPath;
+        const errorMessage = errorItem.valExceptionDescription;
+        this.formData.get(controlName)?.setErrors({ invalid: true, customError: errorMessage });
+      });
+    }
+    this.spinnerService.hide();
+  }
 
 }

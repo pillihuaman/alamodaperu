@@ -179,7 +179,15 @@ export class EmployeeComponent extends BaseImplementation<EmployeeResponse> impl
           this.isdelelete = row;
         },
         (error) => {
-          this.handleValidationErrors(error, this.employeRequestForm);
+          debugger
+          if ((error.status === 422 || error.status === 500) && error.error && error.error.data && error.error.data.payload) {
+            error.error.data.payload.forEach((errorItem: any) => {
+              const controlName = errorItem.propertyPath;
+              const errorMesagge = errorItem.valExceptionDescription;
+              this.employeRequestForm.get(controlName)?.setErrors({ invalid: true, customError: errorMesagge });
+            });
+          }
+          this.spinnerService.hide();
         }
 
       );
@@ -238,8 +246,6 @@ export class EmployeeComponent extends BaseImplementation<EmployeeResponse> impl
   }
 
   override findByparameter() {
-    ////////debuger;
-    //  lista de errores
     this.listError = this.validateObjectID();
     if (this.listError.length === 0) {
       this.employeRequestForm.get('idToFind')?.markAsTouched();
@@ -250,8 +256,6 @@ export class EmployeeComponent extends BaseImplementation<EmployeeResponse> impl
     }
   }
   override findByDefualt() {
-
-    this.typeOfSearch = GeneralConstans.typeSearchDefault
     this.findEmproyeeProcess();
   }
 

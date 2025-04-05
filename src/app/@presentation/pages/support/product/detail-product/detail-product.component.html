@@ -1,0 +1,22 @@
+<nb-card>
+    <nb-card-body>
+      <app-modal-header [title]="'Product Detail'"></app-modal-header>
+      <form [formGroup]="formData" (ngSubmit)="onSubmit()">
+        <div class="form-container">
+          <input nbInput type="text" placeholder="ID" required formControlName="id" readonly />
+          <input nbInput type="text" placeholder="Name" required formControlName="name" />
+          <input nbInput type="text" placeholder="Barcode" required formControlName="barcode" />
+          <input nbInput type="text" placeholder="Category" required formControlName="category" />
+          <input nbInput type="number" placeholder="Stock" required formControlName="stock" />
+          <input nbInput type="number" placeholder="Price" required formControlName="price" />
+        </div>
+      </form>
+        <app-barcode-reader-writer (scannedBarcode)="onBarcodeScanned($event)"></app-barcode-reader-writer>
+        <app-modal-footer class="button-container">
+          <button nbButton hero status="success" type="submit">Save</button>
+          <button nbButton hero status="danger" type="button" (click)="closeDialog()">Cancel</button>
+        </app-modal-footer>
+
+    </nb-card-body>
+  </nb-card>
+  

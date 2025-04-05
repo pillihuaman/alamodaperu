@@ -6,8 +6,6 @@ import {
   NbToastrConfig,
   NbToastrService,
 } from '@nebular/theme';
-import { Const } from '../../utils/const';
-import { User } from '../../@domain/repository/models/user';
 import { Observable, config } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
