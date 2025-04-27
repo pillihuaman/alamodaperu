@@ -3,21 +3,19 @@ import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } 
 import { CommonModule, DatePipe } from '@angular/common';
 import { NbButtonModule, NbCardModule, NbInputModule, NbIconModule, NbDialogModule, NbLayoutModule, NbAccordionModule, NbDialogService } from '@nebular/theme';
 import { ProductService } from '../../../../@data/services/ProductService';
-import { ModalService } from '../../../../@data/services/modal.service';
 import { SpinnerService } from '../../../../@data/services/spinner.service';
 import { BaseImplementation } from '../../../../utils/baseImplementation';
 import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
 import { TableDatasourceComponent } from '../../../@common-components/table-datasource/table-datasource.component';
 import { TreeNode } from '../../../../@data/model/general/treeNode';
-import { EmployeeService } from '../../../../@data/services/employee.service';
 import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
-import { SupportRepository } from '../../../../@domain/repository/repository/support.repository';
-import { ProductRepository } from '../../../../@domain/repository/repository/ProductRepository';
 import { DetailProductComponent } from './detail-product/detail-product.component';
 import { GeneralConstans } from '../../../../utils/generalConstant';
 import { RespProduct } from '../../../../@data/model/product/RespProduct';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { Utils } from '../../../../utils/utils';
+// Añadir esto al principio
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -50,12 +48,10 @@ export class ProductComponent extends BaseImplementation<any> implements OnInit 
     private fb: FormBuilder,
      modalRepository: ModalRepository,
      spinnerService: SpinnerService,
-    private datePipe: DatePipe,
     private productService: ProductService,
-    private modalService: ModalService,
-    dialogService: NbDialogService
+  private router: Router
   ) {
-    super(dialogService,modalRepository,spinnerService); // ✅ Pass dialogService to the parent class
+    super(modalRepository,spinnerService); // ✅ Pass dialogService to the parent class
   }
 
   ngOnInit(): void {
@@ -170,55 +166,19 @@ export class ProductComponent extends BaseImplementation<any> implements OnInit 
   }
 
     onNewClick(): void {
-      this.dialogService.open(DetailProductComponent, {
-        context: {
-          // Optional: Pass any data you need for the modal (context)
-        },
-        closeOnBackdropClick: false, // Prevent closing on clicking outside the modal
-        hasBackdrop: true,           // Ensure the backdrop is enabled
-        backdropClass: 'custom-backdrop', // Optionally, customize the backdrop class
-        dialogClass: 'custom-dialog'  // Customize the dialog class for the entire modal
-      }).onClose.subscribe(result => {
-        if (result) {
-          debugger
-          this.findProductProcess(); // Recargar la lista después de una inserción o actualización
-        }
-      });
+      this.router.navigate(['/support/products/detail']);
+
     }
 
-  handleEditAction(row: TreeNode<any>): void {
-    debugger;
-    if (!row?.data?.ID) {
-      console.warn("Invalid product data.");
-      return;
-    }
-    const productId = row.data.ID;
-    this.productService.findProducts(1, 1, productId, '', '', '').pipe(
-      map(response => response.payload?.[0] || null),
-      catchError(error => {
-        console.error("Error fetching product:", error);
-        return of(null);
-      }),
-      switchMap(entityData => {
-        if (!entityData) {
-          console.warn("Product not found.");
-          return of(null);
-        }
-  
-        // Abrir el modal y esperar la respuesta del usuario
-        return this.dialogService.open(DetailProductComponent, {
-          context: {  entityData },
-          closeOnBackdropClick: false,
-          hasBackdrop: true,
-        }).onClose;
-      })
-    ).subscribe(updatedProduct => {
-      if (updatedProduct) {
-        this.findProductProcess();  // Recargar la lista de productos
+    handleEditAction(row: TreeNode<any>): void {
+      if (!row?.data?.ID) {
+        console.warn("Invalid product data.");
+        return;
       }
-    });
-  }
-  
+      const productId = row.data.ID;
+      this.router.navigate(['/support/products/detail', productId]);
+    }
+    
   handleDeleteAction(row: TreeNode<any>): void {
     console.log('Deleting:', row);
     if (row.data.ID !== undefined) {

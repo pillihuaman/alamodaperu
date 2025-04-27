@@ -1,10 +1,9 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NbDialogRef, NbComponentStatus, NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbDatepickerModule, NbTimepickerModule, NbDialogService } from '@nebular/theme';
+import {  FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {  NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbDatepickerModule, NbTimepickerModule, NbDialogService } from '@nebular/theme';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { NbMomentDateModule } from '@nebular/moment';
-import { parse } from 'date-fns';
 import { RouterModule } from '@angular/router';
 import { SpinnerService } from '../../../../../@data/services/spinner.service';
 import { NebularSharedModule } from '../../../../../@domain/nebular-shared.module';
@@ -15,7 +14,7 @@ import { BaseImplementation } from '../../../../../utils/baseImplementation';
 import { RespProduct } from '../../../../../@data/model/product/RespProduct';
 import { ModalRepository } from '../../../../../@domain/repository/repository/modal.repository ';
 import { ProductService } from '../../../../../@data/services/ProductService';
-import { BarcodeReaderWriterComponent } from '../../../../@common-components/barCode/barcode-reader-writer.component';
+
 
 @Component({
   selector: 'app-detail-product',
@@ -35,7 +34,7 @@ import { BarcodeReaderWriterComponent } from '../../../../@common-components/bar
     NbDatepickerModule,
     NbTimepickerModule,
     NbMomentDateModule,
-    NbDateFnsDateModule,BarcodeReaderWriterComponent
+    NbDateFnsDateModule
   ],
   templateUrl: './detail-product.component.html',
   styleUrl: './detail-product.component.scss'
@@ -47,10 +46,9 @@ export class DetailProductComponent extends BaseImplementation<RespProduct> impl
     private datePipe: DatePipe,
    private productService: ProductService,
     modalRepository: ModalRepository,
-    override dialogRef: NbDialogRef<DetailProductComponent>,
-    dialogService: NbDialogService,
+  
   ) {
-    super(dialogService, modalRepository, spinnerService);
+    super( modalRepository, spinnerService);
   }
 
   ngOnInit(): void {
@@ -62,32 +60,113 @@ export class DetailProductComponent extends BaseImplementation<RespProduct> impl
   }
 
   patchFormValues(): void {
+    if (!this.entityData) return;
+  
     this.formData.patchValue({
-      id: this.entityData.id || '',
-      name: this.entityData.name || '',
-      category: this.entityData.category || '',
-      price: this.entityData.price || '',
-      stock: this.entityData.stock || '',
-      barcode: this.entityData.barcode || '',
-      
-      //manufactureDate: this.entityData.manufactureDate ? parse(this.entityData.manufactureDate+'', 'dd/MM/yyyy', new Date()) : null,
-      //expiryDate: this.entityData.expiryDate ? parse(this.entityData.expiryDate+'', 'dd/MM/yyyy', new Date()) : null,
+      id: this.entityData.id,
+      name: this.entityData.name,
+      description: this.entityData.description,
+      category: this.entityData.category,
+      subcategory: this.entityData.subcategory,
+      productCode: this.entityData.productCode,
+      barcode: this.entityData.barcode,
+      sku: this.entityData.sku,
+      upc: this.entityData.upc,
+      supplierId: this.entityData.supplierId,
+      manufacturer: this.entityData.manufacturer,
+      brand: this.entityData.brand,
+  
+      expirationDate: this.entityData.expirationDate,
+      manufacturingDate: this.entityData.manufacturingDate,
+  
+      costPrice: this.entityData.pricing?.costPrice,
+      sellingPrice: this.entityData.pricing?.sellingPrice,
+      discount: this.entityData.pricing?.discount,
+      currency: this.entityData.pricing?.currency,
+  
+      unitMeasure: this.entityData.inventory?.unitMeasure,
+      minStock: this.entityData.inventory?.minStock,
+      maxStock: this.entityData.inventory?.maxStock,
+      isFeatured: this.entityData.inventory?.isFeatured,
+      isNewArrival: this.entityData.inventory?.isNewArrival,
+      batch: this.entityData.inventory?.batch,
+      weight: this.entityData.inventory?.weight,
+      height: this.entityData.inventory?.height,
+      width: this.entityData.inventory?.width,
+      length: this.entityData.inventory?.length,
+  
+      thumbnailUrl: this.entityData.media?.thumbnailUrl,
+      seoTitle: this.entityData.media?.seoTitle,
+      seoDescription: this.entityData.media?.seoDescription,
+      imageUrls: this.entityData.media?.imageUrls?.join(', ') || '',
+      tags: this.entityData.media?.tags?.join(', ') || '',
+      status: this.entityData.status,
+      createdAt: this.entityData.createdAt,
+      updatedAt: this.entityData.updatedAt,
+      sizes: this.entityData.sizes || []
     });
-    console.log('Form Values:', this.formData.value);
+  
+    console.log('Form patched:', this.formData.value);
   }
+  
 
   buildForm() {
     this.formData = this.fb.group({
       id: [''],
       name: ['', Validators.required],
-      category: ['', Validators.required],
-      price: ['', Validators.required],
-      stock: ['', Validators.required],
+      description: [''],
+      category: [''],
+      subcategory: [''],
+      productCode: [''],
       barcode: [''],
-      //manufactureDate: ['', Validators.required],
-      //expiryDate: ['', Validators.required]
+      sku: [''],
+      upc: [''],
+      supplierId: [''],
+      manufacturer: [''],
+      brand: [''],
+  
+      expirationDate: [''],
+      manufacturingDate: [''],
+  
+      // Precios
+      costPrice: [],
+      sellingPrice: [],
+      discount: [],
+      currency: [''],
+  
+      // Inventario
+      unitMeasure: [''],
+      minStock: [],
+      maxStock: [],
+      isFeatured: [false],
+      isNewArrival: [false],
+      batch: [''],
+      weight: [],
+      height: [],
+      width: [],
+      length: [],
+  
+      // Multimedia
+      thumbnailUrl: [''],
+      seoTitle: [''],
+      seoDescription: [''],
+      imageUrls: [''],
+      tags: [''],
+  
+      // Estado y auditoría
+      status: [false],
+      createdAt: [''],
+      updatedAt: [''],
+      audit: this.fb.group({
+        codUser: [''],
+        mail: ['']
+      }),
+  
+      // Tallas (este será solo visual, puedes manejarlo aparte si deseas edición)
+      sizes: [[]]
     });
   }
+  
 
   onSubmit() {
     // const manufactureDateFormatted = this.datePipe.transform(this.formData.value.manufactureDate, 'dd/MM/yyyy') || '';

@@ -38,9 +38,8 @@ export class StoreDetailComponent extends BaseImplementation<RespStore> implemen
     private storeService: StoreService,
     modalRepository: ModalRepository,
     override dialogRef: NbDialogRef<StoreDetailComponent>,
-    dialogService: NbDialogService,
   ) {
-    super(dialogService, modalRepository, spinnerService);
+    super( modalRepository, spinnerService);
   }
 
   ngOnInit(): void {

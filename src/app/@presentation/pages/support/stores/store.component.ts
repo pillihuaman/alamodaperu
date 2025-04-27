@@ -49,9 +49,9 @@ export class StoreComponent extends BaseImplementation<any> implements OnInit {
     modalRepository: ModalRepository,
     spinnerService: SpinnerService,
     private storeService: StoreService,
-    dialogService: NbDialogService
+ 
   ) {
-    super(dialogService, modalRepository, spinnerService); // ✅ Pass dialogService to the parent class
+    super( modalRepository, spinnerService); // ✅ Pass dialogService to the parent class
   }
 
   ngOnInit(): void {
@@ -156,17 +156,7 @@ export class StoreComponent extends BaseImplementation<any> implements OnInit {
   }
 
   onNewClick(): void {
-    this.dialogService.open(StoreDetailComponent, {
-      context: {},
-      closeOnBackdropClick: false,
-      hasBackdrop: true,
-      backdropClass: 'custom-backdrop',
-      dialogClass: 'custom-dialog'
-    }).onClose.subscribe(result => {
-      if (result) {
-        this.finStoreProcess();
-      }
-    });
+
   }
 
   handleEditAction(row: TreeNode<any>): void {
@@ -176,28 +166,7 @@ export class StoreComponent extends BaseImplementation<any> implements OnInit {
       return;
     }
     const StoreId = row.data.ID;
-    this.storeService.findStores(1, 1, StoreId, '', '', '').pipe(
-      map(response => response.payload?.[0] || null),
-      catchError(error => {
-        console.error("Error fetching Store:", error);
-        return of(null);
-      }),
-      switchMap(entityData => {
-        if (!entityData) {
-          console.warn("Store not found.");
-          return of(null);
-        }
-        return this.dialogService.open(StoreDetailComponent, {
-          context: { entityData },
-          closeOnBackdropClick: false,
-          hasBackdrop: true,
-        }).onClose;
-      })
-    ).subscribe(updatedStore => {
-      if (updatedStore) {
-        this.finStoreProcess();
-      }
-    });
+
   }
 
   handleDeleteAction(row: TreeNode<any>): void {

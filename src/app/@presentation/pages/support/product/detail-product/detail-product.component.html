@@ -1,22 +1,77 @@
 <nb-card>
-    <nb-card-body>
-      <app-modal-header [title]="'Product Detail'"></app-modal-header>
-      <form [formGroup]="formData" (ngSubmit)="onSubmit()">
-        <div class="form-container">
-          <input nbInput type="text" placeholder="ID" required formControlName="id" readonly />
-          <input nbInput type="text" placeholder="Name" required formControlName="name" />
-          <input nbInput type="text" placeholder="Barcode" required formControlName="barcode" />
-          <input nbInput type="text" placeholder="Category" required formControlName="category" />
-          <input nbInput type="number" placeholder="Stock" required formControlName="stock" />
-          <input nbInput type="number" placeholder="Price" required formControlName="price" />
-        </div>
-      </form>
-        <app-barcode-reader-writer (scannedBarcode)="onBarcodeScanned($event)"></app-barcode-reader-writer>
-        <app-modal-footer class="button-container">
-          <button nbButton hero status="success" type="submit">Save</button>
-          <button nbButton hero status="danger" type="button" (click)="closeDialog()">Cancel</button>
-        </app-modal-footer>
+  <nb-card-body>
+    <app-modal-header [title]="'Detalle del Producto'"></app-modal-header>
+    <form [formGroup]="formData" (ngSubmit)="onSubmit()">
+      <div class="form-container">
+        <!-- ID -->
+        <input nbInput type="text" placeholder="ID" formControlName="id" readonly />
 
-    </nb-card-body>
-  </nb-card>
-  
+        <!-- Información Básica -->
+        <input nbInput type="text" placeholder="Nombre" formControlName="name" />
+        <input nbInput type="text" placeholder="Categoría" formControlName="category" />
+        <input nbInput type="text" placeholder="Subcategoría" formControlName="subcategory" />
+
+        <!-- Identificadores -->
+        <input nbInput type="text" placeholder="Código del Producto" formControlName="productCode" />
+        <input nbInput type="text" placeholder="Código de Barras" formControlName="barcode" />
+        <input nbInput type="text" placeholder="SKU" formControlName="sku" />
+        <input nbInput type="text" placeholder="UPC" formControlName="upc" />
+
+        <!-- Proveedor y Fabricante -->
+        <input nbInput type="text" placeholder="ID del Proveedor" formControlName="supplierId" />
+        <input nbInput type="text" placeholder="Fabricante" formControlName="manufacturer" />
+        <input nbInput type="text" placeholder="Marca" formControlName="brand" />
+
+        <!-- Fechas -->
+        <input nbInput type="date" placeholder="Fecha de Fabricación" formControlName="manufacturingDate" />
+        <input nbInput type="date" placeholder="Fecha de Vencimiento" formControlName="expirationDate" />
+
+        <!-- Precios -->
+        <h5>Precios</h5>
+        <input nbInput type="number" placeholder="Precio de Costo" formControlName="costPrice" />
+        <input nbInput type="number" placeholder="Precio de Venta" formControlName="sellingPrice" />
+        <input nbInput type="number" placeholder="Descuento (%)" formControlName="discount" />
+        <input nbInput type="text" placeholder="Moneda" formControlName="currency" />
+
+        <!-- Inventario -->
+        <h5>Inventario</h5>
+        <input nbInput type="text" placeholder="Unidad de Medida" formControlName="unitMeasure" />
+        <input nbInput type="number" placeholder="Stock Mínimo" formControlName="minStock" />
+        <input nbInput type="number" placeholder="Stock Máximo" formControlName="maxStock" />
+        <nb-checkbox formControlName="isFeatured">Producto Destacado</nb-checkbox>
+        <nb-checkbox formControlName="isNewArrival">Nuevo Ingreso</nb-checkbox>
+        <input nbInput type="text" placeholder="Lote" formControlName="batch" />
+        <input nbInput type="number" placeholder="Peso (kg)" formControlName="weight" />
+        <input nbInput type="number" placeholder="Altura (cm)" formControlName="height" />
+        <input nbInput type="number" placeholder="Ancho (cm)" formControlName="width" />
+        <input nbInput type="number" placeholder="Largo (cm)" formControlName="length" />
+
+        <!-- Media -->
+        <h5>Multimedia</h5>
+        <input nbInput type="text" placeholder="URL de Miniatura" formControlName="thumbnailUrl" />
+        <input nbInput type="text" placeholder="Título SEO" formControlName="seoTitle" />
+        <input nbInput type="text" placeholder="Descripción SEO" formControlName="seoDescription" />
+        <input nbInput type="text" placeholder="URLs de Imágenes (separadas por comas)" formControlName="imageUrls" />
+        <input nbInput type="text" placeholder="Etiquetas (separadas por comas)" formControlName="tags" />
+
+        <!-- Tallas -->
+        <h5>Tallas</h5>
+        <div *ngFor="let size of formData.get('sizes')?.value || []; let i = index">
+          <input nbInput type="text" [placeholder]="'Talla ' + (i + 1)" [value]="size.size" readonly />
+          <input nbInput type="number" [placeholder]="'Stock para Talla ' + (i + 1)" [value]="size.stock" readonly />
+        </div>
+
+        <!-- Estado -->
+        <nb-checkbox formControlName="status">Activo</nb-checkbox>
+        <!-- Descripción -->
+        <textarea nbInput placeholder="Descripción" formControlName="description"></textarea>
+      </div>
+    </form>
+
+    <!-- Botones -->
+    <app-modal-footer class="button-container">
+      <button nbButton hero status="success" type="submit">Guardar</button>
+      <button nbButton hero status="danger" type="button" (click)="closeDialog()">Cancelar</button>
+    </app-modal-footer>
+  </nb-card-body>
+</nb-card>

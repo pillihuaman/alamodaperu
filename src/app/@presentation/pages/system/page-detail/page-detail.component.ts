@@ -1,0 +1,97 @@
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { NbDateFnsDateModule } from '@nebular/date-fns';
+import { NbMomentDateModule } from '@nebular/moment';
+import { NbButtonModule, NbCardModule, NbInputModule, NbIconModule, NbDatepickerModule, NbTimepickerModule } from '@nebular/theme';
+import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
+import { TableDatasourceComponent } from '../../../@common-components/table-datasource/table-datasource.component';
+import { Page } from '../../../../@data/model/system/Page';
+import { System } from '../../../../@data/model/system/System';
+import { SystemService } from '../../../../@data/services/system.service';
+import { BaseImplementation } from '../../../../utils/baseImplementation';
+import { SpinnerService } from '../../../../@data/services/spinner.service';
+import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
+import { RespSystemEntities } from '../../../../@data/model/system/RespSystemEntities';
+
+@Component({
+  selector: 'app-page-detail',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    NbButtonModule,
+    NbCardModule,
+    NbInputModule,
+    NbIconModule,
+    NebularSharedModule,
+    ReactiveFormsModule,
+    FormsModule,
+    NbDatepickerModule,
+    NbTimepickerModule,
+    NbMomentDateModule,
+    NbDateFnsDateModule,
+    
+  ],
+  templateUrl: './page-detail.component.html',
+  styleUrl: './page-detail.component.scss'
+})
+export class PageDetailComponent extends BaseImplementation<any> implements OnInit {
+  pageForm!: FormGroup;
+  systems: RespSystemEntities[] = [];
+
+  constructor(    modalRepository: ModalRepository,
+      spinnerService: SpinnerService,
+    private fb: FormBuilder,
+    private systemService: SystemService, private router: Router
+  ) {
+    super(modalRepository, spinnerService);
+  }
+
+  ngOnInit(): void {
+    this.pageForm = this.fb.group({
+      id: [''],
+      name: [''],
+      url: [''],
+      icon: [''],
+      component: [''],
+      systemId: [''],
+      permissions: [[]],
+      status: [true],
+    });
+
+    this.loadSystems();
+  }
+
+  loadSystems(): void {
+    this.systemService.findSystems().subscribe((res) => {
+      debugger
+      this.systems = res.payload;
+    });
+  }
+
+  savePage(): void {
+    const page: Page = {
+      ...this.pageForm.value,
+      systemId: this.pageForm.value.systemId?.toString() ?? null
+    };
+    debugger
+    this.systemService.savePage(page).subscribe((res) => {
+      console.log('Page saved:', res);
+    });
+  }
+
+  deletePage(): void {
+    const id = this.pageForm.get('id')?.value;
+    if (id) {
+      this.systemService.deletePage(id).subscribe(() => {
+        console.log('Page deleted:', id);
+        this.pageForm.reset();
+      });
+    }
+  }
+  returnPage(){
+    this.router.navigate(['/support/system']); 
+  }
+}

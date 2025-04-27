@@ -71,10 +71,9 @@ export class EmployeeComponent extends BaseImplementation<EmployeeResponse> impl
      spinnerService: SpinnerService,
     private datePipe: DatePipe,
     private employeeService: EmployeeService,
-    private modalService: ModalService,
-    dialogService: NbDialogService
+
   ) {
-    super(dialogService,modalRepository,spinnerService); // ✅ Pass dialogService to the parent class
+    super(modalRepository,spinnerService); // ✅ Pass dialogService to the parent class
     this.employeRequest = {
       finishDateFormatted: '',
       startDateFormatted: '',
@@ -201,31 +200,6 @@ export class EmployeeComponent extends BaseImplementation<EmployeeResponse> impl
     }
     const employeeId = row.data.ID;
 
-    this.supportService.findEmployee(1, 1, employeeId, '', '', '').pipe(
-      map(response => response.payload?.[0] || null),
-      catchError(error => {
-        console.error("Error fetching employee:", error);
-        return of(null);
-      }),
-      switchMap(entityData => {
-        if (!entityData) {
-          console.warn("Employee not found.");
-          return of(null);
-        }
-
-        // Abrir el modal y esperar la respuesta del usuario
-        return this.dialogService.open(EmployeeDetailComponent, {
-          context: { entityData },
-          closeOnBackdropClick: false,
-          hasBackdrop: true,
-        }).onClose;
-      })
-    ).subscribe(updatedEmployee => {
-      debugger
-      if (updatedEmployee) {
-        this.findEmproyeeProcess();  // Recargar la lista
-      }
-    });
   }
   checkInputs() {
     //declare input to find 
@@ -275,7 +249,7 @@ export class EmployeeComponent extends BaseImplementation<EmployeeResponse> impl
   }
 
   onNewClick(): void {
-    this.dialogService.open(EmployeeDetailComponent, {
+   /* this.dialogService.open(EmployeeDetailComponent, {
       context: {
         // Optional: Pass any data you need for the modal (context)
       },
@@ -287,7 +261,7 @@ export class EmployeeComponent extends BaseImplementation<EmployeeResponse> impl
       if (result) {
         this.findEmproyeeProcess(); // Recargar la lista después de una inserción o actualización
       }
-    });
+    });*/
   }
 
 }

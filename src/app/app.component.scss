@@ -61,20 +61,8 @@
   ::ng-deep .search-container button {
     width: 100%;
   }
-    ::ng-deep nb-dialog-container nb-card {
-    display: flex;
-    flex-direction: column;
-    max-height: 80vh; /* Prevents modal from exceeding 80% of the viewport height */
-    overflow: hidden; /* Ensures that only the body scrolls */
-  }
-  
-  ::ng-deep nb-card-body {
-    flex-grow: 1; /* Allows content to take up available space */
-    overflow-y: auto; /* Enables vertical scrolling */
-    max-height: 60vh; /* Adjusts max height of scrollable content */
-    padding: 1rem; /* Adds padding for readability */
-  }
-  
+
+
   ::ng-deep app-modal-footer {
     padding: 1rem;
     border-top: 1px solid var(--nb-border-basic);

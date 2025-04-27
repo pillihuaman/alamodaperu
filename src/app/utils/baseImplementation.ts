@@ -23,10 +23,9 @@ export class BaseImplementation<T = any> implements BaseRepository {
   protected hasMorePagesT: boolean = true;
   defaultColumnsInput: string[] = [];
   isRegisterEmployeeExpanded: boolean = false;
-  protected dialogService: NbDialogService; protected modalRepository: ModalRepository;
+ protected modalRepository: ModalRepository;
   protected spinnerService: SpinnerService;
-  constructor(dialogService: NbDialogService, modalRepository: ModalRepository,spinnerService: SpinnerService) {
-    this.dialogService = dialogService;
+  constructor( modalRepository: ModalRepository,spinnerService: SpinnerService) {
     this.modalRepository = modalRepository;
     this.spinnerService = spinnerService;
   }
@@ -137,9 +136,9 @@ export class BaseImplementation<T = any> implements BaseRepository {
       typeDescription: ModalType.QUESTION.toString()
     };
 
-    return this.dialogService.open(ModalComponent, {
-      context: { rowData: modal } as any
-    });
+    return null;// this.dialogService.open(ModalComponent, {
+     //context: { rowData: modal } as any
+    //});
   }
 
   showNoDataMessage() {

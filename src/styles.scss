@@ -5,11 +5,7 @@
 @include nb-install() {
   @include nb-theme-global();
 }
-nb-card-body {
-  max-height: 70vh; /* Limita la altura del modal al 70% de la ventana */
-  overflow-y: auto; /* Agrega scroll vertical cuando el contenido excede la altura */
-  padding: 1rem; /* Ajusta el espaciado interno */
-}
+
 
 /* Asegurar que el contenedor del formulario no crezca indefinidamente */
 .form-container {
@@ -17,17 +13,6 @@ nb-card-body {
   overflow-y: auto;
 }
 
-/* Mejoras para pantallas pequeñas */
-@media (max-width: 600px) {
-  nb-card {
-    width: 95%; /* Reduce el ancho del modal en móviles */
-    max-width: 400px;
-  }
-
-  nb-card-body {
-    max-height: 60vh; /* Reduce la altura máxima del modal en móviles */
-  }
-}
 
 
 .custom-backdrop {
