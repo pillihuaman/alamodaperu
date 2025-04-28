@@ -66,7 +66,7 @@ export class PageDetailComponent extends BaseImplementation<any> implements OnIn
 
   loadSystems(): void {
     this.systemService.findSystems().subscribe((res) => {
-      debugger
+      
       this.systems = res.payload;
     });
   }
@@ -76,7 +76,7 @@ export class PageDetailComponent extends BaseImplementation<any> implements OnIn
       ...this.pageForm.value,
       systemId: this.pageForm.value.systemId?.toString() ?? null
     };
-    debugger
+    
     this.systemService.savePage(page).subscribe((res) => {
       console.log('Page saved:', res);
     });

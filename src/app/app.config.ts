@@ -30,6 +30,8 @@ import { SupportRepository } from './@domain/repository/repository/support.repos
 import { SupportService } from './@data/services/support.service';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { NbMomentDateModule } from '@nebular/moment';
+import { SupplierService } from './@data/services/supplier.service';
+import { SupplierRepository } from './@domain/repository/repository/supplier.repository';
 
 export function initConfig(constService: Const) {
   return () =>
@@ -85,6 +87,7 @@ export const appConfig: ApplicationConfig = {
     { provide: ModalRepository, useClass: ModalService },
     { provide: UserRepository, useClass: UserService },
     { provide: SupportRepository, useClass: SupportService },
+    { provide: SupplierRepository, useClass: SupplierService } ,
     Const,
     ApiService,
     DataService,

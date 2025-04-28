@@ -1,10 +1,14 @@
 <nb-layout>
   <!-- Sidebar con menú dinámico -->
-  <nb-sidebar tag="menu-barapp" state="expanded" class="menu-sidebar">
-    <nb-menu [items]="menuTree"></nb-menu>
+<nb-sidebar tag="menu-barapp" 
+            state="collapsed" 
+            class="menu-sidebar" 
+            overlay 
+            mode="overlay"> <!-- 👈 nuevo -->
+  <nb-menu [items]="menuTree"></nb-menu>
+</nb-sidebar>
 
-    
-  </nb-sidebar>
+
 
   <!-- Header principal -->
   <nb-layout-header fixed class="main-header">
@@ -30,4 +34,5 @@
   <nb-layout-column class="colored-column-basic" (click)="toggleout()">
     <router-outlet></router-outlet>
   </nb-layout-column>
+  
 </nb-layout>

@@ -105,7 +105,7 @@ export class Utils {
     }
   }
   static convertDateToString(date: Date | string): string {
-    debugger;
+    ;
     if (!date) return '';
   
     let parsedDate: Date;

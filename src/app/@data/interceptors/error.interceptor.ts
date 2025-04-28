@@ -14,7 +14,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         const nbComponentStatus: NbComponentStatus = 'danger';
-        debugger
+        
         if (error.status === 401 || error.status === 403) {
           // 🛑 Unauthorized / Forbidden - Redirect to Login
           this.modalService.showToast(nbComponentStatus, 'Session expired. Please log in again.', '');

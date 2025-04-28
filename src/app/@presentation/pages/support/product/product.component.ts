@@ -122,14 +122,14 @@ export class ProductComponent extends BaseImplementation<any> implements OnInit 
           return this.customizePropertyNames(respo, this.columnMapping());
         }),
         catchError(error => {
-          debugger
+          
           console.error("Error fetching employees:", error);
           return of([]); // Si hay error, retornar una lista vacía para evitar que la app falle
         })
       ).subscribe(data => {
         this.datas = data;
         console.log("Data source page", this.datas);
-        debugger
+        
         this.setDefaultColumns(this.datas);
         if (this.datas && this.datas.length > 0) {
           this.updateHasMorePagesT(true);
@@ -141,7 +141,7 @@ export class ProductComponent extends BaseImplementation<any> implements OnInit 
     }
 
     override findByparameter() {
-      debugger
+      
       this.listError = this.validateObjectID();
       if (this.listError.length === 0) {
         this.productForm.get('id')?.markAsTouched();
@@ -189,7 +189,7 @@ export class ProductComponent extends BaseImplementation<any> implements OnInit 
           this.isdelelete = row;
         },
         (error) => {
-          debugger
+          
           if ((error.status === 422 || error.status === 500) && error.error && error.error.data && error.error.data.payload) {
             error.error.data.payload.forEach((errorItem: any) => {
               const controlName = errorItem.propertyPath;

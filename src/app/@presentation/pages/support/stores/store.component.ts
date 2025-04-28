@@ -160,7 +160,7 @@ export class StoreComponent extends BaseImplementation<any> implements OnInit {
   }
 
   handleEditAction(row: TreeNode<any>): void {
-    debugger
+    
     if (!row?.data?.ID) {
       console.warn("Invalid Store data.");
       return;

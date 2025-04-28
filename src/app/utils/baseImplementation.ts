@@ -162,7 +162,7 @@ export class BaseImplementation<T = any> implements BaseRepository {
     this.spinnerService.hide();
   }
    handleSuccessResponseSaveOrUpdate(formValues: any): void {
-    debugger
+    
     let nbComponentStatus: NbComponentStatus = 'success';
     this.modalRepository.showToast(nbComponentStatus, 'Save Success', 'Success');
     this.formData.reset();

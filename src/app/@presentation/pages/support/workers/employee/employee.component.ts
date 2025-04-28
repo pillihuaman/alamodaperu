@@ -151,14 +151,14 @@ export class EmployeeComponent extends BaseImplementation<EmployeeResponse> impl
         return this.customizePropertyNames(respo, this.columnMappin());
       }),
       catchError(error => {
-        debugger
+        
         console.error("Error fetching employees:", error);
         return of([]); // Si hay error, retornar una lista vacía para evitar que la app falle
       })
     ).subscribe(data => {
       this.datas = data;
       console.log("Data source page", this.datas);
-      debugger
+      
       this.setDefaultColumns(this.datas);
       if (this.datas && this.datas.length > 0) {
         this.updateHasMorePagesT(true);
@@ -178,7 +178,7 @@ export class EmployeeComponent extends BaseImplementation<EmployeeResponse> impl
           this.isdelelete = row;
         },
         (error) => {
-          debugger
+          
           if ((error.status === 422 || error.status === 500) && error.error && error.error.data && error.error.data.payload) {
             error.error.data.payload.forEach((errorItem: any) => {
               const controlName = errorItem.propertyPath;

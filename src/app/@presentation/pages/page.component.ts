@@ -44,14 +44,14 @@ export class PageComponent {
   }
 
   onFind() {
-    debugger;
+    ;
     this.isSearchVisible = true;
     console.log('isSearchVisible:', this.isSearchVisible);
     this.cdRef.detectChanges(); // ✅ Force UI update
   }
 
   onSearch() {
-    debugger;
+    ;
     console.log('Searching for:', this.searchQuery);
 
     if (this.searchQuery.trim()) {

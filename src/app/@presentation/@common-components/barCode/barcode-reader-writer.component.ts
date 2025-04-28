@@ -68,7 +68,7 @@ export class BarcodeReaderWriterComponent {
 
   // Generate barcode function
   generateBarcode() {
-    debugger
+    
     if (!this.barcodeValue()) {
       alert('Ingrese un valor para el código de barras.');
       return;

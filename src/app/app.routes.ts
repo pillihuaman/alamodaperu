@@ -43,7 +43,9 @@ export const routes: Routes = [
       { path: 'system/detail', loadComponent: () => import('./@presentation/pages/system/system-detail/system-detail.component').then(m => m.SystemDetailComponent) }, 
       { path: 'page/detail', loadComponent: () => import('./@presentation/pages/system/page-detail/page-detail.component').then(m => m.PageDetailComponent) }, 
       { path: 'menu/detail', loadComponent: () => import('./@presentation/pages/system/menu-detail/menu-detail.component').then(m => m.MenuDetailComponent) }, 
-
+      { path: 'supplier', loadComponent: () => import('./@presentation/pages/support/supplier/supplier.component').then(m => m.SupplierComponent) }, 
+      { path: 'supplier/detail', loadComponent: () => import('./@presentation/pages/support/supplier/detail-supplier/detail-supplier.component').then(m => m.DetailSupplierComponent) }, 
+   
     ],
   },
   { path: '**', redirectTo: 'home/main', pathMatch: 'full' }, // Redirect unknown routes to home

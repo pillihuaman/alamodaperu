@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
     this.systemService.findSystemMenuTree().subscribe(
       (response: ResponseBody) => {
         console.log('MenuTree cargado:', response.payload);
-        debugger
+        
         // Mapear correctamente aquí
         this.menuTree = mapToNbMenuItems(response.payload);
         console.log('        this.menuTree',         this.menuTree);
@@ -127,7 +127,7 @@ function mapToNbMenuItems(items: RespMenuTree[]): NbMenuItem[] {
     // Procesamos los hijos de la sección si existen
     if (item.children && item.children.length > 0) {
       for (const child of item.children) {
-        debugger
+        
         // Usamos solo el 'link' proporcionado en el item
         children.push({
           title: child.title,
