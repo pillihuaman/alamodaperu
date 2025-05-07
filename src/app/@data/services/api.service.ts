@@ -14,12 +14,12 @@ import { ImagenTemp } from '../model/imagen/imagenTemp';
 
 @Injectable()
 export class ApiService {
-  httpOptions = {
+  /*httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
-  };
-  constructor(private http: HttpClient, public dialog: MatDialog) {}
+  }*/
+    constructor(private http: HttpClient, public dialog: MatDialog) {}
 
   requestFilter(request: any): string {
     let api = '';
@@ -88,26 +88,15 @@ export class ApiService {
     return this.http.post(path, body).pipe();
   }
 
-  // ... (other methods)
-
-
-  /*postToFile(path: string, body: any, file: any): Observable<any> {
-    const formData: FormData = new FormData();
-   
-
-    formData.append('archivo', file);
-
-    let params = new HttpParams();
-    params = params.append('archivo', file);
-
-    const req = new HttpRequest('POST', path, params, {
-      reportProgress: true,
-      responseType: 'json',
+  uploadFilesMultipartFile(formData: FormData, url: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
     });
-
-    return this.http.request(req);
+    return this.http.post(url, formData, { headers }).pipe(
+      catchError((error) => this.formatErrors(error))
+    );
   }
-*/
   postToFile(path: string, body: ImagenTemp): Observable<any> {
     return this.http.post(path, body).pipe(
       catchError((error) => {
@@ -117,17 +106,17 @@ export class ApiService {
     );
   }
   postFile(path: string, body: FormData): Observable<any> {
+    
+    console.log(`POST to File Request: ${path} with body:`, body);  // Imprime el cuerpo de la solicitud POST a archivos
+    for (const pair of body.entries()) {
+      console.log(`${pair[0]}:`, pair[1]);
+    }
     return this.http.post(path, body).pipe(
       catchError((error) => {
+        console.log(`POST `, error); 
         return this.formatErrors(error);
       })
     );
-  }
-  createFormdata(imagenTemp: ImagenTemp) {
-    const formdata = new FormData();
-    //    const json = JSON.stringify(body);
-    //formdata.append('archivo', imagenTemp?.imagenTempFile?.file);
-    return formdata;
   }
   putHTML(path: string, body: object = {}): Observable<any> {
     return this.http

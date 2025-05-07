@@ -78,13 +78,16 @@ export class AuthenticationService extends AuthenticationRepository {
   /**
    * Logs out the user and clears the session.
    */
+
   logout(): void {
+    
     if (this.isBrowser) {
       localStorage.removeItem('usuario');
       localStorage.removeItem('token');
+      localStorage.clear(); // por si acaso hay más cosas relacionadas
     }
     this.currentUserSubject.next(null);
-    this.router.navigate(['/login']);
+
   }
 
   /**

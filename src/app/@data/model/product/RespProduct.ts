@@ -15,6 +15,7 @@ export interface RespProduct {
 
   // Supplier & Manufacturer
   supplierId: string;
+  supplierName: string;
   manufacturer: string;
   brand: string;
 
@@ -32,9 +33,7 @@ export interface RespProduct {
 
   // Status & Audit
   status: boolean;
-  createdAt: string;
-  updatedAt: string;
-  audit: AuditEntity;
+
 }
 
 // Subtypes
@@ -72,9 +71,4 @@ export interface ProductMedia {
   seoDescription: string;
 }
 
-export interface AuditEntity {
-  codUser: string;
-  mail: string;
-  dateRegister?: string;
-  dateUpdate?: string;
-}
+

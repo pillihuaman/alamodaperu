@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from './api.service';
-import { Product } from '../model/product/product';
 import { RequestBody } from '../model/general/requestBody';
 import { ResponseBody } from '../model/general/responseBody';
 import { Const } from './../../utils/const';
 import { ProductRepository } from '../../@domain/repository/repository/ProductRepository';
 import { RespProduct } from '../model/product/RespProduct';
+import { ReqProduct } from '../model/product/ReqProduct';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +38,7 @@ export class ProductService extends ProductRepository {
     return this.apiService.get(url);
   }
 
-  override saveProduct(product: Product): Observable<RespProduct> {
+  override saveProduct(product: ReqProduct): Observable<RespProduct> {
     const request: RequestBody = { data: product, trace: { traceId: '01' } };
     const url = `${Const.API_SUPPORT}/${Const.URL_TYPE_ACCES_PRIVATE}/v1/support/product`;
     return this.apiService.post(url, request);

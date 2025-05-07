@@ -136,3 +136,11 @@ table {
   background: rgb(20, 133, 185);
   color: white;
 }
+.truncate {
+  display: inline-block;
+  max-width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}

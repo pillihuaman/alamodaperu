@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup } from '@angul
 import { Router, RouterModule } from '@angular/router';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { NbMomentDateModule } from '@nebular/moment';
-import { NbButtonModule, NbCardModule, NbInputModule, NbIconModule, NbDatepickerModule, NbTimepickerModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbInputModule, NbIconModule, NbDatepickerModule, NbTimepickerModule, NbDialogService } from '@nebular/theme';
 import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
 import { TableDatasourceComponent } from '../../../@common-components/table-datasource/table-datasource.component';
 import { BaseImplementation } from '../../../../utils/baseImplementation';
@@ -14,6 +14,7 @@ import { RespSupplier } from '../../../../@data/model/supplier/resp-supplier.mod
 import { SpinnerService } from '../../../../@data/services/spinner.service';
 import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
 import { SupplierRepository } from '../../../../@domain/repository/repository/supplier.repository';
+import { ModalComponent } from '../../../@common-components/modal/modal.component';
 
 @Component({
   selector: 'app-supplier',
@@ -46,9 +47,9 @@ export class SupplierComponent extends BaseImplementation<any> implements OnInit
     private supplierRepository: SupplierRepository,
     modalRepository: ModalRepository,
     spinnerService: SpinnerService,
-    private router: Router
+    private router: Router, dialogService: NbDialogService,
   ) {
-    super(modalRepository, spinnerService);
+    super(modalRepository, spinnerService, dialogService);
   }
 
   ngOnInit(): void {
@@ -67,15 +68,15 @@ export class SupplierComponent extends BaseImplementation<any> implements OnInit
     const formValue = this.unifiedForm.value as ReqSupplier;
 
     this.spinnerService.show();
-    debugger
+
     this.supplierRepository.listSuppliers({
       ...formValue,
       page: this.page,
       pagesize: this.pageSize
     }).subscribe({
       next: (res) => {
-        debugger
-        const rows = res || []; 
+
+        const rows = res || [];
         this.results = this.customizePropertyNames(rows, this.columnMapping());
         this.setDefaultColumns(this.results);
         this.updateHasMorePagesT(this.results.length > 0);
@@ -90,7 +91,7 @@ export class SupplierComponent extends BaseImplementation<any> implements OnInit
 
   columnMapping(): { [key: string]: string } {
     return {
-      id: 'Supplier ID',
+      id: 'ID',
       name: 'Name',
       ruc: 'RUC',
       address: 'Address',
@@ -98,6 +99,7 @@ export class SupplierComponent extends BaseImplementation<any> implements OnInit
       phone: 'Phone',
       country: 'Country',
       status: 'Status',
+      contacts: 'Contacts',
     };
   }
 
@@ -108,16 +110,14 @@ export class SupplierComponent extends BaseImplementation<any> implements OnInit
   }
 
   onNewSupplier(): void {
-    this.router.navigate(['/support/supplier/detail']);
+    this.router.navigate(['/support/supplier/detail', 'new']);
+
   }
 
-  handleEditAction(row: TreeNode<any>) {
-    const id = row?.data?.id;
-    if (id) this.router.navigate(['/support/supplier/detail', id]);
-  }
+  deletings(event: any) {
 
-  deleting(event: any) {
     const dialogRef = this.openDeleteModal(event);
+    dialogRef.componentRef.instance.rowData = event;
     dialogRef.componentRef.instance.deleteConfirmed.subscribe(() => {
       const id = event.data.id;
       this.supplierRepository.deleteSupplier(id).subscribe(() => {
@@ -126,4 +126,41 @@ export class SupplierComponent extends BaseImplementation<any> implements OnInit
       });
     });
   }
+
+  deleting(event: any) {
+    
+    const dialogRef = this.dialogService.open(ModalComponent, {
+      context: {
+        rowData: {
+          ...event.data,
+          typeDescription: 'QUESTION', // Aquí agregas el campo que tu modal necesita
+          description: event.data.Name, // Agrega tú manualmente
+        },
+      }
+    });
+
+    dialogRef.onClose.subscribe((result) => {
+      if (result === 'deleteConfirmed') {
+        
+        const id = event.data.ID;
+        this.supplierRepository.deleteSupplier(id).subscribe(() => {
+          this.showSuccessMessage("Supplier deleted successfully", "Success");
+          this.loadSupplierData();
+        });
+      }
+    });
+  }
+  handleEditAction(row: TreeNode<any>) {
+    const id = row?.data?.ID;
+    console.log('Row ID:', id);
+    if (id) {
+      this.router.navigate([`/support/supplier/detail/${id}`]);
+    } else {
+      console.error('ID is undefined for the row');
+    }
+  }
+  
+  
+
+
 }

@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { 
-  NbIconModule, NbSortDirection, NbSortRequest, NbTreeGridDataSource, NbTreeGridDataSourceBuilder, NbTreeGridModule 
+  NbIconModule, NbSortDirection, NbSortRequest, NbTooltipModule, NbTreeGridDataSource, NbTreeGridDataSourceBuilder, NbTreeGridModule 
 } from '@nebular/theme';
 import { GeneralConstans } from '../../../utils/generalConstant';
 import { NebularSharedModule } from '../../../@domain/nebular-shared.module';
@@ -17,7 +17,7 @@ interface TreeNode<T> {
 @Component({
   selector: 'app-table-datasource',
   standalone: true,
-  imports: [CommonModule, NebularSharedModule, NbTreeGridModule, NbIconModule],
+  imports: [CommonModule, NebularSharedModule, NbTreeGridModule, NbIconModule,NbTooltipModule],
   templateUrl: './table-datasource.component.html',
   styleUrls: ['./table-datasource.component.scss']
 })
@@ -129,6 +129,7 @@ export class TableDatasourceComponent implements OnInit, OnChanges {
   }
 
   onEdit(row: TreeNode<any>): void {
+    
     this.editAction.emit(row);
   }
 
@@ -164,4 +165,33 @@ export class TableDatasourceComponent implements OnInit, OnChanges {
   onLoadMore(): void {
     this.loadMoreData.emit(500);
   }
+  isArray(value: any): boolean {
+    return Array.isArray(value);
+  }
+  
+
+  
+  objectKeys(obj: any): string[] {
+    return obj ? Object.keys(obj) : [];
+  }
+
+
+  isObject(value: any): boolean {
+    return value && typeof value === 'object' && !Array.isArray(value);
+  }
+  
+  getFirstFieldValue(obj: any): string {
+    const keys = Object.keys(obj || {});
+    return keys.length > 0 ? obj[keys[0]] : '';
+  }
+  
+  getTooltipText(obj: any): string {
+    if (!obj || typeof obj !== 'object') return '';
+    return Object.entries(obj)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join('\n');
+  }
+  
+  
+  
 }

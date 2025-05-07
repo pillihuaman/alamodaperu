@@ -20,18 +20,19 @@ export const routes: Routes = [
     canActivate: [NotauthGuard], // 🚫 Prevents logged-in users from accessing auth pages
     children: [
       { path: 'login', loadComponent: () => import('./@presentation/auth/user/login/login.component').then(m => m.LoginComponent) },
-      { path: 'user-register', loadComponent: () => import('./@presentation/auth/user/user-register/user-register.component').then(m => m.UserRegisterComponent) },
+      { path: 'register', loadComponent: () => import('./@presentation/auth/user/user-register/user-register.component').then(m => m.UserRegisterComponent) },
     ],
   },
   {
     path: 'support',
     component: PageComponent,
-   // canActivate: [AuthGuard], // ⛔ Protected: Requires authentication
+ //  canActivate: [AuthGuard], // ⛔ Protected: Requires authentication
     children: [
      // { path: 'product', loadComponent: () => import('./@presentation/pages/support/register-product/register-product.component').then(m => m.RegisterProductComponent) },
       { path: 'imagen-product', loadComponent: () => import('./@presentation/pages/support/register-image-by-product/register-image-by-product.component').then(m => m.RegisterImageByProductComponent) },
       { path: 'product', loadComponent: () => import('./@presentation/pages/support/product/product.component').then(m => m.ProductComponent) },
-      { path: 'products/detail', loadComponent: () => import('./@presentation/pages/support/product/detail-product/detail-product.component').then(m => m.DetailProductComponent) },
+      { path: 'product/detail/:id',
+         loadComponent: () => import('./@presentation/pages/support/product/detail-product/detail-product.component').then(m => m.DetailProductComponent) },
 
       { path: 'control', loadComponent: () => import('./@presentation/pages/support/register-control/register-control.component').then(m => m.RegisterControlComponent) },
       { path: 'parameter', loadComponent: () => import('./@presentation/pages/support/parameters/parameters.component').then(m => m.ParametersComponent) },
@@ -44,8 +45,9 @@ export const routes: Routes = [
       { path: 'page/detail', loadComponent: () => import('./@presentation/pages/system/page-detail/page-detail.component').then(m => m.PageDetailComponent) }, 
       { path: 'menu/detail', loadComponent: () => import('./@presentation/pages/system/menu-detail/menu-detail.component').then(m => m.MenuDetailComponent) }, 
       { path: 'supplier', loadComponent: () => import('./@presentation/pages/support/supplier/supplier.component').then(m => m.SupplierComponent) }, 
-      { path: 'supplier/detail', loadComponent: () => import('./@presentation/pages/support/supplier/detail-supplier/detail-supplier.component').then(m => m.DetailSupplierComponent) }, 
-   
+      {  path: 'supplier/detail/:id',
+         loadComponent: () => import('./@presentation/pages/support/supplier/detail-supplier/detail-supplier.component').then(m => m.DetailSupplierComponent) }, 
+
     ],
   },
   { path: '**', redirectTo: 'home/main', pathMatch: 'full' }, // Redirect unknown routes to home

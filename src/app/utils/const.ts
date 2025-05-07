@@ -16,7 +16,9 @@ export class Const {
   public static API_IMAGEN: string;
   public static URL_TYPE_ACCES_PRIVATE: any;
   public static URL_TYPE_ACCES_PUBLIC: any;
+  public static URL_TYPE_ACCES_IMG_AWS: any;
   public static KEY = '@@@@@dddd....dont be evil.....';
+    static API_FILE_IA: any;
 
   constructor(private http: HttpClient) {}
 
@@ -32,7 +34,8 @@ export class Const {
       Const.URL_TYPE_ACCES_PUBLIC = config.acces_public;
       Const.URL_TYPE_ACCES_PRIVATE = config.acces_private;
       Const.API_IMAGEN = config.public_base_url_imagen;
-      Const.API_INTELLIGENCY_ARTIFICIAL = config.public_base_url_ingelligency_artificial;
+      Const.API_INTELLIGENCY_ARTIFICIAL = config.public_base_url_file_IA;
+      Const.URL_TYPE_ACCES_IMG_AWS = config.public_access_catalogo_img_aws;
     } catch (error) {
       console.error('Error al cargar configuración común:', error);
     }

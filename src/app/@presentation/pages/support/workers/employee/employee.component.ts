@@ -71,9 +71,9 @@ export class EmployeeComponent extends BaseImplementation<EmployeeResponse> impl
      spinnerService: SpinnerService,
     private datePipe: DatePipe,
     private employeeService: EmployeeService,
-
+    dialogService: NbDialogService,
   ) {
-    super(modalRepository,spinnerService); // ✅ Pass dialogService to the parent class
+    super(modalRepository, spinnerService,dialogService);
     this.employeRequest = {
       finishDateFormatted: '',
       startDateFormatted: '',

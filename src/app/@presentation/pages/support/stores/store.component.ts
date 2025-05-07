@@ -48,10 +48,10 @@ export class StoreComponent extends BaseImplementation<any> implements OnInit {
     private fb: FormBuilder,
     modalRepository: ModalRepository,
     spinnerService: SpinnerService,
-    private storeService: StoreService,
+    private storeService: StoreService,    dialogService: NbDialogService,
  
   ) {
-    super( modalRepository, spinnerService); // ✅ Pass dialogService to the parent class
+    super( modalRepository, spinnerService,dialogService); // ✅ Pass dialogService to the parent class
   }
 
   ngOnInit(): void {

@@ -50,9 +50,9 @@ export class EmployeeDetailComponent extends BaseImplementation<EmployeeResponse
     private supportService: SupportRepository,
      modalRepository: ModalRepository,
     override dialogRef: NbDialogRef<EmployeeDetailComponent>,
- 
+    dialogService: NbDialogService,
   ) {
-    super(modalRepository,spinnerService);
+    super(modalRepository,spinnerService,dialogService);
     this.dialogRef = dialogRef;
   }
 

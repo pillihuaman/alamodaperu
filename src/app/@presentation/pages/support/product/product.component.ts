@@ -16,6 +16,7 @@ import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { Utils } from '../../../../utils/utils';
 // Añadir esto al principio
 import { Router } from '@angular/router';
+import { ModalComponent } from '../../../@common-components/modal/modal.component';
 
 @Component({
   selector: 'app-product',
@@ -48,10 +49,10 @@ export class ProductComponent extends BaseImplementation<any> implements OnInit 
     private fb: FormBuilder,
      modalRepository: ModalRepository,
      spinnerService: SpinnerService,
-    private productService: ProductService,
+    private productService: ProductService,    dialogService: NbDialogService,
   private router: Router
   ) {
-    super(modalRepository,spinnerService); // ✅ Pass dialogService to the parent class
+    super(modalRepository,spinnerService,dialogService); // ✅ Pass dialogService to the parent class
   }
 
   ngOnInit(): void {
@@ -73,12 +74,20 @@ export class ProductComponent extends BaseImplementation<any> implements OnInit 
   columnMapping(): { [key: string]: string } {
     return {
       id: 'ID',
-      name: 'Product Name',
-      price: 'Price',
-      stock: 'Stock',
-      category: 'category',
+      name: 'Name',
+      description: 'Description',
       barcode: 'Barcode',
+      supplierName: 'Supplier',
+      sizes: 'Sizes',
+      expirationDate: 'Expiration Date',
+      manufacturingDate: 'Manufacturing Date',
+      pricing: 'Pricing',
+      inventory: 'Inventory',
+      category: 'Category',
     };
+  
+  
+
   }
 
   private loadProducts(): void {
@@ -166,20 +175,23 @@ export class ProductComponent extends BaseImplementation<any> implements OnInit 
   }
 
     onNewClick(): void {
-      this.router.navigate(['/support/products/detail']);
+      this.router.navigate(['/support/product/detail', 'new']);
+
 
     }
 
     handleEditAction(row: TreeNode<any>): void {
+      
       if (!row?.data?.ID) {
         console.warn("Invalid product data.");
         return;
       }
       const productId = row.data.ID;
-      this.router.navigate(['/support/products/detail', productId]);
+      this.router.navigate(['support/product/detail', productId]);
     }
     
   handleDeleteAction(row: TreeNode<any>): void {
+    
     console.log('Deleting:', row);
     if (row.data.ID !== undefined) {
       const id: String = row.data.ID;
@@ -203,10 +215,24 @@ export class ProductComponent extends BaseImplementation<any> implements OnInit 
       );
     }
   }
+
   deleting(event: any) {
-    const dialogRef = this.openDeleteModal(event); // ✅ Use `this.`
-    dialogRef.componentRef.instance.deleteConfirmed.subscribe(() => {
-      this.handleDeleteAction(event);
+    const dialogRef = this.dialogService.open(ModalComponent, {
+      context: {
+        rowData: {
+          ...event.data,
+          typeDescription: 'QUESTION',
+          description: `"${event.data.Name}"?`,
+        },
+      }
+    });
+  
+    dialogRef.onClose.subscribe((result) => {
+      if (result === 'deleteConfirmed') {
+        
+        this.handleDeleteAction(event); // Usa el método correctamente implementado
+        this.findProductProcess();
+      }
     });
   }
   

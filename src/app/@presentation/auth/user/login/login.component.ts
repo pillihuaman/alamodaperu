@@ -10,6 +10,7 @@ import { AuthenticationRepository } from '../../../../@domain/repository/reposit
 import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
 import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
 import { User } from '../../../../@data/model/User/user';
+import { AuthStateService } from '../../../../@data/services/AuthStateService';
 
 @Component({
   selector: 'app-login',
@@ -44,7 +45,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationRepository,
     private router: Router,
     private supportService: SupportService,
-    private modalRepository: ModalRepository
+    private modalRepository: ModalRepository,  private authStateService: AuthStateService
   ) {
     // Inicialización de loginForm en el constructor
     this.loginForm = this.formBuilder.group({
@@ -68,11 +69,13 @@ export class LoginComponent implements OnInit {
   submit() {
     try {
       this.hasError = false;
+      
       const loginSubscr = this.authService
         .login(this.f['user'].value, this.f['password'].value)
         .pipe(first())
         .subscribe((user: User) => {
           if (user) {
+            this.authStateService.setLoginState(true);
             this.router.navigate([this.returnUrl]);
           } else {
             this.hasError = true;

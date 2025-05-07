@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup } from '@angul
 import { Router, RouterModule } from '@angular/router';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { NbMomentDateModule } from '@nebular/moment';
-import { NbButtonModule, NbCardModule, NbInputModule, NbIconModule, NbDatepickerModule, NbTimepickerModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbInputModule, NbIconModule, NbDatepickerModule, NbTimepickerModule, NbDialogService } from '@nebular/theme';
 import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
 import { TableDatasourceComponent } from '../../../@common-components/table-datasource/table-datasource.component';
 import { Page } from '../../../../@data/model/system/Page';
@@ -44,9 +44,9 @@ export class PageDetailComponent extends BaseImplementation<any> implements OnIn
   constructor(    modalRepository: ModalRepository,
       spinnerService: SpinnerService,
     private fb: FormBuilder,
-    private systemService: SystemService, private router: Router
+    private systemService: SystemService, private router: Router,    dialogService: NbDialogService,
   ) {
-    super(modalRepository, spinnerService);
+    super(modalRepository, spinnerService,dialogService);
   }
 
   ngOnInit(): void {

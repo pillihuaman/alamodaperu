@@ -65,19 +65,17 @@ export class SupplierService implements SupplierRepository {
   }
 
   // Buscar proveedor por nombre
-  findSuppliersByName(name: string): Observable<RespSupplier[]> {
+  findSuppliersByName(name: string): Observable<ResponseBody> {
     const url = `${Const.API_SUPPORT}/${Const.URL_TYPE_ACCES_PRIVATE}/v1/support/supplier/search`;
     const params = { name };
-
+  
     return new Observable(observer => {
       this.apiService.get(url, params).subscribe((response: ResponseBody) => {
-        const suppliers = response.payload as RespSupplier[];
-        observer.next(suppliers);
+        observer.next(response);  // No toques el response, mándalo tal cual
         observer.complete();
       }, err => observer.error(err));
     });
   }
-
   // Métodos reactivos opcionales si quieres
   fetchSuppliers(filters: ReqSupplier) {
     this.listSuppliers(filters).subscribe(suppliers => {

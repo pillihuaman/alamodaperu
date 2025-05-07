@@ -1,6 +1,6 @@
 
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { NbLayoutModule, NbSidebarModule, NbButtonModule, NbThemeService, NbSidebarService, NbDatepickerModule, NbDialogModule, NbMenuItem, NbIconModule } from '@nebular/theme';
 import { CommonModule } from '@angular/common';
 import { NebularSharedModule } from './@domain/nebular-shared.module';
@@ -11,6 +11,10 @@ import { System } from './@data/model/system/System';
 import { RespMenuTree } from './@data/model/system/RespMenuTree';
 import { ResponseBody } from './@data/model/general/responseBody';
 import { Utils } from './utils/utils';
+import { AuthStateService } from './@data/services/AuthStateService';
+
+import { AuthenticationService } from './@data/services/authentication.service';
+import { AuthenticationRepository } from './@domain/repository/repository/authentication.repository';
 @Component({
   selector: 'serv-pillihuaman-app',
   templateUrl: './app.component.html',
@@ -27,28 +31,38 @@ export class AppComponent implements OnInit {
   searchQuery: string = '';
   themes = ['default', 'cosmic', 'corporate', 'dark'];
   selectedTheme = 'default';
+  showMenu: boolean = false;
   menuTree: NbMenuItem[] = [];
+  private authenticationService = inject(AuthenticationService);
   constructor(
     private router: Router,
     private sidebarService: NbSidebarService,
     private nbThemeService: NbThemeService, private http: HttpClient, private cdRef: ChangeDetectorRef,
-    private systemService: SystemService
+    private systemService: SystemService,    private authStateService: AuthStateService
 
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
+
+        this.authStateService.isLoggedIn$.subscribe((loggedIn: boolean) => {
+          this.showMenu = loggedIn;
+          if (loggedIn) {
+            this.loadSystemsMenu();
+          }
+          this.cdRef.detectChanges(); // forza actualización de UI
+        });
+
+        
         console.log('Current Route:', event.url);
       }
     });
     console.log('init page component');
-    this.loadSystemsMenu();
-
   }
   ngOnInit(): void {
     console.log('init page compone')
   }
   loadSystemsMenu(): void {
-    this.systemService.findSystemMenuTree().subscribe(
+   this.systemService.findSystemMenuTree().subscribe(
       (response: ResponseBody) => {
         console.log('MenuTree cargado:', response.payload);
         
@@ -112,6 +126,15 @@ export class AppComponent implements OnInit {
   }
 
 
+  onLogout(): void {
+    
+    this.authenticationService.logout();
+    this.authStateService.logout(); // Esto pone isLoggedIn$ en false
+    window.location.reload();
+
+  }
+  
+  
 
   onLogin() {
     this.router.navigate(['/auth/login']);

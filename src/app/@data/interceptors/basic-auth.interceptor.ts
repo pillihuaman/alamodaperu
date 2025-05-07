@@ -22,10 +22,14 @@ export class BasicAuthInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const isFormData = request.body instanceof FormData
     const headersConfig: any = {
-      'Content-Type': 'application/json',
       Accept: 'application/json',
     };
+  if (!isFormData) {
+    headersConfig['Content-Type'] = 'application/json'; // ✅ Solo si NO es FormData
+  }
+
 
     if (!request.headers.has('Authorization')) {
       let token: string | null = null;

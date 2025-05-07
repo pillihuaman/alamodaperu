@@ -17,35 +17,71 @@
         </ng-container>
 
         <ng-container *ngFor="let column of defaultColumns" [nbTreeGridColumnDef]="column">
-
           <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef [nbSortHeader]="column"
-            (click)="updateSort({ column: column, direction: getNextSortDirection(column) })">
+              (click)="updateSort({ column: column, direction: getNextSortDirection(column) })">
             {{ column }}
             <nb-icon [icon]="getSortIcon(column)"></nb-icon>
           </th>
 
-          <td nbTreeGridCell *nbTreeGridCellDef="let row">{{ row.data[column] || '-' }}</td>
+          <td nbTreeGridCell *nbTreeGridCellDef="let row">
+            <ng-container *ngIf="isArray(row.data[column]); else singleValue">
+              <div *ngFor="let item of row.data[column]" class="list-item">
+                <div *ngIf="isObject(item)">
+                  <div *ngFor="let key of objectKeys(item)">
+                    <strong>{{ key }}:</strong> {{ item[key] }}
+                  </div>
+                  <hr />
+                </div>
+                <div *ngIf="!isObject(item)">
+                  {{ item }}
+                </div>
+              </div>
+            </ng-container>
+
+            <ng-template #singleValue>
+              <div *ngIf="isObject(row.data[column]); else primitiveValue">
+                <div *ngFor="let key of objectKeys(row.data[column])">
+                  <strong>{{ key }}:</strong> {{ row.data[column][key] }}
+                </div>
+              </div>
+              <ng-template #primitiveValue>
+                <ng-container *ngIf="isObject(row.data[column]); else simpleValue">
+                  <span
+                    class="truncate"
+                    [nbTooltip]="getTooltipText(row.data[column])">
+                    {{ getFirstFieldValue(row.data[column]) || '-' }}
+                  </span>
+                </ng-container>
+              
+                <ng-template #simpleValue>
+                  <span class="truncate" [nbTooltip]="row.data[column]">
+                    {{ row.data[column] || '-' }}
+                  </span>
+                </ng-template>
+              </ng-template>
+              
+              
+              
+            </ng-template>
+          </td>
         </ng-container>
       </table>
 
       <div class="pagination-container">
-          <button nbButton ghost (click)="onLoadMore()">
-            <nb-icon icon="rewind-left-outline"></nb-icon>
-
-          </button>
+        <button nbButton ghost (click)="onLoadMore()">
+          <nb-icon icon="rewind-left-outline"></nb-icon>
+        </button>
         <button nbButton ghost (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">
           <nb-icon icon="chevron-left"></nb-icon>
         </button>
         <span>Page {{ currentPage }}</span>
         <button nbButton ghost (click)="onPageChange(currentPage + 1)"
-          [disabled]="filteredData.length <= currentPage * pageSize">
+                [disabled]="filteredData.length <= currentPage * pageSize">
           <nb-icon icon="chevron-right"></nb-icon>
         </button>
-          <button nbButton ghost (click)="onLoadMore()">
-            <nb-icon icon="rewind-right-outline"></nb-icon>
-
-          </button>
-
+        <button nbButton ghost (click)="onLoadMore()">
+          <nb-icon icon="rewind-right-outline"></nb-icon>
+        </button>
       </div>
     </div>
 
@@ -54,6 +90,5 @@
         <p>No data available. Please add some entries or adjust your search.</p>
       </div>
     </ng-template>
-
   </nb-card-body>
 </nb-card>

@@ -21,7 +21,7 @@
       </ng-container>
       <ng-container *ngIf="rowData.typeDescription === 'INFO'">
         <!-- HTML content specific to INFO type -->
-        Information message here...
+        <p>{{ rowData.description | json }}</p>
       </ng-container>
       <ng-container *ngIf="rowData.typeDescription === 'QUESTION'">
         <!-- HTML content specific to WARNING type -->

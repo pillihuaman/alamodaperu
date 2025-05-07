@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NbCardModule, NbIconModule, NbDialogRef } from '@nebular/theme';
 
@@ -10,19 +10,25 @@ import { NbCardModule, NbIconModule, NbDialogRef } from '@nebular/theme';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent {
-  @Output() deleteConfirmed = new EventEmitter<void>();
-  rowData: any;
+@Input() rowData: any; 
 
-  constructor(@Inject(NbDialogRef) protected dialogRef: NbDialogRef<ModalComponent>) {}
+  constructor(@Inject(NbDialogRef) protected dialogRef: NbDialogRef<ModalComponent>) {
+
+    console.log(this.rowData)
+
+  }
+  ngOnInit(): void {
+    ;
+    console.log(this.rowData);  // Aquí sí estará disponible
+  }
 
   cancelar() {
-    this.dialogRef.close();
+    this.dialogRef.close(); // Cancel just closes
   }
 
   deleteInformation() {
-    this.deleteConfirmed.emit();
-    console.log('Deleting information...');
-    this.dialogRef.close();
+    
+    this.dialogRef.close('deleteConfirmed'); // OK button sends result
   }
 
   getIconClass(typeDescription: string): string {
@@ -34,7 +40,7 @@ export class ModalComponent {
       case 'QUESTION':
         return 'question-icon';
       default:
-        return ''; 
+        return '';
     }
   }
 }

@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup } from '@angul
 import { Router, RouterModule } from '@angular/router';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { NbMomentDateModule } from '@nebular/moment';
-import { NbButtonModule, NbCardModule, NbInputModule, NbIconModule, NbDatepickerModule, NbTimepickerModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbInputModule, NbIconModule, NbDatepickerModule, NbTimepickerModule, NbDialogService } from '@nebular/theme';
 import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
 import { TableDatasourceComponent } from '../../../@common-components/table-datasource/table-datasource.component';
 import { MenuItem } from '../../../../@data/model/system/MenuItem';
@@ -47,10 +47,10 @@ export class MenuDetailComponent extends BaseImplementation<any> implements OnIn
     private fb: FormBuilder,
     private systemService: SystemService,    modalRepository: ModalRepository, private router: Router,
         spinnerService: SpinnerService,
-  ) {
-    super(modalRepository, spinnerService);
-  }
-
+        dialogService: NbDialogService,
+      ) {
+        super(modalRepository, spinnerService,dialogService);
+      }
   ngOnInit(): void {
     this.menuForm = this.fb.group({
       id: [''],

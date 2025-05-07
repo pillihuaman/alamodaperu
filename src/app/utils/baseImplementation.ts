@@ -25,9 +25,12 @@ export class BaseImplementation<T = any> implements BaseRepository {
   isRegisterEmployeeExpanded: boolean = false;
  protected modalRepository: ModalRepository;
   protected spinnerService: SpinnerService;
-  constructor( modalRepository: ModalRepository,spinnerService: SpinnerService) {
+  protected dialogService: NbDialogService;
+  constructor( modalRepository: ModalRepository,spinnerService: SpinnerService,dialogService: NbDialogService) {
     this.modalRepository = modalRepository;
     this.spinnerService = spinnerService;
+    this.dialogService = dialogService;
+
   }
   customizePropertyNames(data: any[], columnNamesMapping: { [key: string]: string }): TreeNode<any>[] {
 
@@ -136,9 +139,8 @@ export class BaseImplementation<T = any> implements BaseRepository {
       typeDescription: ModalType.QUESTION.toString()
     };
 
-    return null;// this.dialogService.open(ModalComponent, {
-     //context: { rowData: modal } as any
-    //});
+     return this.dialogService.open(ModalComponent, { context: { rowData: modal } as any });
+
   }
 
   showNoDataMessage() {

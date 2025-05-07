@@ -37,9 +37,9 @@ export class StoreDetailComponent extends BaseImplementation<RespStore> implemen
     spinnerService: SpinnerService,
     private storeService: StoreService,
     modalRepository: ModalRepository,
-    override dialogRef: NbDialogRef<StoreDetailComponent>,
+    override dialogRef: NbDialogRef<StoreDetailComponent>,    dialogService: NbDialogService,
   ) {
-    super( modalRepository, spinnerService);
+    super( modalRepository, spinnerService,dialogService);
   }
 
   ngOnInit(): void {
@@ -81,7 +81,7 @@ export class StoreDetailComponent extends BaseImplementation<RespStore> implemen
 
 
   onSubmit() {
-debugger
+
     const formValues = {
       ...this.formData.value,
     };
