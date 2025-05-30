@@ -6,8 +6,8 @@ import { RequestBody } from '../model/general/requestBody';
 import { ResponseBody } from '../model/general/responseBody';
 import { Const } from './../../utils/const';
 import { ProductRepository } from '../../@domain/repository/repository/ProductRepository';
-import { RespProduct } from '../model/product/RespProduct';
-import { ReqProduct } from '../model/product/ReqProduct';
+import { RespProduct } from '../model/product/resp-product';
+import { ReqProduct } from '../model/product/req-product';
 
 @Injectable({
   providedIn: 'root',

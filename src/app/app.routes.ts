@@ -8,7 +8,7 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent, 
-    canActivate: [AuthGuard], // ⛔ Protected: Requires authentication
+   //canActivate: [AuthGuard], // ⛔ Protected: Requires authentication
     children: [
       { path: 'main', loadComponent: () => import('./@presentation/home/main/main-page/main-page.component').then(m => m.MainPageComponent) },
       { path: 'detail', loadComponent: () => import('./@presentation/home/main/detail-main-page/detail-main-page.component').then(m => m.DetailMainPageComponent) },

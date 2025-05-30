@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { SupportService } from '../../../@data/services/support.service';
-import { Const } from '../../../utils/const';
-import { HttpClientModule } from '@angular/common/http';
 import { NbButtonModule} from '@nebular/theme';
 import { RouterModule } from '@angular/router';
 import { NebularSharedModule } from '../../../@domain/nebular-shared.module';
@@ -17,20 +15,22 @@ import { NebularSharedModule } from '../../../@domain/nebular-shared.module';
       NbButtonModule,
       NebularSharedModule ], // Importar módulos necesarios
 })
-export class ImagenCatchInformationComponent implements OnInit {
+export class ImagenCatchInformationComponent {
+  @Input() image: any;
+  @Input() urlImagen?: string;
+
   constructor(private supportService: SupportService) {}
 
-  @Input() image: any;
-  urlApiImagen: string = `${Const.API_IMAGEN}/v1/imagen/getImagen?codImagen=`;
-  @Input() urlImagen?: any;
-
-  ngOnInit(): void {
-    if (this.image) {
-      console.log(this.image);
-      console.log(this.image.firstObject);
-      console.log(this.image.attr);
-    }
+  dataget() {
+    console.log('Guardando clic en imagen:', this.image);
+    this.supportService.saveClickCountImagen(this.image).subscribe({
+      next: (value) => console.log('Click registrado:', value),
+      error: (err) => console.error('Error al guardar el clic:', err),
+    });
   }
+
+
+
 
   clickCount(event: any) {
     console.log(event);
@@ -40,17 +40,4 @@ export class ImagenCatchInformationComponent implements OnInit {
     return str1.concat(str2);
   }
 
-  dataget() {
-    console.log(this.image);
-    this.supportService.saveClickCountImagen(this.image).subscribe(
-      (value) => {
-        if (value) {
-          console.log(JSON.stringify(value));
-        }
-      },
-      (error) => {
-        console.error('Error al guardar el conteo de clics', error);
-      }
-    );
-  }
 }

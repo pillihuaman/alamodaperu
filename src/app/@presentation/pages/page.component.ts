@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NbButtonModule } from '@nebular/theme';
+import { NbButtonModule, NbLayoutModule } from '@nebular/theme';
 import { NebularSharedModule } from '../../@domain/nebular-shared.module';
 @Component({
   selector: 'app-page',
@@ -12,7 +12,7 @@ import { NebularSharedModule } from '../../@domain/nebular-shared.module';
   imports: [
     CommonModule,
     RouterModule, // ✅ Se agrega para que reconozca <router-outlet>
-    NbButtonModule,NebularSharedModule, NbButtonModule
+    NbButtonModule,NebularSharedModule, NbButtonModule,    NbLayoutModule,
   ]
 })
 export class PageComponent {

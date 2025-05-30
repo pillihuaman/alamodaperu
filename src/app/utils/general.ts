@@ -56,17 +56,3 @@ export function setValidOrInvalidColors(items: any[], field: any) {
   });
   return items;
 }
-export const CURRENCIES = [
-  { code: 'USD', name: 'US Dollar' },
-  { code: 'EUR', name: 'Euro' },
-  { code: 'CNY', name: 'Chinese Yuan' },
-  { code: 'PEN', name: 'Peruvian Sol' },
-  { code: 'MXN', name: 'Mexican Peso' },
-  { code: 'COP', name: 'Colombian Peso' },
-  { code: 'CLP', name: 'Chilean Peso' },
-  { code: 'BRL', name: 'Brazilian Real' },
-  { code: 'GBP', name: 'British Pound' },
-  { code: 'JPY', name: 'Japanese Yen' },
-];
-export const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'];
-export const TYPEFile = ['CATALOG', 'IMAGE_ONLY'];

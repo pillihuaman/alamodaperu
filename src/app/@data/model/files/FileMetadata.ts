@@ -1,3 +1,6 @@
+import { SizeStock } from "../product/sizeStock";
+
+
 export interface FileMetadata {
     id?: string;
     filename: string;
@@ -9,6 +12,14 @@ export interface FileMetadata {
     userId: string;
     uploadTimestamp?: number;
     status?: boolean;
-    url?:string
-  }
+    order?:number
+    typeFile?:string
+    url?:string,
+    position?: string;
+    productId?: string; 
+   sizeStock?:  SizeStock[] ;
+
+}
+
+  
   

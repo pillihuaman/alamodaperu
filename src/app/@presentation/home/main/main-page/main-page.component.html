@@ -1,36 +1,41 @@
-<div class="container">
-  <div class="row">
-    <div
-      *ngFor="let listImagenes of lstIMf"
-      class="col-md-12 col-sm-12 col-lg-6 custom"
-      [attr.id]="listImagenes.tokenCol"
-    >
-      <div *ngIf="listImagenes.lstCorouseImages?.length" class="carousel-container">
-        <div *ngFor="let image of listImagenes.lstCorouseImages" class="imagenContainer">
-          <div *ngIf="image.indicators !== null || image.imageCountainerToken === selectCountainerToken">
-            <div (click)="changeImage(listImagenes, image)" [ngClass]="[image.imagetoken === selectToken ? 'row-left' : 'row-left-off']">
-              <span class="material-icons dot">arrow_back_ios</span>
-            </div>
+<nb-card>
+  <nb-card-header>Galería de Imágenes de Productos</nb-card-header>
+  <nb-card-body>
+    <div *ngIf="catalogImagesMetadata.length > 0; else noData">
+      <div class="gallery-grid">
+        <nb-card
+          *ngFor="let product of catalogImagesMetadata"
+          class="product-card"
+        >
+          <nb-card-header>{{ product.respProduct?.name || 'Producto sin nombre' }}</nb-card-header>
 
-            <app-imagen-catch-information
-              [ngClass]="[image.firstObject !== null ? 'image-active' : 'image-active-off']"
-              (click)="enviarData(image)"
-              (mouseover)="changeImage(listImagenes, image)"
-              [image]="image"
-              [attr.id]="image.imagetoken"
-            >
-            </app-imagen-catch-information>
-
-            <div (click)="changeImage(listImagenes, image)" [ngClass]="[image.imagetoken === selectToken ? 'row-right' : 'row-right-off']" [attr.id]="image.imageCountainerToken">
-              <span class="material-icons dot">arrow_forward_ios</span>
+          <nb-card-body>
+            <div class="images-wrapper" *ngIf="product?.respProduct?.fileMetadata?.length?.toString() ">
+              <div
+                class="image-box"
+                *ngFor="let image of product.respProduct?.fileMetadata ?? []"
+              >
+                <app-imagen-catch-information
+                  [urlImagen]="image?.url"
+                ></app-imagen-catch-information>
+              </div>
             </div>
-
-            <div (click)="changeImage(listImagenes, image)" [ngClass]="[image.imagetoken === selectToken ? 'row-detail' : 'row-right-off']" [attr.id]="image.imageCountainerToken">
-              <a [routerLink]="['/homedetail']" [state]="listImagenes">Ver Detalle</a>
+            <div *ngIf="!product.respProduct?.fileMetadata?.length">
+              <nb-alert status="info">Este producto no tiene imágenes.</nb-alert>
             </div>
-          </div>
-        </div>
+          </nb-card-body>
+
+          <nb-card-footer>
+            <div class="product-footer">
+              Producto ID: {{ product.respProduct?.id }}
+            </div>
+          </nb-card-footer>
+        </nb-card>
       </div>
     </div>
-  </div>
-</div>
+
+    <ng-template #noData>
+      <nb-alert status="warning">No hay imágenes disponibles.</nb-alert>
+    </ng-template>
+  </nb-card-body>
+</nb-card>

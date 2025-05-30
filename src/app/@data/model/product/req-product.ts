@@ -1,3 +1,6 @@
+import { FileMetadata } from "../files/fileMetadata";
+import { SizeStock } from "./sizeStock";
+
 export interface ReqProduct {
   id: string;
 
@@ -19,7 +22,7 @@ export interface ReqProduct {
   brand: string;
 
   // Sizes
-  sizes: SizeStock[];
+   fileMetadata?:FileMetadata[];
 
   // Batching & Production
   expirationDate: string;       // ISO Date string
@@ -37,10 +40,7 @@ export interface ReqProduct {
 
 // Subtypes
 
-export interface SizeStock {
-  size: string;
-  stock: number;
-}
+
 
 export interface ProductPricing {
   costPrice: number;

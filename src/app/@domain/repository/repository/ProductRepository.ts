@@ -1,8 +1,8 @@
 import { Observable } from "rxjs";
 import { ResponseBody } from "../../../@data/model/general/responseBody";
 import { Product } from "../../../@data/model/product/product";
-import { RespProduct } from "../../../@data/model/product/RespProduct";
-import { ReqProduct } from "../../../@data/model/product/ReqProduct";
+import { RespProduct } from "../../../@data/model/product/resp-product";
+import { ReqProduct } from "../../../@data/model/product/req-product";
 
 export abstract class ProductRepository {
   abstract findProducts(

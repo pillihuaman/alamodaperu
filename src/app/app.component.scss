@@ -22,6 +22,16 @@
 
     font-size: 1.2rem; /* Asegura tamaño adecuado de los íconos */
   }
+
+  ::ng-deep .colored-column-basic {
+  padding: 0 !important;
+  margin: 0 !important;
+  background-color: transparent; // O el fondo que tú desees
+  min-height: 100vh; // Asegura que ocupe el alto completo de la pantalla
+  width: 100%;
+  box-sizing: border-box; // Asegura que el padding no afecte el ancho total
+}
+
   
   /* Diseño responsivo 
   @media (max-width: 768px) {

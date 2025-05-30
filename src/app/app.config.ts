@@ -32,6 +32,14 @@ import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { NbMomentDateModule } from '@nebular/moment';
 import { SupplierService } from './@data/services/supplier.service';
 import { SupplierRepository } from './@domain/repository/repository/supplier.repository';
+import { CommonRepository } from './@domain/repository/repository/common.repository';
+import { CommonService } from './@data/services/common.service';
+import { ProductViewImagenRepository } from './@domain/repository/repository/product-view-imagen-repository';
+import { ProductViewImagenService } from './@data/services/product-view-imagen.service';
+import { FileRepository } from './@domain/repository/repository/file.repository';
+import { FileService } from './@data/services/file.service';
+import { ProductRepository } from './@domain/repository/repository/ProductRepository';
+import { ProductService } from './@data/services/ProductService';
 
 export function initConfig(constService: Const) {
   return () =>
@@ -88,6 +96,13 @@ export const appConfig: ApplicationConfig = {
     { provide: UserRepository, useClass: UserService },
     { provide: SupportRepository, useClass: SupportService },
     { provide: SupplierRepository, useClass: SupplierService } ,
+      { provide: CommonRepository, useClass: CommonService } ,
+     { provide: ProductViewImagenRepository, useClass: ProductViewImagenService } ,
+     { provide: FileRepository, useClass: FileService } ,
+
+     { provide: ProductRepository, useClass: ProductService } ,
+
+     
     Const,
     ApiService,
     DataService,

@@ -1,6 +1,7 @@
 import { ModalModel } from '../@data/model/User/modalModel';
 
 export class GeneralConstans {
+  public static tipoImagenCatalog: string = "CATALOG";
   public static successCode: number = 1;
   public static errorCode: number = 2;
   public static warningCode: number = 3;
@@ -17,6 +18,7 @@ export class GeneralConstans {
   public static typeSearchbynputEvent: String = 'ALLINPUTCLEAN';
   public static pageSizeTable: number = 50;
   public static currentPageTable: number = 1;
+    public static commonConstant: String = 'default';
   public static datamodelError: ModalModel = {
     code: GeneralConstans.errorCode,
     message: GeneralConstans.errorMessage,

@@ -11,7 +11,7 @@ import { TreeNode } from '../../../../@data/model/general/treeNode';
 import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
 import { DetailProductComponent } from './detail-product/detail-product.component';
 import { GeneralConstans } from '../../../../utils/generalConstant';
-import { RespProduct } from '../../../../@data/model/product/RespProduct';
+import { RespProduct } from '../../../../@data/model/product/resp-product';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { Utils } from '../../../../utils/utils';
 // Añadir esto al principio
@@ -191,7 +191,7 @@ export class ProductComponent extends BaseImplementation<any> implements OnInit 
     }
     
   handleDeleteAction(row: TreeNode<any>): void {
-    
+    debugger
     console.log('Deleting:', row);
     if (row.data.ID !== undefined) {
       const id: String = row.data.ID;

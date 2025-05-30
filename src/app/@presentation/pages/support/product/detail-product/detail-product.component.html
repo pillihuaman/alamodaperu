@@ -7,67 +7,55 @@
         <!-- TAB 1: Información del Producto -->
         <nb-tab tabTitle="Información General">
           <div class="form-grid">
-            <!-- Identificación -->
             <h5>Identificación del Producto</h5>
-            <input nbInput type="text" placeholder="ID" formControlName="id" readonly [nbTooltip]="'ID del producto (solo lectura)'" />
-            <input nbInput type="text" placeholder="Código del Producto" formControlName="productCode" [nbTooltip]="'Código interno del producto'" />
-            <input nbInput type="text" placeholder="Código de Barras" formControlName="barcode" [nbTooltip]="'Código de barras estándar (EAN, etc.)'" />
-            <input nbInput type="text" placeholder="SKU" formControlName="sku" [nbTooltip]="'Stock Keeping Unit (SKU) único'" />
-            <input nbInput type="text" placeholder="UPC" formControlName="upc" [nbTooltip]="'Código Universal de Producto (UPC)'" />
+            <input nbInput type="text" placeholder="ID" formControlName="id" readonly />
+            <input nbInput type="text" placeholder="Código del Producto" formControlName="productCode" />
+            <input nbInput type="text" placeholder="Código de Barras" formControlName="barcode" />
+            <input nbInput type="text" placeholder="SKU" formControlName="sku" />
+            <input nbInput type="text" placeholder="UPC" formControlName="upc" />
 
-            <!-- Información Básica -->
             <h5>Información Básica</h5>
-            <input nbInput type="text" placeholder="Nombre" formControlName="name" [nbTooltip]="'Ingrese el nombre del producto'" 
-            [status]="formData.get('name')?.invalid && formData.get('name')?.touched ? 'danger' : 'basic'"
-            />
-            <nb-icon *ngIf="formData.get('name')?.invalid && formData.get('name')?.touched" icon="alert-circle" status="danger"></nb-icon>
+            <input nbInput type="text" placeholder="Nombre" formControlName="name"
+              [status]="formData.get('name')?.invalid && formData.get('name')?.touched ? 'danger' : 'basic'" />
+            <nb-icon *ngIf="formData.get('name')?.invalid && formData.get('name')?.touched" icon="alert-circle"
+              status="danger"></nb-icon>
+            <input nbInput type="text" placeholder="Categoría" formControlName="category" />
+            <input nbInput type="text" placeholder="Subcategoría" formControlName="subcategory" />
+            <input nbInput type="date" placeholder="Fecha de Fabricación" formControlName="manufacturingDate" />
+            <input nbInput type="date" placeholder="Fecha de Expiración" formControlName="expirationDate" />
+            <input nbInput type="text" placeholder="Lote" formControlName="batch" />
+            <textarea nbInput placeholder="Descripción" formControlName="description" style="width: 100%;"></textarea>
 
-            <input nbInput type="text" placeholder="Categoría" formControlName="category" [nbTooltip]="'Categoría principal del producto'" />
-            <input nbInput type="text" placeholder="Subcategoría" formControlName="subcategory" [nbTooltip]="'Subcategoría del producto'" />
-            <input nbInput type="date" placeholder="Fecha de Fabricación" formControlName="manufacturingDate" [nbTooltip]="'Fecha en la que el producto fue fabricado'" />
-            <input nbInput type="date" placeholder="Fecha de Expiración" formControlName="expirationDate" [nbTooltip]="'Fecha en la que el producto expira'" />
-            <input nbInput type="text" placeholder="Lote" formControlName="batch" [nbTooltip]="'Número o código del lote de fabricación'" />
-            <textarea nbInput placeholder="Descripción" formControlName="description" [nbTooltip]="'Descripción detallada del producto'" style="width: 100%;"></textarea>
-
-            <!-- Fabricación y Proveedor -->
             <h5>Fabricante y Proveedor</h5>
-            <input nbInput type="text" placeholder="Fabricante" formControlName="manufacturer" [nbTooltip]="'Nombre del fabricante'" />
-            <input nbInput type="text" placeholder="Marca" formControlName="brand" [nbTooltip]="'Marca del producto'" />
-            <app-search-input
-              [service]="proveedorService"
-              fieldName="suppliersByName"
-              (selectedItem)="onProveedorSelected($event)"
-              [nbTooltip]="'Buscar y seleccionar proveedor'"
-              displayField="name"
-              [selectedValue]="proveedorSeleccionado">
-            </app-search-input>
+            <input nbInput type="text" placeholder="Fabricante" formControlName="manufacturer" />
+            <input nbInput type="text" placeholder="Marca" formControlName="brand" />
+            <app-search-input [service]="proveedorService" fieldName="suppliersByName"
+              (selectedItem)="onProveedorSelected($event)" displayField="name"
+              [selectedValue]="proveedorSeleccionado"></app-search-input>
 
-            <!-- Precios -->
             <h5>Precios</h5>
-            <input nbInput type="number" placeholder="Precio de Costo" formControlName="costPrice" [nbTooltip]="'Costo de adquisición del producto'" />
-            <input nbInput type="number" placeholder="Precio de Venta" formControlName="sellingPrice" [nbTooltip]="'Precio de venta al público'" />
-            <input nbInput type="number" placeholder="Descuento (%)" formControlName="discount" [nbTooltip]="'Porcentaje de descuento aplicado'" />
-            <nb-select placeholder="Moneda" formControlName="currency" [nbTooltip]="'Moneda utilizada para los precios'">
+            <input nbInput type="number" placeholder="Precio de Costo" formControlName="costPrice" />
+            <input nbInput type="number" placeholder="Precio de Venta" formControlName="sellingPrice" />
+            <input nbInput type="number" placeholder="Descuento (%)" formControlName="discount" />
+            <nb-select placeholder="Moneda" formControlName="currency">
               <nb-option *ngFor="let moneda of currencies" [value]="moneda.code">
                 {{ moneda.name }} ({{ moneda.code }})
               </nb-option>
             </nb-select>
 
-            <!-- Inventario y Dimensiones -->
             <h5>Inventario y Dimensiones</h5>
-            <input nbInput type="text" placeholder="Unidad de Medida" formControlName="unitMeasure" [nbTooltip]="'Unidad de medida (ej. kg, unidad)'" />
-            <input nbInput type="number" placeholder="Stock Mínimo" formControlName="minStock" [nbTooltip]="'Cantidad mínima en stock antes de reabastecer'" />
-            <input nbInput type="number" placeholder="Stock Máximo" formControlName="maxStock" [nbTooltip]="'Cantidad máxima permitida en inventario'" />
-            <input nbInput type="number" placeholder="Peso (kg)" formControlName="weight" [nbTooltip]="'Peso del producto en kilogramos'" />
-            <input nbInput type="number" placeholder="Altura (cm)" formControlName="height" [nbTooltip]="'Altura del producto en centímetros'" />
-            <input nbInput type="number" placeholder="Ancho (cm)" formControlName="width" [nbTooltip]="'Ancho del producto en centímetros'" />
-            <input nbInput type="number" placeholder="Largo (cm)" formControlName="length" [nbTooltip]="'Largo del producto en centímetros'" />
+            <input nbInput type="text" placeholder="Unidad de Medida" formControlName="unitMeasure" />
+            <input nbInput type="number" placeholder="Stock Mínimo" formControlName="minStock" />
+            <input nbInput type="number" placeholder="Stock Máximo" formControlName="maxStock" />
+            <input nbInput type="number" placeholder="Peso (kg)" formControlName="weight" />
+            <input nbInput type="number" placeholder="Altura (cm)" formControlName="height" />
+            <input nbInput type="number" placeholder="Ancho (cm)" formControlName="width" />
+            <input nbInput type="number" placeholder="Largo (cm)" formControlName="length" />
 
-            <!-- Etiquetas -->
             <h5>Etiquetas</h5>
-            <nb-checkbox formControlName="isFeatured" [nbTooltip]="'¿Este producto es destacado?'">Producto Destacado</nb-checkbox>
-            <nb-checkbox formControlName="isNewArrival" [nbTooltip]="'¿Este producto es un nuevo ingreso?'">Nuevo Ingreso</nb-checkbox>
-            <nb-checkbox formControlName="status" [nbTooltip]="'¿Producto activo en catálogo?'">Activo</nb-checkbox>
+            <nb-checkbox formControlName="isFeatured">Producto Destacado</nb-checkbox>
+            <nb-checkbox formControlName="isNewArrival">Nuevo Ingreso</nb-checkbox>
+            <nb-checkbox formControlName="status">Activo</nb-checkbox>
           </div>
         </nb-tab>
 
@@ -76,72 +64,108 @@
           <div class="form-grid">
             <h5>Tallas</h5>
             <div formArrayName="sizes" style="grid-column: 1 / -1;">
-              <div *ngFor="let sizeGroup of sizesFormArray.controls; let i = index" [formGroupName]="i" class="size-row"
-                style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
-                
-                <!-- Dropdown de tallas -->
-                <nb-select placeholder="Talla" formControlName="size">
+              <div *ngFor="let sizeGroup of sizesFormArray.controls; let i = index" [formGroupName]="i"
+                class="size-row">
+
+                <nb-select formControlName="size" *ngIf="sizes!.length > 0">
                   <nb-option *ngFor="let s of sizes" [value]="s">{{ s }}</nb-option>
                 </nb-select>
-            
-                <!-- Input de stock -->
                 <input nbInput placeholder="Stock" type="number" formControlName="stock" />
-            
-                <!-- Botón eliminar -->
-                <button nbButton type="button" status="danger" size="small" (click)="sizesFormArray.removeAt(i)">Eliminar</button>
+                <button nbButton type="button" status="danger" size="small" (click)="sizesFormArray.removeAt(i)">
+                  Eliminar
+                </button>
               </div>
-            
-              <button type="button" nbButton status="success" (click)="sizesFormArray.push(createSize())">+ Agregar talla</button>
+              <button type="button" nbButton status="success" (click)="sizesFormArray.push(createSize('', 4))">
+                + Agregar talla
+              </button>
             </div>
-            
-            <!-- Multimedia -->
+
             <h5>Imágenes del producto</h5>
             <div class="image-upload-grid">
               <div class="custom-file-input">
-                <input type="file" multiple accept="image/*" (change)="onImageSelected($event)"  [disabled]="formData.get('name')?.invalid" />
+                <input type="file" multiple accept="image/*" (change)="onImageSelected($event)"
+                  [disabled]="formData.get('name')?.invalid" />
               </div>
               <nb-select placeholder="Tipo Imagen" formControlName="typeImagen">
-                <nb-option *ngFor="let s of typesImages" [value]="s">{{ s }}</nb-option>
+                <nb-option *ngFor="let s of fileTypes" [value]="s">{{ s }}</nb-option>
               </nb-select>
-
               <nb-select multiple placeholder="Asignar imágenes" formControlName="images">
                 <nb-option *ngFor="let img of imagePreviews" [value]="img.url">
-                  <img [src]="img.url" width="30" style="margin-right: 5px;" /> Imagen {{ img.url | slice: -10 }}
+                  <img [src]="img.url" width="30" /> Imagen {{ img.url | slice: -10 }}
                 </nb-option>
               </nb-select>
             </div>
-          </div>
-          <div class="image-preview-container" *ngIf="imagePreviews.length > 0">
-            <div *ngFor="let img of imagePreviews; let i = index" class="preview-box">
-              <img [src]="img.url" [alt]="'Imagen ' + i" width="150" height="150" />
-              <button nbButton size="tiny" status="danger" (click)="removeImage(i)">Eliminar</button>
+
+            <div class="image-preview-container" *ngIf="imagePreviews.length > 0">
+              <div *ngFor="let img of imagePreviews; let i = index" class="preview-box">
+                <img [src]="img.url" [alt]="'Imagen ' + i" />
+                <button nbButton size="tiny" status="danger" (click)="removeImage(i)">Eliminar</button>
+              </div>
             </div>
           </div>
         </nb-tab>
 
+        <!-- TAB 3: Catálogo de Imágenes -->
         <nb-tab tabTitle="Catálogo de Imágenes">
-          <div class="catalog-grid">
-            <ng-container *ngIf="catalogImages.length > 0; else noImages">
-              <div class="catalog-image-box" *ngFor="let img of catalogImages">
-                <img [src]="img" alt="Imagen de catálogo" width="150" height="150" />
+          <div class="catalog-table">
+            <div class="column" #columnRef>
+              <h3>Catálogo</h3>
+              <div cdkDropList id="catalogDropList" [cdkDropListData]="catalogImagesMetadata"
+              
+                [cdkDropListConnectedTo]="['assignDropList']" 
+                class="image-list"
+                (cdkDropListDropped)="onCatalogDrop($event)">
+                <div class="image-box" *ngFor="let img of catalogImagesMetadata" cdkDrag [cdkDragData]="img">
+
+                  <div class="image-with-sizes">
+                    <img *ngIf="img.fileMetadata && img.fileMetadata[0]?.url" [src]="img.fileMetadata[0].url"
+                      alt="Imagen de catálogo" />
+                    <button type="button" size="tiny" status="danger" 44 5q63w745>
+                      Eliminar
+                    </button>
+                  </div>
+
+                </div>
+                <div class="image-box placeholder" *ngFor="let empty of emptySlots"></div>
+
               </div>
-            </ng-container>
-            <ng-template #noImages>
-              <p>No hay imágenes disponibles en el catálogo.</p>
-            </ng-template>
+            </div>
+
+            <div class="column" #columnRef>
+              <h3>Asignadas</h3>
+              <div cdkDropList id="assignDropList" [cdkDropListData]="assignedImages"
+                [cdkDropListConnectedTo]="['catalogDropList']" 
+                
+                class="image-list asignadas-column"
+                (cdkDropListDropped)="onAssignDrop($event)">
+                <div class="image-box" *ngFor="let img of assignedImages" cdkDrag [cdkDragData]="img">
+                  <div class="image-with-sizes">
+                    <img *ngIf="img.fileMetadata && img.fileMetadata[0]?.url" [src]="img.fileMetadata[0].url"
+                      alt="Imagen asignada" />
+
+                    <div class="sizes-row">
+                 
+                      <div class="size-input" *ngFor="let size of sizes">
+                        <label>{{ size }}</label>
+                        <input nbInput type="number" [placeholder]="size" min="0" [(ngModel)]="img.sizeStockMap[size]">
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="image-box placeholder" *ngFor="let empty of emptySlots"></div>
+              </div>
+
+            </div>
           </div>
+                <!-- Acciones -->
+      <div class="button-container">
+        <button nbButton status="primary" [disabled]="formData.invalid">Guardar</button>
+        <button type="button" nbButton status="danger" (click)="returnToList()">Regresar</button>
+      </div>
         </nb-tab>
       </nb-tabset>
 
-      
-
-      <!-- Acciones -->
-      <div class="button-container">
-        <button nbButton status="primary" [disabled]="formData.invalid">
-          Guardar
-        </button>
-        <button type="button" nbButton status="danger" (click)="returnToList()">Regresar</button>
-      </div>
     </form>
   </nb-card-body>
 </nb-card>
