@@ -1,14 +1,18 @@
 {
   "name": "alamodaperu",
   "version": "0.0.0",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:alamodaperu": "node dist/alamodaperu/server/server.mjs"
-  },
+"scripts": {
+  "ng": "ng",
+  "start": "ng serve",
+  "build": "ng build",
+  "build:ssr": "ng build && ng run alamodaperu:server",
+  "serve:ssr": "node dist/alamodaperu/server/main.js",
+  "watch": "ng build --watch --configuration development",
+  "test": "ng test"
+}
+,
+
+  
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.2.0",

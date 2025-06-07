@@ -26,7 +26,7 @@ export class Const {
   public async loadCommonConfig(): Promise<void> {
     try {
       const config: any = await lastValueFrom(
-        this.http.get('./assets/config/common.config.json')
+        this.http.get('./assets/config/common.config.pro.json')
       );
       Const.API_SEGURIDAD = config.public_base_url_seguridad;
       Const.API_SUPPORT = config.public_base_url_support;

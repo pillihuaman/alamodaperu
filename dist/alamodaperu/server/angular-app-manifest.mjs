@@ -12,16 +12,16 @@ export default {
   {
     "renderMode": 2,
     "preload": [
-      "chunk-CRWDOOMT.js",
-      "chunk-TWR55DS5.js",
-      "chunk-SGZVPLXZ.js"
+      "chunk-OX6IXMQC.js",
+      "chunk-Q6BP24XQ.js",
+      "chunk-SM2U5EFL.js"
     ],
     "route": "/home/main"
   },
   {
     "renderMode": 2,
     "preload": [
-      "chunk-MA2RYLGY.js"
+      "chunk-VUHH5XBG.js"
     ],
     "route": "/home/detail"
   },
@@ -32,19 +32,20 @@ export default {
   {
     "renderMode": 2,
     "preload": [
-      "chunk-MMKVXYGE.js"
+      "chunk-BEIPMJAJ.js"
     ],
     "route": "/auth/login"
   },
   {
     "renderMode": 2,
     "preload": [
-      "chunk-WRFFN5GO.js",
-      "chunk-MYIS6U52.js",
-      "chunk-LQ2CNIKZ.js",
-      "chunk-SGZVPLXZ.js"
+      "chunk-JO5OKPCQ.js",
+      "chunk-YC56EOMS.js",
+      "chunk-GJEU6FZM.js",
+      "chunk-WL5WWBSN.js",
+      "chunk-SM2U5EFL.js"
     ],
-    "route": "/auth/user-register"
+    "route": "/auth/register"
   },
   {
     "renderMode": 2,
@@ -53,72 +54,138 @@ export default {
   {
     "renderMode": 2,
     "preload": [
-      "chunk-JXNQ4REL.js",
-      "chunk-TWR55DS5.js",
-      "chunk-SGZVPLXZ.js"
+      "chunk-A33IP7QM.js",
+      "chunk-Q6BP24XQ.js",
+      "chunk-SM2U5EFL.js"
     ],
     "route": "/support/imagen-product"
   },
   {
     "renderMode": 2,
     "preload": [
-      "chunk-FQTFWBUW.js",
-      "chunk-74SYO77B.js",
-      "chunk-LQ2CNIKZ.js",
-      "chunk-SGZVPLXZ.js"
+      "chunk-YRSSLD2Q.js",
+      "chunk-2ZX65H3W.js",
+      "chunk-TPLC5BAK.js",
+      "chunk-GJEU6FZM.js",
+      "chunk-WL5WWBSN.js",
+      "chunk-SM2U5EFL.js"
     ],
     "route": "/support/product"
   },
   {
+    "renderMode": 1,
+    "preload": [
+      "chunk-RWAJKCID.js",
+      "chunk-YC56EOMS.js",
+      "chunk-TPLC5BAK.js",
+      "chunk-GJEU6FZM.js",
+      "chunk-WL5WWBSN.js",
+      "chunk-SM2U5EFL.js"
+    ],
+    "route": "/support/product/detail/*"
+  },
+  {
     "renderMode": 2,
     "preload": [
-      "chunk-AYCJAOPC.js",
-      "chunk-MPQT664S.js"
+      "chunk-YEDTWYJZ.js",
+      "chunk-637MD6IH.js"
     ],
     "route": "/support/control"
   },
   {
     "renderMode": 2,
     "preload": [
-      "chunk-WLT5ILGY.js",
-      "chunk-MPQT664S.js"
+      "chunk-I6AWGJ7V.js",
+      "chunk-637MD6IH.js"
     ],
     "route": "/support/parameter"
   },
   {
     "renderMode": 2,
     "preload": [
-      "chunk-PQEGOS4Q.js"
-    ],
-    "route": "/support/system"
-  },
-  {
-    "renderMode": 2,
-    "preload": [
-      "chunk-ZT2U666A.js"
+      "chunk-7ORXVTWG.js"
     ],
     "route": "/support/generate-random-color-imagen"
   },
   {
     "renderMode": 2,
     "preload": [
-      "chunk-7HLYEUHV.js",
-      "chunk-MYIS6U52.js",
-      "chunk-74SYO77B.js",
-      "chunk-LQ2CNIKZ.js",
-      "chunk-SGZVPLXZ.js"
+      "chunk-ZL6KRLIK.js",
+      "chunk-2ZX65H3W.js",
+      "chunk-TPLC5BAK.js",
+      "chunk-GJEU6FZM.js",
+      "chunk-WL5WWBSN.js",
+      "chunk-SM2U5EFL.js"
     ],
     "route": "/support/employee"
   },
   {
     "renderMode": 2,
     "preload": [
-      "chunk-RM3LDXVF.js",
-      "chunk-74SYO77B.js",
-      "chunk-LQ2CNIKZ.js",
-      "chunk-SGZVPLXZ.js"
+      "chunk-2EPVPZHR.js",
+      "chunk-2ZX65H3W.js",
+      "chunk-TPLC5BAK.js",
+      "chunk-GJEU6FZM.js",
+      "chunk-WL5WWBSN.js",
+      "chunk-SM2U5EFL.js"
     ],
     "route": "/support/store"
+  },
+  {
+    "renderMode": 2,
+    "preload": [
+      "chunk-VUE7OEVM.js",
+      "chunk-2ZX65H3W.js",
+      "chunk-WL5WWBSN.js",
+      "chunk-SM2U5EFL.js"
+    ],
+    "route": "/support/system"
+  },
+  {
+    "renderMode": 1,
+    "preload": [
+      "chunk-P3N6YIQC.js"
+    ],
+    "route": "/support/system/detail/*"
+  },
+  {
+    "renderMode": 1,
+    "preload": [
+      "chunk-UGZDEGZV.js",
+      "chunk-WL5WWBSN.js",
+      "chunk-SM2U5EFL.js"
+    ],
+    "route": "/support/page/detail/*"
+  },
+  {
+    "renderMode": 1,
+    "preload": [
+      "chunk-5JXQPEIX.js",
+      "chunk-WL5WWBSN.js",
+      "chunk-SM2U5EFL.js"
+    ],
+    "route": "/support/menu/detail/*"
+  },
+  {
+    "renderMode": 2,
+    "preload": [
+      "chunk-YXPLRXBU.js",
+      "chunk-2ZX65H3W.js",
+      "chunk-WL5WWBSN.js",
+      "chunk-SM2U5EFL.js"
+    ],
+    "route": "/support/supplier"
+  },
+  {
+    "renderMode": 1,
+    "preload": [
+      "chunk-LS3IL5TT.js",
+      "chunk-TPLC5BAK.js",
+      "chunk-GJEU6FZM.js",
+      "chunk-WL5WWBSN.js",
+      "chunk-SM2U5EFL.js"
+    ],
+    "route": "/support/supplier/detail/*"
   },
   {
     "renderMode": 2,
@@ -128,23 +195,24 @@ export default {
 ],
   entryPointToBrowserMapping: undefined,
   assets: {
-    'index.csr.html': {size: 58844, hash: '15b64501af59a76f5da6d41f47ef5a5cbeeb867624bc1a90af93f19cf434b551', text: () => import('./assets-chunks/index_csr_html.mjs').then(m => m.default)},
-    'index.server.html': {size: 49882, hash: '949084ba4fa4eac098258571e68f8cf0e96cc7d62b9a1da2d8361dd1cc91e7bb', text: () => import('./assets-chunks/index_server_html.mjs').then(m => m.default)},
-    'home/detail/index.html': {size: 76013, hash: 'da68e4f558e1195f0d6b5d5c4f764965a582e0494bee663022a683986a1f7de0', text: () => import('./assets-chunks/home_detail_index_html.mjs').then(m => m.default)},
-    'auth/index.html': {size: 74657, hash: '8287bf760cc3677e4f99176f350112dc6495f4741466113e44eaa3a109e8dba2', text: () => import('./assets-chunks/auth_index_html.mjs').then(m => m.default)},
-    'home/index.html': {size: 74657, hash: '4ea12f30390e2f73779c3efcc936e15b05cc2051c72c9156b1bb9877187e6a4f', text: () => import('./assets-chunks/home_index_html.mjs').then(m => m.default)},
-    'auth/login/index.html': {size: 81771, hash: '4bfd86f2d94ab77f8e4512f34ef6fda4d33b8119272049aab8d5cf309437ee09', text: () => import('./assets-chunks/auth_login_index_html.mjs').then(m => m.default)},
-    'support/index.html': {size: 74657, hash: 'f9a69abb8c81b3e30951023461d08607545e400c38f181bad87b01bb5bb3f954', text: () => import('./assets-chunks/support_index_html.mjs').then(m => m.default)},
-    'auth/user-register/index.html': {size: 95532, hash: '0ddd2f172d228197fd0208f3f1143db784c6e88f895f4b8bd9a2ec2fcd469b35', text: () => import('./assets-chunks/auth_user-register_index_html.mjs').then(m => m.default)},
-    'support/imagen-product/index.html': {size: 90431, hash: 'eefefe978580b4d866850235ec60fcd801e770ece244ef80d5a35b7ec488b801', text: () => import('./assets-chunks/support_imagen-product_index_html.mjs').then(m => m.default)},
-    'support/control/index.html': {size: 91283, hash: '0dc15eb781e9ac8e5aa8b2ff5be004f6479c3032385d1f5e68fa08f91bd775c6', text: () => import('./assets-chunks/support_control_index_html.mjs').then(m => m.default)},
-    'support/parameter/index.html': {size: 84070, hash: 'eb2c648b44985d1ac55358a0b71ac67477bf15629df67f582ba28b69c9a89cc6', text: () => import('./assets-chunks/support_parameter_index_html.mjs').then(m => m.default)},
-    'support/system/index.html': {size: 75948, hash: '604348d4441ff2ad300b9df509189e1612b88075a124525adb27c0eb3305b3c2', text: () => import('./assets-chunks/support_system_index_html.mjs').then(m => m.default)},
-    'support/generate-random-color-imagen/index.html': {size: 75030, hash: 'ac565a94071cfc556fe91a9267368b0c41ff9c0b2d0bfc3d52d675aee64d631b', text: () => import('./assets-chunks/support_generate-random-color-imagen_index_html.mjs').then(m => m.default)},
-    'home/main/index.html': {size: 85070, hash: '9626d657ba6f608cc22145073b3f9091b5cd2e3b6220ba752d2521c0f3635c85', text: () => import('./assets-chunks/home_main_index_html.mjs').then(m => m.default)},
-    'support/product/index.html': {size: 84252, hash: 'f9da9e57df3b1685df1d215b0e1386340f05de108253abd7701b4f2fa258cb1e', text: () => import('./assets-chunks/support_product_index_html.mjs').then(m => m.default)},
-    'support/employee/index.html': {size: 84304, hash: 'dad5c170871e0cffbdd21d384b08ed6a0e1323f97c75c45307e120ee1953de03', text: () => import('./assets-chunks/support_employee_index_html.mjs').then(m => m.default)},
-    'support/store/index.html': {size: 84252, hash: 'a50d555605c56e3d871c8a88847b4c471a4853e241ff9d444f578e58b9c6dedf', text: () => import('./assets-chunks/support_store_index_html.mjs').then(m => m.default)},
-    'styles-WUQ4DCOY.css': {size: 1667202, hash: 'H3ILzdqzuoY', text: () => import('./assets-chunks/styles-WUQ4DCOY_css.mjs').then(m => m.default)}
+    'index.csr.html': {size: 58844, hash: '27610e8ac12d2fd5ea117dabbccf23fb49972a077c34d98d78bed66fa869aaa8', text: () => import('./assets-chunks/index_csr_html.mjs').then(m => m.default)},
+    'index.server.html': {size: 49882, hash: '65926f67855315b35bea859d359d99ac0d19bed1309616ea153b627440731fa5', text: () => import('./assets-chunks/index_server_html.mjs').then(m => m.default)},
+    'auth/index.html': {size: 81146, hash: '0eac56bb0bbbc87357154b5cdcea7b18ea87492eaf2bfcc22065deb0656ac79c', text: () => import('./assets-chunks/auth_index_html.mjs').then(m => m.default)},
+    'home/detail/index.html': {size: 82883, hash: '4ea236228242a2e4f60e39ebcf9d094b43a163b01366841b3237c3d71eee9288', text: () => import('./assets-chunks/home_detail_index_html.mjs').then(m => m.default)},
+    'home/main/index.html': {size: 88299, hash: '4d3ed076affb1f00343f96179fc5752deb83963d397e1cd523832d13202fcd9d', text: () => import('./assets-chunks/home_main_index_html.mjs').then(m => m.default)},
+    'home/index.html': {size: 81527, hash: '4cab8e2cee3a2236d3a260a53b164d63d1f6a0037fcd7069475b29e491ab63d4', text: () => import('./assets-chunks/home_index_html.mjs').then(m => m.default)},
+    'support/index.html': {size: 83826, hash: 'ccc5818f12745d5faefb5d8e31a321efdefb729e0b6882fc71256cf1878d6a2c', text: () => import('./assets-chunks/support_index_html.mjs').then(m => m.default)},
+    'auth/login/index.html': {size: 88277, hash: 'dd4a4f27e98ac5170265d9f5dcad75a489d600ce711115b7cda61656ad3e4acc', text: () => import('./assets-chunks/auth_login_index_html.mjs').then(m => m.default)},
+    'auth/register/index.html': {size: 101925, hash: '5fdb5c2dbd074a9786c9b63d0c9886cc6f7915e8470710704d03dc5029edcf29', text: () => import('./assets-chunks/auth_register_index_html.mjs').then(m => m.default)},
+    'support/imagen-product/index.html': {size: 99600, hash: '2825c92a56e759ad23ae719e20c35ccf5b9db972da70fe02bbd579f75d08a3d8', text: () => import('./assets-chunks/support_imagen-product_index_html.mjs').then(m => m.default)},
+    'support/control/index.html': {size: 100452, hash: '378c9b05984794452686162430e232374d1355078e9beea83bfef751786523ab', text: () => import('./assets-chunks/support_control_index_html.mjs').then(m => m.default)},
+    'support/generate-random-color-imagen/index.html': {size: 84199, hash: '73024391c27f4e2bcf08282abbbbf30d7d5ebf2d61d08e68359d95f8025508d9', text: () => import('./assets-chunks/support_generate-random-color-imagen_index_html.mjs').then(m => m.default)},
+    'support/parameter/index.html': {size: 93239, hash: 'b8fff7d2e4c7759a45676996066d4de3d949a01b6859c68705e19a07054e521e', text: () => import('./assets-chunks/support_parameter_index_html.mjs').then(m => m.default)},
+    'support/product/index.html': {size: 90888, hash: '1f17cfd4ef98b63632fe7ec673af31231a383d018100278cca30015e3d95f292', text: () => import('./assets-chunks/support_product_index_html.mjs').then(m => m.default)},
+    'support/employee/index.html': {size: 90888, hash: 'ef010425523d83c3c29ff218a68cc9675d248d969c7f33df265088d6b28e0591', text: () => import('./assets-chunks/support_employee_index_html.mjs').then(m => m.default)},
+    'support/store/index.html': {size: 90888, hash: '8b9e6269ddac0b9e092eb16d20f278653915419f4837047e5420229784577015', text: () => import('./assets-chunks/support_store_index_html.mjs').then(m => m.default)},
+    'support/system/index.html': {size: 90784, hash: '8ca22f29cd91dd5fecfbb6baaa5c423c3b377558696f92a7959d36fa4c41ae88', text: () => import('./assets-chunks/support_system_index_html.mjs').then(m => m.default)},
+    'support/supplier/index.html': {size: 90784, hash: 'f4e7d5683535c9b7fcf271ced85199b08f0725ff4acd228ea57258a1ce224f2d', text: () => import('./assets-chunks/support_supplier_index_html.mjs').then(m => m.default)},
+    'styles-4QOUSXMU.css': {size: 1667054, hash: 'vrdZ5sEG8ck', text: () => import('./assets-chunks/styles-4QOUSXMU_css.mjs').then(m => m.default)}
   },
 };

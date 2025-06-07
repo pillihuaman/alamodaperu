@@ -111,15 +111,15 @@ export class SystemComponent extends BaseImplementation<any> implements OnInit {
 
 
   onNewSystem(): void {
-    this.router.navigate(['/support/system/detail']);
+    this.router.navigate(['/support/system/detail', 'new']);
   }
   
   onNewPage(): void {
-    this.router.navigate(['/support/page/detail']);
+    this.router.navigate(['/support/page/detail', 'new']);
   }
   
   onNewMenu(): void {
-    this.router.navigate(['/support/menu/detail']);
+    this.router.navigate(['/support/menu/detail', 'new']);
   }
   
 

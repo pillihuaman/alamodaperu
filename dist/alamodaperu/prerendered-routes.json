@@ -2,7 +2,7 @@
   "routes": {
     "/auth": {},
     "/auth/login": {},
-    "/auth/user-register": {},
+    "/auth/register": {},
     "/home": {},
     "/home/detail": {},
     "/home/main": {},
@@ -14,6 +14,7 @@
     "/support/parameter": {},
     "/support/product": {},
     "/support/store": {},
+    "/support/supplier": {},
     "/support/system": {}
   }
 }
