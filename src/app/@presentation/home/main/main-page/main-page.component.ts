@@ -1,7 +1,7 @@
 
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NbButtonModule } from '@nebular/theme';
 import { CorouselImage } from '../../../../@data/model/general/corouselImage';
 import { listCorouseImages } from '../../../../@data/model/general/listCorouseImages';
@@ -42,7 +42,7 @@ export class MainPageComponent implements OnInit {
     private imagenTempService: ImagenTempService,
     private productViewImagenRepository: ProductViewImagenRepository,
     private fileService: FileRepository,
-    private productService: ProductRepository
+    private productService: ProductRepository,private router: Router
   ) { }
 
   @Input() catalogImagesMetadata: RespImagenProductRank[] = [];
@@ -128,4 +128,13 @@ debugger
   enviarData(image: CorouselImage) {
     this.updateImagen.emit(image);
   }
+viewCatalog(images: RespProduct | undefined): void {
+  debugger
+  if (!images) {
+    return;
+  }
+
+this.router.navigate(['/home/detail'], { state: images });
+
+}
 }

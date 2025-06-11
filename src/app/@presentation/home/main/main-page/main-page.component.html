@@ -3,21 +3,13 @@
   <nb-card-body>
     <div *ngIf="catalogImagesMetadata.length > 0; else noData">
       <div class="gallery-grid">
-        <nb-card
-          *ngFor="let product of catalogImagesMetadata"
-          class="product-card"
-        >
+        <nb-card *ngFor="let product of catalogImagesMetadata" class="product-card">
           <nb-card-header>{{ product.respProduct?.name || 'Producto sin nombre' }}</nb-card-header>
 
           <nb-card-body>
             <div class="images-wrapper" *ngIf="product?.respProduct?.fileMetadata?.length?.toString() ">
-              <div
-                class="image-box"
-                *ngFor="let image of product.respProduct?.fileMetadata ?? []"
-              >
-                <app-imagen-catch-information
-                  [urlImagen]="image?.url"
-                ></app-imagen-catch-information>
+              <div class="image-box" *ngFor="let image of product.respProduct?.fileMetadata ?? []">
+                <app-imagen-catch-information [urlImagen]="image?.url"></app-imagen-catch-information>
               </div>
             </div>
             <div *ngIf="!product.respProduct?.fileMetadata?.length">
@@ -28,6 +20,14 @@
           <nb-card-footer>
             <div class="product-footer">
               Producto ID: {{ product.respProduct?.id }}
+             <button
+  nbButton
+  size="tiny"
+  status="primary"
+  *ngIf="product.respProduct?.fileMetadata?.length"
+  (click)="viewCatalog(product.respProduct)">
+  Ver Catálogo
+</button>
             </div>
           </nb-card-footer>
         </nb-card>

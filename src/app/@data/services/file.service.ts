@@ -36,31 +36,35 @@ export class FileService implements FileRepository {
   
     return this.apiService.uploadFilesMultipartFile(formData, url);
   }*/
-  uploadFiles(files: File[], metadataList: Partial<FileMetadata>[], productId: string): Observable<any> {
-    const formData = new FormData();
-  
-    // Agregar archivos
-    files.forEach((file) => {
-      formData.append('files', file); // plural: 'files'
-    });
-  
-    // Agregar metadata como JSON
-    const metadataJson = JSON.stringify(metadataList.map(meta => ({
-      id: meta.id || null,
-      dimension: meta.dimension,
-      typeFile: meta.typeFile,
-      position: meta.position
-    })));
-  
-    formData.append('metadata', new Blob([metadataJson], { type: 'application/json' }));
-  
-    // Agregar productId
-    formData.append('productId', productId);
-  
-    const url = `${Const.API_INTELLIGENCY_ARTIFICIAL}/${Const.URL_TYPE_ACCES_PRIVATE}/v1/ia/files/upload`;
-  
-    return this.apiService.uploadFilesMultipartFile(formData, url);
-  }
+uploadFiles(
+  files: File[],
+  metadataList: Partial<FileMetadata>[],
+  productId: string
+): Observable<any> {
+  const formData = new FormData();
+
+  // Archivos
+  files.forEach((file) => {
+    formData.append('files', file);
+  });
+
+  // Metadata como JSON (si el backend espera un array de objetos)
+  const metadataArray = metadataList.map(meta => ({
+    id: meta.id ?? null,
+    dimension: meta.dimension ?? '',
+    typeFile: meta.typeFile ?? '',
+    position: meta.position ?? '',
+      filename: meta.filename ?? '' 
+  }));
+  formData.append('metadata', JSON.stringify(metadataArray)); // ✅ Enviar como JSON
+
+  // ID de producto
+  formData.append('productId', productId);
+
+  const url = `${Const.API_INTELLIGENCY_ARTIFICIAL}/${Const.URL_TYPE_ACCES_PRIVATE}/v1/ia/files/upload`;
+  return this.http.post(url, formData); // ❌ NO CONTENT-TYPE manual
+}
+
   
   downloadFile(id: string): Observable<Blob> {
     const url = `${Const.API_INTELLIGENCY_ARTIFICIAL}/${Const.URL_TYPE_ACCES_PRIVATE}/v1/ia/files/${id}`;

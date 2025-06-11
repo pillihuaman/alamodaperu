@@ -12,12 +12,13 @@ import { ModalRepository } from '../../../../@domain/repository/repository/modal
 import { DetailProductComponent } from './detail-product/detail-product.component';
 import { GeneralConstans } from '../../../../utils/generalConstant';
 import { RespProduct } from '../../../../@data/model/product/resp-product';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs';
 import { Utils } from '../../../../utils/utils';
 // Añadir esto al principio
 import { Router } from '@angular/router';
 import { ModalComponent } from '../../../@common-components/modal/modal.component';
-
+import { FileRepository } from '../../../../@domain/repository/repository/file.repository';
+import { forkJoin, of } from 'rxjs';
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
@@ -50,7 +51,7 @@ export class ProductComponent extends BaseImplementation<any> implements OnInit 
      modalRepository: ModalRepository,
      spinnerService: SpinnerService,
     private productService: ProductService,    dialogService: NbDialogService,
-  private router: Router
+  private router: Router,private fileService:FileRepository
   ) {
     super(modalRepository,spinnerService,dialogService); // ✅ Pass dialogService to the parent class
   }
@@ -190,31 +191,46 @@ export class ProductComponent extends BaseImplementation<any> implements OnInit 
       this.router.navigate(['support/product/detail', productId]);
     }
     
-  handleDeleteAction(row: TreeNode<any>): void {
-    debugger
-    console.log('Deleting:', row);
-    if (row.data.ID !== undefined) {
-      const id: String = row.data.ID;
-      this.productService.deleteProduct(id).subscribe(
-        (value) => {
-          this.showSuccessMessage("Delete Success", "Success");
-          this.isdelelete = row;
-        },
-        (error) => {
-          
-          if ((error.status === 422 || error.status === 500) && error.error && error.error.data && error.error.data.payload) {
-            error.error.data.payload.forEach((errorItem: any) => {
-              const controlName = errorItem.propertyPath;
-              const errorMesagge = errorItem.valExceptionDescription;
-              this.productForm.get(controlName)?.setErrors({ invalid: true, customError: errorMesagge });
-            });
-          }
-          this.spinnerService.hide();
-        }
 
-      );
-    }
+
+handleDeleteAction(row: TreeNode<any>): void {
+  if (!row.data.ID) {
+    console.warn("Product ID missing.");
+    return;
   }
+
+  const productId: string = row.data.ID;
+  this.spinnerService.show();
+
+  // Step 1: Get the product images
+  this.fileService.getCatalogImagen(GeneralConstans.tipoImagenCatalog, productId).pipe(
+    switchMap((images) => {
+      if (images && images.length > 0) {
+        debugger
+        // Step 2: Delete all images
+        const deleteCalls = images.map(img => this.fileService.deleteFile(img.id!));
+        return forkJoin(deleteCalls); // Correctly using forkJoin
+      }
+      return of([]); // No images to delete
+    }),
+    switchMap(() => {
+      // Step 3: Delete the product after images are removed
+      return this.productService.deleteProduct(productId);
+    })
+  ).subscribe({
+    next: () => {
+      this.showSuccessMessage("Producto e imágenes eliminados con éxito", "Success");
+      this.isdelelete = row;
+      this.findProductProcess();
+    },
+    error: (error) => {
+      console.error("Error eliminando producto o imágenes:", error);
+      this.spinnerService.hide();
+      this.handleErrorResponseSaveOrUpdate(error);
+    }
+  });
+}
+
 
   deleting(event: any) {
     const dialogRef = this.dialogService.open(ModalComponent, {

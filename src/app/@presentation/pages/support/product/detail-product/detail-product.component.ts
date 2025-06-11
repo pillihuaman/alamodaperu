@@ -449,6 +449,7 @@ onSubmit() {
           (item) => item.fileMetadata && item.fileMetadata[0]?.filename === file.name
         );
         return {
+              filename: file.name, 
           dimension: formRaw.typeImagen,
           typeFile: formRaw.typeImagen,
           position: existsInCatalog ? 'CATALOGO' : 'ASIGNADA'

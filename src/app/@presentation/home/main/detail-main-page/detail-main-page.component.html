@@ -1,25 +1,51 @@
-<div class="form-group row">
-  <div class="col-md-12 col-sm-12 col-lg-6 maindet">
-    <div class="zoom">
+<!-- Modal de zoom -->
+<div class="zoom-modal" *ngIf="zoomed" (click)="zoomed = false">
+  <img [src]="colru?.imageSrc" class="zoomed-image" />
+</div>
+
+<!-- Contenedor principal -->
+<div class="detail-layout">
+  <!-- Miniaturas -->
+  <div class="thumbnails-column">
+    <div class="thumbnails-container">
       <img
-        [src]="concateInput(urlApiImagen, colru?.imageSrc)"
-        [alt]="colru?.imageAlt"
-        class="main"
+        *ngFor="let image of lstim?.lstCorouseImages"
+        [src]="image.imageSrc"
+        [alt]="image.imageAlt"
+        class="thumbnail"
+        [class.selected]="colru?.imagetoken === image.imagetoken"
+        (click)="changeFothoDetail(image)"
       />
     </div>
   </div>
 
-  <div class="col-md-12 col-sm-12 col-lg-6">
-    <div class="customDetail">
-      <div *ngFor="let image of lstim?.lstCorouseImages">
-        <img
-          [src]="concateInput(urlApiImagen, image.imageSrc)"
-          [alt]="image.imageAlt"
-          [attr.id]="image.imagetoken"
-          class="main"
-          (click)="changeFothoDetail(image)"
-        />
-      </div>
+  <!-- Imagen principal -->
+  <div class="main-image-column">
+    <div class="zoom">
+      <img
+        [src]="colru?.imageSrc"
+        [alt]="colru?.imageAlt"
+        class="main-image"
+        (click)="zoomed = true"
+      />
+      <button nbButton ghost status="primary" class="nav-btn left" (click)="prevImage()">‹</button>
+      <button nbButton ghost status="primary" class="nav-btn right" (click)="nextImage()">›</button>
     </div>
+  </div>
+
+  <!-- Detalles -->
+  <div class="detail-info-column">
+    <h4>{{ respProduct?.name ?? 'Nombre del producto' }}</h4>
+    <p>{{ respProduct?.description ?? 'Descripción del producto por defecto.' }}</p>
+<a
+  nbButton
+  status="success"
+  href="https://wa.me/51933418411?text=Hola,%20quiero%20más%20información%20sobre%20el%20producto:%20{{ respProduct?.name }}"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <nb-icon icon="phone-outline"></nb-icon> Pedir por WhatsApp
+</a>
+
   </div>
 </div>

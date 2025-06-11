@@ -3,7 +3,7 @@
   "public_base_url_support": "http://ec2-44-203-50-221.compute-1.amazonaws.com:8091",
   "public_base_url_search": "http://localhost:8090",
   "public_base_url_imagen": "http://localhost:8099",
-  "public_base_url_ingelligency_artificial": "http://localhost:8081",
+  "public_base_url_file_IA": "http://3.94.171.180:8099",
   "acces_public": "public",
   "acces_private": "private"
 }

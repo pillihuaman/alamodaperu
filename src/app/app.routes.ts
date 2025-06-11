@@ -24,7 +24,8 @@ export const routes: Routes = [
   {
     path: 'auth',
     component: AuthComponent,
-    canActivate: [NotauthGuard],
+      //canActivate: [AuthGuard], //
+    //canActivate: [NotauthGuard],
     children: [
       {
         path: 'login',
@@ -41,6 +42,7 @@ export const routes: Routes = [
   {
     path: 'support',
     component: PageComponent,
+    canActivate: [AuthGuard], //
     children: [
       {
         path: 'imagen-product',
