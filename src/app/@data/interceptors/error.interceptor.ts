@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ModalService } from '../services/modal.service';
 import { NbComponentStatus } from '@nebular/theme';
 import { Injectable, NgZone } from '@angular/core';
+import { RespProduct } from '../model/product/resp-product';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private router: Router, private modalService: ModalService, private ngZone: NgZone) { }
@@ -29,7 +30,9 @@ export class ErrorInterceptor implements HttpInterceptor {
           // ✅ Handle ERR_CONNECTION_REFUSED (Backend is Down)
           this.modalService.showToast(nbComponentStatus, 'Server Unavailable. Redirecting to Login...', '');
           this.ngZone.run(() => {
-            this.router.navigate(['/auth/login']);
+
+            this.router.navigate(['/home/detail'],);
+           // this.router.navigate(['/auth/login']);
           });
         }
 

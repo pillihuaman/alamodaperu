@@ -13,5 +13,5 @@ import { NebularSharedModule } from '../../../@domain/nebular-shared.module';
   styleUrl: './app-modal-footer.component.scss'
 })
 export class AppModalFooterComponent {
-
+  currentYear: number = new Date().getFullYear();
 }

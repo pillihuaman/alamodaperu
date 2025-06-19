@@ -25,3 +25,8 @@
 }
 
 
+nb-layout-header.fixed ~ .layout-container {
+  padding-top: 6.75rem !important;  // o ajústalo según la altura de tu header
+  min-height: 100vh;
+  position: relative;
+}

@@ -1,9 +1,11 @@
 {
-  "public_base_url_seguridad": "http://54.164.157.157:8085",
-  "public_base_url_support": "http://ec2-44-203-50-221.compute-1.amazonaws.com:8091",
+  "public_base_url_seguridad": "https://security.alamodaperu.online",
+  "public_base_url_support": "https://support.alamodaperu.online",
   "public_base_url_search": "http://localhost:8090",
   "public_base_url_imagen": "http://localhost:8099",
-  "public_base_url_file_IA": "http://3.94.171.180:8099",
+  "public_base_url_file_IA": "https://neuroia.alamodaperu.online",
   "acces_public": "public",
-  "acces_private": "private"
+  "acces_private": "private",
+  "idProducto": "68498d8bfa30ef75be3adb6c",
+  "idUsuario": "681630d97de714408c55fea5"
 }

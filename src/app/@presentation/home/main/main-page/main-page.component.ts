@@ -133,8 +133,6 @@ viewCatalog(images: RespProduct | undefined): void {
   if (!images) {
     return;
   }
-
 this.router.navigate(['/home/detail'], { state: images });
-
 }
 }

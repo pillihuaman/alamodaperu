@@ -23,7 +23,8 @@ import { FileRepository } from '../../../../@domain/repository/repository/file.r
   imports: [
     CommonModule,
     RouterModule, // ✅ Se agrega para que reconozca <router-outlet>
-    NbButtonModule,    ReactiveFormsModule,
+    NbButtonModule,   
+    ReactiveFormsModule,
     NbCardModule,
     NbButtonModule,
     NbInputModule,
@@ -42,27 +43,25 @@ export class DetailMainPageComponent implements OnInit {
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private fileService: FileRepository) { }
 
 ngOnInit(): void {
-  let stateData = window.history.state as RespProduct;
-debugger
+  const defaultProductId = Const.IDPRODUCT;
+
+  const stateData = window.history.state as RespProduct;
+
   if (stateData && stateData.id) {
     this.respProduct = stateData;
+    this.loadImages(this.respProduct.id);
   } else {
-    // Intenta recuperar desde parámetros si el state está vacío
     this.activatedRoute.params.subscribe(params => {
-      const id = params['id'];
-      if (id) {
-        this.respProduct = { id } as RespProduct; // Carga parcial solo con ID
-        this.loadImages(this.respProduct.id);
-      }
+      const id = params['id'] ?? defaultProductId;
+      this.respProduct = { id } as RespProduct;
+      this.loadImages(id);
     });
-    return;
   }
-
-  // Si cargó correctamente desde state
-  this.loadImages(this.respProduct.id);
 }
 
+
 private loadImages(productId: string): void {
+  
   this.fileService.getCatalogImagen(
     GeneralConstans.tipoImagenCatalog,
     productId

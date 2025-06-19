@@ -26,7 +26,7 @@
       </nb-action>
       <nb-action icon="home-outline" (click)="goHome()" nbTooltip="Home"></nb-action>
       <nb-action icon="search-outline" (click)="onFind()" nbTooltip="Find"></nb-action>
-
+  
       <nb-action icon="log-in-outline"
            nbButton
            status="success"
@@ -50,6 +50,6 @@
   <!-- Main Content -->
   <nb-layout-column class="colored-column-basic" (click)="toggleout()">
     <router-outlet></router-outlet>
+      <app-serv-pillihuaman-footer-home></app-serv-pillihuaman-footer-home>
   </nb-layout-column>
-  
 </nb-layout>

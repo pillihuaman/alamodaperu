@@ -36,7 +36,8 @@ export class LoginComponent implements OnInit {
   logging: boolean = false;
   hasError: boolean | undefined;
   private unsubscribe: Subscription[] = [];
-  returnUrl: string = '/home/main';
+  //returnUrl: string = '/home/main';
+  returnUrl: string = '/home/detail';
   loginForm: FormGroup;
 
   constructor(
