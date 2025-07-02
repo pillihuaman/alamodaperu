@@ -5,15 +5,13 @@ import { Router, RouterModule } from '@angular/router';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { NbMomentDateModule } from '@nebular/moment';
 import { NbButtonModule, NbCardModule, NbInputModule, NbIconModule, NbDatepickerModule, NbTimepickerModule, NbDialogService } from '@nebular/theme';
-import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
-import { TableDatasourceComponent } from '../../../@common-components/table-datasource/table-datasource.component';
-import { Page } from '../../../../@data/model/system/Page';
-import { System } from '../../../../@data/model/system/System';
-import { SystemService } from '../../../../@data/services/system.service';
-import { BaseImplementation } from '../../../../utils/baseImplementation';
-import { SpinnerService } from '../../../../@data/services/spinner.service';
-import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
-import { RespSystemEntities } from '../../../../@data/model/system/RespSystemEntities';
+import { Page } from '../../../../../@data/model/system/Page';
+import { RespSystemEntities } from '../../../../../@data/model/system/RespSystemEntities';
+import { SpinnerService } from '../../../../../@data/services/spinner.service';
+import { SystemService } from '../../../../../@data/services/system.service';
+import { NebularSharedModule } from '../../../../../@domain/nebular-shared.module';
+import { ModalRepository } from '../../../../../@domain/repository/repository/modal.repository ';
+import { BaseImplementation } from '../../../../../utils/baseImplementation';
 
 @Component({
   selector: 'app-page-detail',

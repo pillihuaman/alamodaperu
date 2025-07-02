@@ -4,6 +4,8 @@ import { HomeComponent } from './@presentation/home/home.component';
 import { PageComponent } from './@presentation/pages/page.component';
 import { AuthGuard } from './@data/interceptors';
 import { NotauthGuard } from './@data/interceptors/notauth.guard';
+import { SystemComponent } from './@presentation/system-admin/system.component';
+
 export const routes: Routes = [
   {
     path: 'home',
@@ -24,8 +26,7 @@ export const routes: Routes = [
   {
     path: 'auth',
     component: AuthComponent,
-      //canActivate: [AuthGuard], //
-    //canActivate: [NotauthGuard],
+    //canActivate: [NotauthGuard], // Puedes habilitarlo si el guard funciona bien
     children: [
       {
         path: 'login',
@@ -42,7 +43,7 @@ export const routes: Routes = [
   {
     path: 'support',
     component: PageComponent,
-    canActivate: [AuthGuard], //
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'imagen-product',
@@ -58,22 +59,7 @@ export const routes: Routes = [
         path: 'product/detail/:id',
         loadComponent: () => import('./@presentation/pages/support/product/detail-product/detail-product.component')
           .then(m => m.DetailProductComponent),
-        data: { renderMode: 'client' } // 🛠️ Disable prerender
-      },
-      {
-        path: 'control',
-        loadComponent: () => import('./@presentation/pages/support/register-control/register-control.component')
-          .then(m => m.RegisterControlComponent)
-      },
-      {
-        path: 'parameter',
-        loadComponent: () => import('./@presentation/pages/support/parameters/parameters.component')
-          .then(m => m.ParametersComponent)
-      },
-      {
-        path: 'generate-random-color-imagen',
-        loadComponent: () => import('./@presentation/pages/support/create-randon-imagen-color/create-randon-imagen-color.component')
-          .then(m => m.CreateRandonImagenColorComponent)
+        data: { renderMode: 'client' }
       },
       {
         path: 'employee',
@@ -86,29 +72,6 @@ export const routes: Routes = [
           .then(m => m.StoreComponent)
       },
       {
-        path: 'system',
-        loadComponent: () => import('./@presentation/pages/system/system.component')
-          .then(m => m.SystemComponent)
-      },
-      {
-        path: 'system/detail/:id',
-        loadComponent: () => import('./@presentation/pages/system/system-detail/system-detail.component')
-          .then(m => m.SystemDetailComponent),
-        data: { renderMode: 'client' } // 🛠️ Disable prerender
-      },
-      {
-        path: 'page/detail/:id',
-        loadComponent: () => import('./@presentation/pages/system/page-detail/page-detail.component')
-          .then(m => m.PageDetailComponent),
-        data: { renderMode: 'client' } // 🛠️ Disable prerender
-      },
-      {
-        path: 'menu/detail/:id',
-        loadComponent: () => import('./@presentation/pages/system/menu-detail/menu-detail.component')
-          .then(m => m.MenuDetailComponent),
-        data: { renderMode: 'client' } // 🛠️ Disable prerender
-      },
-      {
         path: 'supplier',
         loadComponent: () => import('./@presentation/pages/support/supplier/supplier.component')
           .then(m => m.SupplierComponent)
@@ -117,9 +80,69 @@ export const routes: Routes = [
         path: 'supplier/detail/:id',
         loadComponent: () => import('./@presentation/pages/support/supplier/detail-supplier/detail-supplier.component')
           .then(m => m.DetailSupplierComponent),
-        data: { renderMode: 'client' } // 🛠️ Disable prerender
+        data: { renderMode: 'client' }
       },
+      {
+        path: 'tenant',
+        loadComponent: () =>
+          import('./@presentation/pages/support/tenant/support-tenant.component')
+            .then(m => m.SupportTenantComponent)
+      },
+      {
+        path: 'tenant/detail/:id',
+        loadComponent: () =>
+          import('./@presentation/pages/support/tenant/detail/support-tenant-detail.component')
+            .then(m => m.SupportTenantDetailComponent),
+        data: { renderMode: 'client' }
+      }
     ],
   },
-  { path: '**', redirectTo: 'home/main', pathMatch: 'full' },
+  {
+    path: 'system-admin',
+    component: SystemComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'control',
+        loadComponent: () => import('./@presentation/system-admin/admin/system/register-control/register-control.component')
+          .then(m => m.RegisterControlComponent)
+      },
+      {
+        path: 'parameter',
+        loadComponent: () => import('./@presentation/system-admin/admin/system/parameters/parameters.component')
+          .then(m => m.ParametersComponent)
+      },
+      {
+        path: 'generate-random-color-imagen',
+        loadComponent: () => import('./@presentation/pages/support/create-randon-imagen-color/create-randon-imagen-color.component')
+          .then(m => m.CreateRandonImagenColorComponent)
+      },
+      {
+        path: 'system',
+        loadComponent: () => import('./@presentation/system-admin/admin/system/system.component')
+          .then(m => m.SystemComponent)
+      },
+      {
+        path: 'system/detail/:id',
+        loadComponent: () => import('./@presentation/system-admin/admin/system/system-detail/system-detail.component')
+          .then(m => m.SystemDetailComponent),
+        data: { renderMode: 'client' }
+      },
+      {
+        path: 'page/detail/:id',
+        loadComponent: () => import('./@presentation/system-admin/admin/system/page-detail/page-detail.component')
+          .then(m => m.PageDetailComponent),
+        data: { renderMode: 'client' }
+      },
+      {
+        path: 'menu/detail/:id',
+        loadComponent: () => import('./@presentation/system-admin/admin/system/menu-detail/menu-detail.component')
+          .then(m => m.MenuDetailComponent),
+        data: { renderMode: 'client' }
+      }
+    ],
+  },
+  // Redirección por defecto
+  { path: '', redirectTo: 'home/main', pathMatch: 'full' },
+  { path: '**', redirectTo: 'home/main' },
 ];

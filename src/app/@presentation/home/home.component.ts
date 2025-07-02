@@ -3,6 +3,7 @@ import {  Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NbButtonModule, NbLayoutModule, NbSidebarService } from '@nebular/theme';
 import { NebularSharedModule } from '../../@domain/nebular-shared.module';
+import { AuthenticationRepository } from '../../@domain/repository/repository/authentication.repository';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,18 @@ import { NebularSharedModule } from '../../@domain/nebular-shared.module';
   ]
 })
 export class HomeComponent {
+  constructor(
+private authService:AuthenticationRepository
+  ) { }
 
+
+ngOnInit(): void {
+
+}
+
+private tokenExists(): boolean {
+  return typeof localStorage !== 'undefined' && !!localStorage.getItem('token');
+}
 }
 
 

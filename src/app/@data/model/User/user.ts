@@ -1,3 +1,5 @@
+import { Roles } from "../system/roles.model";
+
 export interface User {
   name?: string;
   lastName?: string;
@@ -15,4 +17,5 @@ export interface User {
   repeatpassword?:string;
   phoneNumber?:string;
   access_token?:string;
+  roles:Roles[];
 }

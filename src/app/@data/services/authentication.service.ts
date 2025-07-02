@@ -4,7 +4,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { NbToastrService } from '@nebular/theme';
+import { NbMenuItem, NbToastrService } from '@nebular/theme';
 
 import { AuthenticationRepository } from '../../@domain/repository/repository/authentication.repository';
 
@@ -12,28 +12,32 @@ import { ResponseBody } from '../model/general/responseBody';
 import { Utils } from '../../utils/utils';
 import { Const } from './../../utils/const';
 import { User } from '../model/User/user';
+import { SystemService } from './system.service';
+import { mapToNbMenuItems } from '../../utils/general';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService extends AuthenticationRepository {
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
   private isBrowser: boolean;
-
+  menuTree: NbMenuItem[] = [];
+  private isMenuLoaded = false;
   constructor(
     private http: HttpClient,
     private router: Router,
-    private toastrService: NbToastrService,
+    private toastrService: NbToastrService, 
+    private systemService: SystemService,
     @Inject(PLATFORM_ID) private platformId: object
   ) {
     super();
     this.isBrowser = isPlatformBrowser(this.platformId);
-  
+
     let storedUser: User | null = null;
     if (this.isBrowser) {
       const userJson = localStorage.getItem('usuario');
       storedUser = userJson ? JSON.parse(userJson) : null;
     }
-  
+
     this.currentUserSubject = new BehaviorSubject<User | null>(storedUser);
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -59,13 +63,20 @@ export class AuthenticationService extends AuthenticationRepository {
    * @param password User password
    */
   login(email: string, password: string): Observable<User> {
+    debugger
     return this.verifyCredentials(email, password).pipe(
       map((response: ResponseBody) => {
         const usuario = response.payload.user as User;
         usuario.access_token = response.payload.accessToken;
         this.currentUserSubject.next(usuario);
         if (this.isBrowser) {
+        //removeItem('token');
+          //localStorage.removeItem('user');
           localStorage.setItem('token', response.payload.accessToken);
+          debugger
+          // 🧭 Cargar menú para el usuario autenticado
+          this.loadSystemsMenu();
+          // 🔀 Redireccionar
         }
         return usuario;
       }),
@@ -75,12 +86,26 @@ export class AuthenticationService extends AuthenticationRepository {
       })
     );
   }
+
+  loadSystemsMenu(): void {
+    this.systemService.findSystemMenuTree().subscribe({
+      next: (response: ResponseBody) => {
+        this.menuTree = mapToNbMenuItems(response.payload);
+        this.isMenuLoaded = true;
+        console.log('✅ Menú cargado:', this.menuTree);
+      },
+      error: error => {
+        console.error('❌ Error al cargar el menú:', error);
+      },
+    });
+  }
+
   /**
    * Logs out the user and clears the session.
    */
 
   logout(): void {
-    
+
     if (this.isBrowser) {
       localStorage.removeItem('usuario');
       localStorage.removeItem('token');
@@ -121,4 +146,24 @@ export class AuthenticationService extends AuthenticationRepository {
     }
     this.currentUserSubject.next(null);
   }
+  getGuestToken(): Observable<any> {
+    const url = `${Const.API_SEGURIDAD}/api/v1/auth/guest`;
+
+    return this.http.post<any>(url, {}).pipe(
+      map((response: any) => {
+        const token = response?.payload?.accessToken ?? response?.accessToken ?? null;
+        if (token && this.isBrowser) {
+          debugger
+          localStorage.setItem('token', token);
+        }
+
+        return token;
+      }),
+      catchError(error => {
+        this.toastrService.danger('Error al obtener token guest', 'Token');
+        return throwError(() => new Error('No se pudo generar token guest'));
+      })
+    );
+  }
+
 }

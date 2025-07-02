@@ -10,6 +10,7 @@ import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
 import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
 import { EmployeeDetailComponent } from '../../../pages/support/workers/employee-detail/employee-detail.component';
 import { User } from '../../../../@data/model/User/user';
+import { Roles } from '../../../../@data/model/system/roles.model';
 
 @Component({
   selector: 'app-user-register',
@@ -25,24 +26,9 @@ import { User } from '../../../../@data/model/User/user';
   ]
 })
 export class UserRegisterComponent implements OnInit {
-  loginForm!: FormGroup<{
-    name: FormControl<string>;
-    lastName: FormControl<string>;
-    password: FormControl<string>;
-    repeatpassword: FormControl<string>;
-    numTypeDocument: FormControl<string>;
-    typeDocument: FormControl<string>;
-    email: FormControl<string>;
-    phoneNumber: FormControl<string>;
-    alias: FormControl<string>;
-    userName: FormControl<string>;
-    rolId: FormControl<number>;
-    code: FormControl<number>;
-    estatus: FormControl<boolean>;
-  }>;
-
+  loginForm!: FormGroup;
+  availableRoles: Roles[] = [];
   selectedItemType: any;
-  user!: User;
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
@@ -50,14 +36,25 @@ export class UserRegisterComponent implements OnInit {
     private modalRepository: ModalRepository,
     private dialogService: NbDialogService,
     public dialog: MatDialog
-  ) {}
-
-  get f() {
-    return this.loginForm.controls;
-  }
+  ) { }
 
   ngOnInit(): void {
     this.initForm();
+
+    // Simulamos roles. En producción, se deben obtener de un servicio.
+    this.availableRoles = [
+      { id: '68523aef733e164697be6f59', name: 'DEV', active: true, description: 'Desarrollador de software', permissionIds: [] },
+      { id: '68523aef733e164697be6f5a', name: 'QA', active: true, description: 'Especialista en calidad', permissionIds: [] },
+      { id: '68523aef733e164697be6f5b', name: 'DEVOPS', active: true, description: 'DevOps', permissionIds: [] },
+      { id: '68523aef733e164697be6f5c', name: 'ANALYST', active: true, description: 'Analista', permissionIds: [] },
+      { id: '68523aef733e164697be6f5d', name: 'SUPPORT', active: true, description: 'Soporte técnico', permissionIds: [] },
+      { id: '68523aef733e164697be6f5e', name: 'MANAGER', active: true, description: 'Gerente', permissionIds: [] },
+      { id: '68523aef733e164697be6f5f', name: 'ANONYMOUS', active: true, description: 'Acceso público', permissionIds: [] },
+      { id: '68523aef733e164697be6f57', name: 'ADMIN', active: true, description: 'Administrador con acceso total', permissionIds: [] },
+      { id: '68523aef733e164697be6f58', name: 'USER', active: true, description: 'suario estándar del sistema', permissionIds: [] },
+
+    ];
+
     this.loginForm.patchValue({
       name: 'zarmir',
       lastName: 'pillihuaman hurtado',
@@ -69,58 +66,56 @@ export class UserRegisterComponent implements OnInit {
       phoneNumber: '999999999',
       alias: 'zarmir',
       userName: 'zarmirph',
-      rolId: 1,
       code: 1001,
-      estatus: true
+      estatus: true,
+      roles: [this.availableRoles[0]] // default selected role
     });
   }
 
   initForm() {
     this.loginForm = this.formBuilder.group({
-      name: this.formBuilder.control('', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]),
+      name: this.formBuilder.control('', [Validators.required]),
       lastName: this.formBuilder.control(''),
-      password: this.formBuilder.control('', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]),
-      repeatpassword: this.formBuilder.control('', [Validators.required, Validators.minLength(8), Validators.maxLength(50)]),
+      password: this.formBuilder.control('', [Validators.required, Validators.minLength(8)]),
+      repeatpassword: this.formBuilder.control('', [Validators.required, Validators.minLength(8)]),
       numTypeDocument: this.formBuilder.control(''),
       typeDocument: this.formBuilder.control(''),
-      email: this.formBuilder.control('', [Validators.required, Validators.minLength(6), Validators.maxLength(50)]),
+      email: this.formBuilder.control('', [Validators.required]),
       phoneNumber: this.formBuilder.control(''),
       alias: this.formBuilder.control(''),
       userName: this.formBuilder.control(''),
-      rolId: this.formBuilder.control(0),
       code: this.formBuilder.control(0),
-      estatus: this.formBuilder.control(true)
+      estatus: this.formBuilder.control(true),
+      roles: this.formBuilder.control<Roles[]>([], Validators.required)
     });
+  }
+
+  get f() {
+    return this.loginForm.controls;
   }
 
   submit() {
     if (this.loginForm.invalid) return;
 
-    // Asignar valores predeterminados si es necesario
-
-
     const data: User = {
-      name: this.loginForm.value.name,
-      lastName: this.loginForm.value.lastName,
-      password: this.loginForm.value.password,
-      numTypeDocument: this.loginForm.value.numTypeDocument,
-      typeDocument: this.loginForm.value.typeDocument,
-      email: this.loginForm.value.email,
-      phoneNumber: this.loginForm.value.phoneNumber,
-      alias: this.loginForm.value.alias,
-      userName: this.loginForm.value.userName,
-      rolId: this.loginForm.value.rolId,
-      code: this.loginForm.value.code,
-      estatus: this.loginForm.value.estatus
+      name: this.f['name'].value,
+      lastName: this.f['lastName'].value,
+      password: this.f['password'].value,
+      repeatpassword: this.f['repeatpassword'].value,
+      numTypeDocument: this.f['numTypeDocument'].value,
+      typeDocument: this.f['typeDocument'].value,
+      email: this.f['email'].value,
+      phoneNumber: this.f['phoneNumber'].value,
+      alias: this.f['alias'].value,
+      userName: this.f['userName'].value,
+      code: this.f['code'].value,
+      estatus: this.f['estatus'].value,
+      roles: this.f['roles'].value
     };
-
+    debugger
     this.userRepository.registerUser(data).subscribe(
-      () => {
-        this.dialog.open(ModalComponent, { data: GeneralConstans.datamodelSucess });
-      },
-      () => {
-        this.dialog.open(ModalComponent, { data: GeneralConstans.datamodelError });
-      }
+      () => this.dialog.open(ModalComponent, { data: GeneralConstans.datamodelSucess }),
+      () => this.dialog.open(ModalComponent, { data: GeneralConstans.datamodelError })
     );
   }
 
@@ -128,8 +123,6 @@ export class UserRegisterComponent implements OnInit {
     this.dialogService.open(EmployeeDetailComponent, {
       closeOnBackdropClick: false,
       hasBackdrop: true,
-    }).onClose.subscribe(result => {
-      console.log('Dialog closed', result);
-    });
+    }).onClose.subscribe(result => console.log('Dialog closed', result));
   }
 }

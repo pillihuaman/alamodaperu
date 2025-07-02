@@ -6,11 +6,11 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client
   },
   {
-    path: 'support/system/detail/:id',
+    path: 'system-admin/system/detail/:id',
     renderMode: RenderMode.Client
   },
   {
-    path: 'support/menu/detail/:id',
+    path: 'system-admin/menu/detail/:id',
     renderMode: RenderMode.Client
   },
   {
@@ -18,7 +18,7 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Client
   }, 
    {
-    path: 'support/page/detail/:id',
+    path: 'system-admin/page/detail/:id',
     renderMode: RenderMode.Client
   },
   {

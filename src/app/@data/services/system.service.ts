@@ -19,13 +19,10 @@ export class SystemService {
   private systemSubject = new BehaviorSubject<System[]>([]);
   private pageSubject = new BehaviorSubject<Page[]>([]);
   private menuSubject = new BehaviorSubject<MenuItem[]>([]);
-
   system$ = this.systemSubject.asObservable();
   page$ = this.pageSubject.asObservable();
   menu$ = this.menuSubject.asObservable();
-
   constructor(private http: HttpClient, private apiService: ApiService) {}
-
   // SYSTEM
   findSystems(filters?: { id?: string; name?: string; page?: number; pagesize?: number }): Observable<ResponseBody> {
     const url = `${Const.API_SUPPORT}/${Const.URL_TYPE_ACCES_PRIVATE}/v1/support/system`;

@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NbButtonModule, NbCardModule, NbComponentStatus, NbDialogModule, NbIconModule, NbInputModule, } from '@nebular/theme';
-import { Control } from '../../../../@data/model/general/control';
-import { SupportService } from '../../../../@data/services/support.service';
-import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
+import { Control } from '../../../../../@data/model/general/control';
+import { SupportService } from '../../../../../@data/services/support.service';
+import { ModalRepository } from '../../../../../@domain/repository/repository/modal.repository ';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
-import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
-import { RouterButtonComponent } from '../../../@common-components/router-button/router-button.component';
+import { NebularSharedModule } from '../../../../../@domain/nebular-shared.module';
+import { RouterButtonComponent } from '../../../../@common-components/router-button/router-button.component';
 
 
 @Component({

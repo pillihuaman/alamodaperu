@@ -5,16 +5,15 @@ import { Router, RouterModule } from '@angular/router';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { NbMomentDateModule } from '@nebular/moment';
 import { NbButtonModule, NbCardModule, NbInputModule, NbIconModule, NbDatepickerModule, NbTimepickerModule, NbAccordionModule, NbDialogModule, NbLayoutModule, NbDialogService } from '@nebular/theme';
-import { NebularSharedModule } from '../../../@domain/nebular-shared.module';
-import { SystemService } from '../../../@data/services/system.service';
-import { TableDatasourceComponent } from '../../@common-components/table-datasource/table-datasource.component';
-import { BaseImplementation } from '../../../utils/baseImplementation';
-import { ProductService } from '../../../@data/services/ProductService';
-import { SpinnerService } from '../../../@data/services/spinner.service';
-import { ModalRepository } from '../../../@domain/repository/repository/modal.repository ';
-import { TreeNode } from '../../../@data/model/general/treeNode';
-import { ReqSystem } from '../../../@data/model/system/ReqSystem';
-import { RespSystemEntities } from '../../../@data/model/system/RespSystemEntities';
+import { TreeNode } from '../../../../@data/model/general/treeNode';
+import { ReqSystem } from '../../../../@data/model/system/ReqSystem';
+import { RespSystemEntities } from '../../../../@data/model/system/RespSystemEntities';
+import { SpinnerService } from '../../../../@data/services/spinner.service';
+import { SystemService } from '../../../../@data/services/system.service';
+import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
+import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
+import { BaseImplementation } from '../../../../utils/baseImplementation';
+import { TableDatasourceComponent } from '../../../@common-components/table-datasource/table-datasource.component';
 
 @Component({
   selector: 'app-system',
@@ -111,21 +110,21 @@ export class SystemComponent extends BaseImplementation<any> implements OnInit {
 
 
   onNewSystem(): void {
-    this.router.navigate(['/support/system/detail', 'new']);
+    this.router.navigate(['/system-admin/system/detail', 'new']);
   }
   
   onNewPage(): void {
-    this.router.navigate(['/support/page/detail', 'new']);
+    this.router.navigate(['/system-admin/page/detail', 'new']);
   }
   
   onNewMenu(): void {
-    this.router.navigate(['/support/menu/detail', 'new']);
+    this.router.navigate(['/system-admin/menu/detail', 'new']);
   }
   
 
   handleEditAction(row: TreeNode<any>) {
     const id = row?.data?.systemId;
-    if (id) this.router.navigate(['/support/system/detail', id]);
+    if (id) this.router.navigate(['/system-admin/system/detail', id]);
   }
 
   deleting(event: any) {

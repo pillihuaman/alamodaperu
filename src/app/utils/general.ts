@@ -1,5 +1,7 @@
 import { Sort } from '@angular/material/sort';
 import { LocaleService } from '../@data/services/locale.service';
+import { NbMenuItem } from '@nebular/theme';
+import { RespMenuTree } from '../@data/model/system/RespMenuTree';
 
 export function getMiliseconds() {
   const dt = new Date();
@@ -55,4 +57,31 @@ export function setValidOrInvalidColors(items: any[], field: any) {
     }
   });
   return items;
+}
+ export function mapToNbMenuItems(items: RespMenuTree[]): NbMenuItem[] {
+  return items.map(item => {
+    const children: NbMenuItem[] = [];
+
+    if (item.children?.length) {
+      item.children.forEach(child => {
+        const grandChildren = child.children?.length ? mapToNbMenuItems(child.children) : undefined;
+        children.push({
+          title: child.title,
+          icon: child.icon ?? 'file-text-outline',
+          link: child.link,
+          children: grandChildren,
+        });
+      });
+    }
+
+    const parentLink = item.link ? item.link : `/support/${item.title.toLowerCase()}`;
+
+    return {
+      title: item.title,
+      icon: item.icon ?? 'folder-outline',
+      link: parentLink,
+      expanded: item.expanded ?? true,
+      children: children.length > 0 ? children : undefined,
+    };
+  });
 }

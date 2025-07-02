@@ -1,32 +1,58 @@
-
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { NbLayoutModule, NbSidebarModule, NbButtonModule, NbThemeService, NbSidebarService, NbDatepickerModule, NbDialogModule, NbMenuItem, NbIconModule } from '@nebular/theme';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnInit
+} from '@angular/core';
+import {
+  Router,
+  RouterModule,
+  NavigationEnd
+} from '@angular/router';
+import {
+  NbLayoutModule,
+  NbSidebarModule,
+  NbButtonModule,
+  NbThemeService,
+  NbSidebarService,
+  NbDialogModule,
+  NbMenuItem,
+  NbIconModule
+} from '@nebular/theme';
 import { CommonModule } from '@angular/common';
-import { NebularSharedModule } from './@domain/nebular-shared.module';
-import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { SystemService } from './@data/services/system.service';
-import { System } from './@data/model/system/System';
-import { RespMenuTree } from './@data/model/system/RespMenuTree';
-import { ResponseBody } from './@data/model/general/responseBody';
-import { Utils } from './utils/utils';
-import { AuthStateService } from './@data/services/AuthStateService';
+import { HttpClient } from '@angular/common/http';
 
+import { NebularSharedModule } from './@domain/nebular-shared.module';
+import { ServPillihuamanFooterHomeComponent } from './@presentation/@common-components/serv-pillihuaman-footer-home/serv-pillihuaman-footer-home.component';
+import { AppModalFooterComponent } from './@presentation/@common-components/app-modal-footer/app-modal-footer.component';
+
+import { SystemService } from './@data/services/system.service';
+import { AuthStateService } from './@data/services/AuthStateService';
 import { AuthenticationService } from './@data/services/authentication.service';
 import { AuthenticationRepository } from './@domain/repository/repository/authentication.repository';
-import { AppModalFooterComponent } from './@presentation/@common-components/app-modal-footer/app-modal-footer.component';
-import { ServPillihuamanFooterHomeComponent } from './@presentation/@common-components/serv-pillihuaman-footer-home/serv-pillihuaman-footer-home.component';
+
+import { RespMenuTree } from './@data/model/system/RespMenuTree';
+import { ResponseBody } from './@data/model/general/responseBody';
+
 @Component({
   selector: 'serv-pillihuaman-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
   template: `<router-outlet></router-outlet>`,
-  imports: [CommonModule, RouterModule, CommonModule, NbDialogModule,
-    RouterModule, // ✅ Se agrega para que reconozca <router-outlet>
-    NbLayoutModule, FormsModule,
-    NbButtonModule, NbSidebarModule, NebularSharedModule, NbIconModule,ServPillihuamanFooterHomeComponent] // ✅ Importa CommonModule y RouterModule
+  imports: [
+    CommonModule,
+    RouterModule,
+    NbDialogModule,
+    NbLayoutModule,
+    FormsModule,
+    NbButtonModule,
+    NbSidebarModule,
+    NebularSharedModule,
+    NbIconModule,
+    ServPillihuamanFooterHomeComponent
+  ]
 })
 export class AppComponent implements OnInit {
   isSearchVisible = false;
@@ -35,27 +61,34 @@ export class AppComponent implements OnInit {
   selectedTheme = 'default';
   showMenu: boolean = false;
   menuTree: NbMenuItem[] = [];
-    private isMenuLoaded = false;
+  private isMenuLoaded = false;
+  private tokenKey = 'token';
+
   private authenticationService = inject(AuthenticationService);
- constructor(
+
+  constructor(
     private router: Router,
     private sidebarService: NbSidebarService,
     private nbThemeService: NbThemeService,
     private http: HttpClient,
     private cdRef: ChangeDetectorRef,
     private systemService: SystemService,
-    private authStateService: AuthStateService
+    private authStateService: AuthStateService,
+    private authService: AuthenticationRepository
   ) {
+    
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
+        
+        if (this.tokenExists() && !this.isMenuLoaded) {
+          this.loadSystemsMenu();
+        }
+
         this.authStateService.isLoggedIn$.subscribe(loggedIn => {
           this.showMenu = loggedIn;
-
-          if (loggedIn && !this.isMenuLoaded) {
-            this.loadSystemsMenu();
-            this.isMenuLoaded = true;
+          if (!loggedIn && !this.tokenExists()) {
+            this.generateGuestToken();
           }
-
           this.cdRef.detectChanges();
         });
       }
@@ -63,13 +96,39 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
+    if (!this.tokenExists()) {
+      this.generateGuestToken();
+    } else if (!this.isMenuLoaded) {
+      this.loadSystemsMenu();
+    }
     console.log('✅ AppComponent inicializado');
   }
 
-  loadSystemsMenu(): void {
+  private tokenExists(): boolean {
+    return typeof localStorage !== 'undefined' && !!localStorage.getItem(this.tokenKey);
+  }
+
+  private generateGuestToken(): void {
+    this.authService.getGuestToken().subscribe({
+      next: (token: string) => {
+        console.log('🎫 Token guest obtenido:', token);
+        localStorage.setItem(this.tokenKey, token);
+        this.loadSystemsMenu();
+      },
+      error: (err) => {
+        console.error('❌ Error al generar token guest', err);
+      }
+    });
+  }
+
+  private loadSystemsMenu(): void {
+    if (this.isMenuLoaded) return;
+
     this.systemService.findSystemMenuTree().subscribe({
       next: (response: ResponseBody) => {
         this.menuTree = mapToNbMenuItems(response.payload);
+        this.isMenuLoaded = true;
         console.log('✅ Menú cargado:', this.menuTree);
       },
       error: error => {
@@ -128,7 +187,7 @@ export class AppComponent implements OnInit {
   }
 }
 
-// Helper para mapear el menú del backend a NbMenuItem[]
+// 🔁 Función auxiliar para transformar respuesta del backend a menú Nebular
 function mapToNbMenuItems(items: RespMenuTree[]): NbMenuItem[] {
   return items.map(item => {
     const children: NbMenuItem[] = [];

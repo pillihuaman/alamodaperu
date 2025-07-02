@@ -40,6 +40,8 @@ import { FileRepository } from './@domain/repository/repository/file.repository'
 import { FileService } from './@data/services/file.service';
 import { ProductRepository } from './@domain/repository/repository/ProductRepository';
 import { ProductService } from './@data/services/ProductService';
+import { TenantInterceptor } from './@data/interceptors/TenantInterceptor';
+import { DebugInterceptor } from './@data/interceptors/DebugInterceptor';
 
 export function initConfig(constService: Const) {
   return () =>
@@ -49,6 +51,9 @@ export function initConfig(constService: Const) {
         return [];
       });
 }
+
+
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
@@ -75,8 +80,8 @@ export const appConfig: ApplicationConfig = {
       NbDialogModule.forRoot(),
       NbMenuModule.forRoot(),
       NbWindowModule.forRoot(),
-      NbToastrModule.forRoot(),  NbDatepickerModule.forRoot(), // ✅ Ya agregado
-      NbTimepickerModule.forRoot(),NbMomentDateModule,NbDateFnsDateModule
+      NbToastrModule.forRoot(), NbDatepickerModule.forRoot(), // ✅ Ya agregado
+      NbTimepickerModule.forRoot(), NbMomentDateModule, NbDateFnsDateModule
     ),
 
     provideAppInitializer(
@@ -84,28 +89,29 @@ export const appConfig: ApplicationConfig = {
     ),
 
     // ✅ Fix: HTTP Interceptors (Ensure No Circular Dependency)
+        { provide: HTTP_INTERCEPTORS, useClass: TenantInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true },
-
-    { provide: MAT_DATE_LOCALE, useValue: 'es-PE' }, 
+    { provide: HTTP_INTERCEPTORS, useClass: DebugInterceptor, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-PE' },
     { provide: LOCALE_ID, useValue: 'es-PE' },
-   
+
     { provide: AuthenticationRepository, useClass: AuthenticationService },
     { provide: ModalRepository, useClass: ModalService },
     { provide: UserRepository, useClass: UserService },
     { provide: SupportRepository, useClass: SupportService },
-    { provide: SupplierRepository, useClass: SupplierService } ,
-      { provide: CommonRepository, useClass: CommonService } ,
-     { provide: ProductViewImagenRepository, useClass: ProductViewImagenService } ,
-     { provide: FileRepository, useClass: FileService } ,
+    { provide: SupplierRepository, useClass: SupplierService },
+    { provide: CommonRepository, useClass: CommonService },
+    { provide: ProductViewImagenRepository, useClass: ProductViewImagenService },
+    { provide: FileRepository, useClass: FileService },
 
-     { provide: ProductRepository, useClass: ProductService } ,
+    { provide: ProductRepository, useClass: ProductService },
 
-     
+
     Const,
     ApiService,
     DataService,
-    SpinnerService,NbDialogService
+    SpinnerService, NbDialogService
   ],
 };

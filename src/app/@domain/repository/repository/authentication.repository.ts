@@ -15,7 +15,7 @@ export abstract class AuthenticationRepository {
   abstract get getCurrentUserValue(): User | null;
   abstract clearUser(): void;
   abstract login(login: string, clave: string): Observable<any>;
-
+ abstract  getGuestToken(): Observable<any> 
   /* 
     abstract get getCurrentUserValue(): User;
     abstract login(login: string, clave: string): Observable<any>;

@@ -5,9 +5,9 @@ import { Router, RouterModule } from '@angular/router';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { NbMomentDateModule } from '@nebular/moment';
 import { NbButtonModule, NbCardModule, NbInputModule, NbIconModule, NbDatepickerModule, NbTimepickerModule } from '@nebular/theme';
-import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
-import { System } from '../../../../@data/model/system/System';
-import { SystemService } from '../../../../@data/services/system.service';
+import { System } from '../../../../../@data/model/system/System';
+import { SystemService } from '../../../../../@data/services/system.service';
+import { NebularSharedModule } from '../../../../../@domain/nebular-shared.module';
 
 @Component({
   selector: 'app-system-detail',

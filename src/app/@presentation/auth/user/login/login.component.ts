@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NbButtonModule, NbCardModule, NbInputModule,  NbSidebarService } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbInputModule,  NbMenuItem,  NbSidebarService } from '@nebular/theme';
 import { Observable, Subscription, timer } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { SupportService } from '../../../../@data/services/support.service';
@@ -11,6 +11,9 @@ import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
 import { ModalRepository } from '../../../../@domain/repository/repository/modal.repository ';
 import { User } from '../../../../@data/model/User/user';
 import { AuthStateService } from '../../../../@data/services/AuthStateService';
+import { ResponseBody } from '../../../../@data/model/general/responseBody';
+import { SystemService } from '../../../../@data/services/system.service';
+import { mapToNbMenuItems } from '../../../../utils/general';
 
 @Component({
   selector: 'app-login',
@@ -46,7 +49,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationRepository,
     private router: Router,
     private supportService: SupportService,
-    private modalRepository: ModalRepository,  private authStateService: AuthStateService
+    private modalRepository: ModalRepository,  private authStateService: AuthStateService,
+
   ) {
     // Inicialización de loginForm en el constructor
     this.loginForm = this.formBuilder.group({
@@ -66,27 +70,35 @@ export class LoginComponent implements OnInit {
     });
 
   }
+submit() {
+  try {
+    this.hasError = false;
 
-  submit() {
-    try {
-      this.hasError = false;
-      
-      const loginSubscr = this.authService
-        .login(this.f['user'].value, this.f['password'].value)
-        .pipe(first())
-        .subscribe((user: User) => {
-          if (user) {
-            this.authStateService.setLoginState(true);
-            this.router.navigate([this.returnUrl]);
-          } else {
-            this.hasError = true;
-          }
-        });
+    // 🔄 Limpieza total antes de loguear
+debugger
+    this.authStateService.setLoginState(false);
 
-      this.unsubscribe.push(loginSubscr);
-    } catch (e) {
-      console.error('An error occurred:', e);
-      throw e;
-    }
+
+    const loginSubscr = this.authService
+      .login(this.f['user'].value, this.f['password'].value)
+      .pipe(first())
+      .subscribe((user: User) => {
+        if (user) {
+          // 🟢 Establecer login verdadero
+          this.authStateService.setLoginState(true);
+  
+          this.router.navigate([this.returnUrl]);
+        } else {
+          this.hasError = true;
+        }
+      });
+
+    this.unsubscribe.push(loginSubscr);
+  } catch (e) {
+    console.error('An error occurred:', e);
+    throw e;
   }
+}
+
+
 }

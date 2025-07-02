@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { GuidGenerator } from '../../../../@data/model/general/guid-generator';
-import { Parameter } from '../../../../@data/model/general/parameter';
-import { SupportRepository } from '../../../../@domain/repository/repository/support.repository';
+import { GuidGenerator } from '../../../../../@data/model/general/guid-generator';
+import { Parameter } from '../../../../../@data/model/general/parameter';
+import { SupportRepository } from '../../../../../@domain/repository/repository/support.repository';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { NbDialogModule,  NbButtonModule, NbCardModule, NbInputModule, NbIconModule } from '@nebular/theme';
-import { NebularSharedModule } from '../../../../@domain/nebular-shared.module';
-import { TableDatasourceComponent } from '../../../@common-components/table-datasource/table-datasource.component';
-import { ValidationMessageComponent } from '../../../@common-components/validation-message/validation-message.component';
-import { RouterButtonComponent } from "../../../@common-components/router-button/router-button.component";
+import { NebularSharedModule } from '../../../../../@domain/nebular-shared.module';
+import { TableDatasourceComponent } from '../../../../@common-components/table-datasource/table-datasource.component';
+import { ValidationMessageComponent } from '../../../../@common-components/validation-message/validation-message.component';
+import { RouterButtonComponent } from "../../../../@common-components/router-button/router-button.component";
 
 @Component({
   selector: 'app-parameters',

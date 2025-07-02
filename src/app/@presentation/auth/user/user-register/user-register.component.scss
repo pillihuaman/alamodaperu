@@ -1,25 +1,53 @@
+.container {
+  padding: 1rem 2rem;
+}
+
 .flex-container {
-
- border: 2ch;
-
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.flex-container div {
-
-  padding-top: 6px;
-
+.form-label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  display: inline-block;
 }
 
-.typeCasrs{
-
-    padding-top: 1px !important;
-}
-
-.btntype{
-      padding-top: 12px !important;
-  
-}
 .invalid-text {
-  font-size: 0.75rem;
-  color: #fe6168;
+  color: #e53935; // rojo para errores
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
+  display: block;
+
+  span {
+    display: block;
+  }
+}
+
+.nb-select {
+  width: 100%;
+}
+
+.btntype {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+
+  .btn {
+    min-width: 160px;
+    font-weight: bold;
+  }
+}
+
+/* Responsive ajustes si no usas bootstrap directamente */
+@media screen and (max-width: 768px) {
+  .col-sm-6, .col-sm-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .btntype {
+    justify-content: center;
+  }
 }
