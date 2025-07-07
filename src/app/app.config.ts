@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom, inject, LOCALE_ID, PLATFORM_ID, provideAppInitializer } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom, inject, LOCALE_ID, PLATFORM_ID, provideAppInitializer } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
@@ -42,6 +42,7 @@ import { ProductRepository } from './@domain/repository/repository/ProductReposi
 import { ProductService } from './@data/services/ProductService';
 import { TenantInterceptor } from './@data/interceptors/TenantInterceptor';
 import { DebugInterceptor } from './@data/interceptors/DebugInterceptor';
+import { initApp } from './@data/interceptors/app.init';
 
 export function initConfig(constService: Const) {
   return () =>
@@ -58,6 +59,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
     provideAnimations(),
+
     { provide: NbOverlayContainer, useClass: NbOverlayContainerAdapter }, // ✅ FIX
     provideHttpClient(withFetch(), withInterceptorsFromDi()), // ✅ Fix: No manual interceptor injection
 
@@ -112,6 +114,7 @@ export const appConfig: ApplicationConfig = {
     Const,
     ApiService,
     DataService,
-    SpinnerService, NbDialogService
+    SpinnerService, NbDialogService,
+
   ],
 };

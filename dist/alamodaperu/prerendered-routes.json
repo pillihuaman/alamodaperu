@@ -1,0 +1,23 @@
+{
+  "routes": {
+    "/": {},
+    "/auth": {},
+    "/auth/login": {},
+    "/auth/register": {},
+    "/home": {},
+    "/home/detail": {},
+    "/home/main": {},
+    "/support": {},
+    "/support/employee": {},
+    "/support/imagen-product": {},
+    "/support/product": {},
+    "/support/store": {},
+    "/support/supplier": {},
+    "/support/tenant": {},
+    "/system-admin": {},
+    "/system-admin/control": {},
+    "/system-admin/generate-random-color-imagen": {},
+    "/system-admin/parameter": {},
+    "/system-admin/system": {}
+  }
+}

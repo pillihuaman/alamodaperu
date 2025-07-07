@@ -70,7 +70,11 @@ export class DetailProductComponent extends BaseImplementation<RespProduct> impl
   currencies: { code: string; name: string }[] = [];
   fileTypes: string[] = [];
 
-  
+selectedImageIndex = 0;
+showZoom = false;
+selectedSize: string | null = null;
+colors: string[] = ['#f5d0d0', '#e6f7e6', '#f7e6c7', '#d0d0f5']; // Colores de ejemplo, usa los reales si los tienes
+
 
   constructor(
     private fb: FormBuilder,
@@ -674,5 +678,8 @@ debugger
       }
     );
   }
+
+
+  
 
 }

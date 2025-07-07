@@ -58,8 +58,8 @@ export class UserRegisterComponent implements OnInit {
     this.loginForm.patchValue({
       name: 'zarmir',
       lastName: 'pillihuaman hurtado',
-      password: '1988deza',
-      repeatpassword: '1988deza',
+      password: '............',
+      repeatpassword: '............',
       numTypeDocument: '12345678',
       typeDocument: 'DNI',
       email: 'pillihuamanhz@gmail.com',
