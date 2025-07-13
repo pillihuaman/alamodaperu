@@ -112,7 +112,7 @@ export class UserRegisterComponent implements OnInit {
       estatus: this.f['estatus'].value,
       roles: this.f['roles'].value
     };
-    debugger
+    
     this.userRepository.registerUser(data).subscribe(
       () => this.dialog.open(ModalComponent, { data: GeneralConstans.datamodelSucess }),
       () => this.dialog.open(ModalComponent, { data: GeneralConstans.datamodelError })

@@ -21,9 +21,14 @@ export const routes: Routes = [
         loadComponent: () => import('./@presentation/home/main/detail-main-page/detail-main-page.component')
           .then(m => m.DetailMainPageComponent)
       },
+           {
+        path: 'quotation',
+        loadComponent: () => import('./@presentation/home/cotizacion/quotation-detail/quotation-create.component')
+          .then(m => m.QuotationCreateComponent)
+      },
     ],
   },
-  {
+  {  
     path: 'auth',
     component: AuthComponent,
     //canActivate: [NotauthGuard], // Puedes habilitarlo si el guard funciona bien

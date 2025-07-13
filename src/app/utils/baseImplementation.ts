@@ -145,7 +145,7 @@ export class BaseImplementation<T = any> implements BaseRepository {
 
   showNoDataMessage() {
     let nbComponentStatus: NbComponentStatus = 'warning';
-    //  this.modalRepository.showToast(nbComponentStatus, "No se encontraron empleados con los filtros ingresados", "Succes");
+      this.modalRepository.showToast(nbComponentStatus, "No se encontraron empleados con los filtros ingresados", "Succes");
   }
 
    showSuccessMessage(message: string, title: string): void {
@@ -186,5 +186,22 @@ export class BaseImplementation<T = any> implements BaseRepository {
     }
     this.spinnerService.hide();
   }
+
+  /**
+   * Displays a generic warning toast message.
+   * @param message The main content of the warning message.
+   * @param title The title for the warning toast.
+   */
+  showWarningMessage(message: string, title: string): void {
+    const nbComponentStatus: NbComponentStatus = 'warning';
+    this.modalRepository.showToast(nbComponentStatus, message, title);
+    this.spinnerService.hide(); // It's good practice to hide the spinner when showing a message.
+  }
+    showWErrorMessage(message: string, title: string): void {
+    const nbComponentStatus: NbComponentStatus = 'danger';
+    this.modalRepository.showToast(nbComponentStatus, message, title);
+    this.spinnerService.hide(); // It's good practice to hide the spinner when showing a message.
+  }
+
 
 }

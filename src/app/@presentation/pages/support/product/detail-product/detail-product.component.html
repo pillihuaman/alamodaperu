@@ -111,9 +111,7 @@
             <div class="column" #columnRef>
               <h3>Catálogo</h3>
               <div cdkDropList id="catalogDropList" [cdkDropListData]="catalogImagesMetadata"
-              
-                [cdkDropListConnectedTo]="['assignDropList']" 
-                class="image-list"
+                [cdkDropListConnectedTo]="['assignDropList']" class="image-list"
                 (cdkDropListDropped)="onCatalogDrop($event)">
                 <div class="image-box" *ngFor="let img of catalogImagesMetadata" cdkDrag [cdkDragData]="img">
 
@@ -134,9 +132,7 @@
             <div class="column" #columnRef>
               <h3>Asignadas</h3>
               <div cdkDropList id="assignDropList" [cdkDropListData]="assignedImages"
-                [cdkDropListConnectedTo]="['catalogDropList']" 
-                
-                class="image-list asignadas-column"
+                [cdkDropListConnectedTo]="['catalogDropList']" class="image-list asignadas-column"
                 (cdkDropListDropped)="onAssignDrop($event)">
                 <div class="image-box" *ngFor="let img of assignedImages" cdkDrag [cdkDragData]="img">
                   <div class="image-with-sizes">
@@ -144,10 +140,11 @@
                       alt="Imagen asignada" />
 
                     <div class="sizes-row">
-                 
+
                       <div class="size-input" *ngFor="let size of sizes">
                         <label>{{ size }}</label>
-                        <input nbInput type="number" [placeholder]="size" min="0" [(ngModel)]="img.sizeStockMap[size]">
+                        <input nbInput type="number" [placeholder]="size" min="0" [(ngModel)]="img.sizeStockMap[size]"
+                          [ngModelOptions]="{standalone: true}">
                       </div>
 
                     </div>
@@ -158,11 +155,11 @@
 
             </div>
           </div>
-                <!-- Acciones -->
-      <div class="button-container">
-        <button nbButton status="primary" [disabled]="formData.invalid">Guardar</button>
-        <button type="button" nbButton status="danger" (click)="returnToList()">Regresar</button>
-      </div>
+          <!-- Acciones -->
+          <div class="button-container">
+            <button nbButton status="primary" [disabled]="formData.invalid">Guardar</button>
+            <button type="button" nbButton status="danger" (click)="returnToList()">Regresar</button>
+          </div>
         </nb-tab>
       </nb-tabset>
 

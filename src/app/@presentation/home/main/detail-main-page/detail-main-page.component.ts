@@ -11,6 +11,7 @@ import { RespProduct } from '../../../../@data/model/product/resp-product';
 import { FileRepository } from '../../../../@domain/repository/repository/file.repository';
 import { GeneralConstans } from '../../../../utils/generalConstant';
 import { FileMetadata } from '../../../../@data/model/files/fileMetadata';
+import { ChatbotComponent } from '../../../@common-components/chatbot/chatbot.component';
 
 @Component({
   selector: 'app-detail-main-page',
@@ -26,7 +27,7 @@ import { FileMetadata } from '../../../../@data/model/files/fileMetadata';
     NbInputModule,
     NebularSharedModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,ChatbotComponent
   ]
 })
 export class DetailMainPageComponent implements OnInit {

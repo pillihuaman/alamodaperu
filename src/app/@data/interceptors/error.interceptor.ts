@@ -31,7 +31,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.modalService.showToast(nbComponentStatus, 'Server Unavailable. Redirecting to Login...', '');
           this.ngZone.run(() => {
 
-            this.router.navigate(['/home/detail'],);
+          //  this.router.navigate(['/home/detail'],);
            // this.router.navigate(['/auth/login']);
           });
         }

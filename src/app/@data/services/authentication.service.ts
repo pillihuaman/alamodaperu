@@ -63,7 +63,7 @@ export class AuthenticationService extends AuthenticationRepository {
    * @param password User password
    */
   login(email: string, password: string): Observable<User> {
-    debugger
+
     return this.verifyCredentials(email, password).pipe(
       map((response: ResponseBody) => {
         const usuario = response.payload.user as User;
@@ -73,7 +73,7 @@ export class AuthenticationService extends AuthenticationRepository {
         //removeItem('token');
           //localStorage.removeItem('user');
           localStorage.setItem('token', response.payload.accessToken);
-          debugger
+    
           // 🧭 Cargar menú para el usuario autenticado
           this.loadSystemsMenu();
           // 🔀 Redireccionar
@@ -153,7 +153,7 @@ export class AuthenticationService extends AuthenticationRepository {
       map((response: any) => {
         const token = response?.payload?.accessToken ?? response?.accessToken ?? null;
         if (token && this.isBrowser) {
-          debugger
+ 
           localStorage.setItem('token', token);
         }
 

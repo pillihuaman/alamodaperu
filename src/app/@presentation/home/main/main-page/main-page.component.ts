@@ -55,12 +55,12 @@ export class MainPageComponent implements OnInit {
     this.productViewImagenRepository.findAllViewsProducImag().subscribe({
       next: (value) => {
         if (value?.payload) {
-          debugger
+          
           this.catalogImagesMetadata = value.payload;
           // Iterar sobre todos los productos para obtener sus imágenes
           this.catalogImagesMetadata.forEach((item: RespImagenProductRank, index: number) => {
             const productId: string = item?.respProduct?.id ?? '';
-            debugger
+            
             this.fileService.getCatalogImagen(GeneralConstans.tipoImagenCatalog, productId).subscribe({
               next: (files: FileMetadata[]) => {
                 // Asignar directamente la lista de FileMetadata al producto correspondiente
@@ -129,7 +129,7 @@ export class MainPageComponent implements OnInit {
     this.updateImagen.emit(image);
   }
   viewCatalog(images: RespProduct | undefined): void {
-    debugger
+    
     if (!images) {
       return;
     }

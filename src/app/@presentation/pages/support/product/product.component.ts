@@ -206,7 +206,7 @@ handleDeleteAction(row: TreeNode<any>): void {
   this.fileService.getCatalogImagen(GeneralConstans.tipoImagenCatalog, productId).pipe(
     switchMap((images) => {
       if (images && images.length > 0) {
-        debugger
+        
         // Step 2: Delete all images
         const deleteCalls = images.map(img => this.fileService.deleteFile(img.id!));
         return forkJoin(deleteCalls); // Correctly using forkJoin

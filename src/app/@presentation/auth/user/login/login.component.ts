@@ -65,8 +65,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      user: ['alamodaperu.online@gmail.com', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-      password: ['dontViEvil', [Validators.required, Validators.minLength(7), Validators.maxLength(30)]],
+      user: ['pillihuamanhz@gmail.com', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+      password: ['1988deza', [Validators.required, Validators.minLength(7), Validators.maxLength(30)]],
     });
 
   }
@@ -75,7 +75,7 @@ submit() {
     this.hasError = false;
 
     // 🔄 Limpieza total antes de loguear
-debugger
+
     this.authStateService.setLoginState(false);
 
 
