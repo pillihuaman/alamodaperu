@@ -1,5 +1,8 @@
 import { FileMetadata } from "../files/fileMetadata";
+import { ProductMeasurement } from "./product-measurement.model";
+import { SalesGuide } from "./req-product";
 import { SizeStock } from "./sizeStock";
+import { SpecificationGroup } from "./specification-group.model";
 
 export interface RespProduct {
   id: string;
@@ -34,7 +37,10 @@ export interface RespProduct {
   // Status & Audit
   status: boolean;
   fileMetadata:FileMetadata[];
-
+   tags?: string[];
+  measurements?: ProductMeasurement[];
+  specifications?: SpecificationGroup[];
+   salesGuide?: SalesGuide;
 }
 
 // Subtypes

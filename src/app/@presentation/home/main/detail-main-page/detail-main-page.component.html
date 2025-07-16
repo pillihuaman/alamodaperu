@@ -27,6 +27,16 @@
       <div class="product-info-column">
         <h1>{{ respProduct?.name || 'Nombre del Producto' }}</h1>
 
+        <!-- ======================================================= -->
+        <!-- == INICIO: Nueva sección para mostrar los tags       == -->
+        <!-- ======================================================= -->
+        <div class="tags-section" *ngIf="(respProduct?.tags?.length ?? 0) > 0">
+          <span *ngFor="let tag of respProduct?.tags ?? []" class="tag-badge">{{ tag }}</span>
+        </div>
+        <!-- ======================================================= -->
+        <!-- == FIN: Nueva sección para mostrar los tags          == -->
+        <!-- ======================================================= -->
+
         <div class="product-meta">
           <span>
             <nb-icon icon="star" pack="eva" class="star-icon"></nb-icon> {{ dummyRating }}
@@ -41,11 +51,7 @@
           <span class="discount">-{{ (100 - (dummyPrice / dummyOldPrice * 100)).toFixed(0) }}%</span>
         </div>
         
-        <!-- ======================================================= -->
-        <!-- == INICIO: Nueva sección de precios adicionales      == -->
-        <!-- ======================================================= -->
         <div class="additional-pricing-section">
-          
           <div class="price-item">
             <nb-icon icon="cube-outline" pack="eva"></nb-icon>
             <div class="price-text">
@@ -53,7 +59,6 @@
               <span>S/ 35.00 c/u</span>
             </div>
           </div>
-          
           <div class="price-item">
             <nb-icon icon="maximize-outline" pack="eva"></nb-icon>
             <div class="price-text">
@@ -61,12 +66,7 @@
               <span>S/ 50.00 - S/ 65.00</span>
             </div>
           </div>
-
         </div>
-        <!-- ======================================================= -->
-        <!-- == FIN: Nueva sección de precios adicionales         == -->
-        <!-- ======================================================= -->
-
 
         <div class="shipping-info-banner">
           <nb-icon icon="car-outline" pack="eva"></nb-icon>
@@ -123,26 +123,17 @@
         </div>
       </div>
 
-
-      <!-- Sección de Descripción, Envíos y Reseñas (Todo el contenido inferior va aquí dentro) -->
+      <!-- Sección de Descripción, Envíos y Reseñas -->
       <div class="product-description-reviews">
         <h4>Descripción</h4>
         <p>{{ respProduct?.description || 'No hay descripción disponible para este producto.' }}</p>
 
-        <!-- ======================================================= -->
-        <!-- == INICIO: La sección se movió aquí, al lugar correcto == -->
-        <!-- ======================================================= -->
         <div class="shipping-details-section">
           <h4>🚚 Entregas, envíos y tallas</h4>
           <div class="shipping-options-container">
-
-            <!-- Tarjeta 1: Envíos en Lima -->
+            <!-- Tarjetas de envío -->
             <div class="shipping-option">
-              <!-- IMAGEN PRINCIPAL DE LA TARJETA -->
-              <img src="assets/imgs/zonas-cobertura-lima.jpg" alt="Zonas de cobertura en Lima"
-                class="shipping-card-image">
-
-              <!-- CONTENIDO DE TEXTO DE LA TARJETA -->
+              <img src="assets/imgs/zonas-cobertura-lima.jpg" alt="Zonas de cobertura en Lima" class="shipping-card-image">
               <div class="shipping-card-content">
                 <h5>📍 Entrega sin costo en estaciones:</h5>
                 <ul>
@@ -152,11 +143,8 @@
                 <p>📦 Delivery a otros puntos de Lima (costo adicional según ubicación).</p>
               </div>
             </div>
-
-            <!-- Tarjeta 2: Envíos a Provincia -->
             <div class="shipping-option">
               <img src="assets/imgs/shalom-app-info.png" alt="Información de envíos Shalom" class="shipping-card-image">
-
               <div class="shipping-card-content">
                 <h5>📮 Envíos 100% seguros con Shalom.</h5>
                 <ul>
@@ -170,55 +158,26 @@
                 </a>
               </div>
             </div>
-
-            <!-- Tarjeta 3: Guía de Tallas -->
             <div class="shipping-option">
-              <img src="assets/imgs/guia-tallas-completa.jpg" alt="Guía de tallas del producto"
-                class="shipping-card-image">
-
+              <img src="assets/imgs/guia-tallas-completa.jpg" alt="Guía de tallas del producto" class="shipping-card-image">
               <div class="shipping-card-content">
                 <h5>📏 Guía de Tallas</h5>
-                <p>Revisa las medidas para elegir tu talla ideal. Las medidas son aproximadas y pueden variar
-                  ligeramente.</p>
+                <p>Revisa las medidas para elegir tu talla ideal. Las medidas son aproximadas y pueden variar ligeramente.</p>
               </div>
             </div>
-
           </div>
         </div>
-        <!-- ======================================================= -->
-        <!-- == FIN: Fin de la sección movida                       == -->
-        <!-- ======================================================= -->
 
         <h4>Reseñas de clientes ({{dummyReviewsCount}} reseñas)</h4>
         <div class="review-summary">
-          <div class="rating-bars">
-            <div class="bar-label">Fiel a la talla</div>
-            <div class="bar-container">
-              <div class="bar" style="width: 92%;"></div>
-            </div>
-            <div class="bar-percent">92%</div>
-          </div>
-          <div class="rating-bars">
-            <div class="bar-label">Grande</div>
-            <div class="bar-container">
-              <div class="bar" style="width: 7%;"></div>
-            </div>
-            <div class="bar-percent">7%</div>
-          </div>
-          <div class="rating-bars">
-            <div class="bar-label">Pequeño</div>
-            <div class="bar-container">
-              <div class="bar" style="width: 1%;"></div>
-            </div>
-            <div class="bar-percent">1%</div>
-          </div>
+            <!-- Barras de calificación -->
         </div>
       </div>
     </div>
   </nb-card-body>
     <nb-card-footer>
       <div class="footer-container">
-        <app-chatbot [context]="'poleras-peluche'"></app-chatbot>
+        <app-chatbot [context]="getChatbotContext()"></app-chatbot>
       </div>
     </nb-card-footer>
 </nb-card>

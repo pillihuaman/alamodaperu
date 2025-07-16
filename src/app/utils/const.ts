@@ -30,7 +30,7 @@ export class Const {
 
     try {
       const config: any = await lastValueFrom(
-        this.http.get('./assets/config/common.config.pro.json')
+        this.http.get('./assets/config/common.config.json')
       );
 
       console.log('[APP_INITIALIZER] Config cargado:', config);

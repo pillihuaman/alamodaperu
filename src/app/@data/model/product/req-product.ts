@@ -1,5 +1,7 @@
 import { FileMetadata } from "../files/fileMetadata";
+import { ProductMeasurement } from "./product-measurement.model";
 import { SizeStock } from "./sizeStock";
+import { SpecificationGroup } from "./specification-group.model";
 
 export interface ReqProduct {
   id: string;
@@ -22,7 +24,7 @@ export interface ReqProduct {
   brand: string;
 
   // Sizes
-   fileMetadata?:FileMetadata[];
+  fileMetadata?: FileMetadata[];
 
   // Batching & Production
   expirationDate: string;       // ISO Date string
@@ -35,7 +37,10 @@ export interface ReqProduct {
 
   // Status & Audit
   status: boolean;
-  typeFile?:string;
+  typeFile?: string;
+  measurements?: ProductMeasurement[];
+  specifications?: SpecificationGroup[];
+  salesGuide?: SalesGuide;
 }
 
 // Subtypes
@@ -70,3 +75,26 @@ export interface ProductMedia {
   seoDescription: string;
 }
 
+// --- benefit.model.ts ---
+export interface Benefit {
+  feature: string;
+  benefit: string;
+}
+
+// --- faq-item.model.ts ---
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+
+export interface SalesGuide {
+  valueProposition?: string;
+  tagline?: string;
+  targetAudience?: string[];
+  useCases?: string[];
+  keyBenefits?: Benefit[];
+  fitAndStyleGuide?: string;
+  careInstructions?: string[];
+  faq?: FaqItem[];
+}

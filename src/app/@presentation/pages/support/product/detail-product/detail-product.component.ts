@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 // Nebular & Third-Party Imports
-import { NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbDatepickerModule, NbTimepickerModule, NbDialogService, NbAccordionModule, NbDialogModule, NbLayoutModule, NbSelectModule, NbCheckboxModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbDatepickerModule, NbTimepickerModule, NbDialogService, NbAccordionModule, NbDialogModule, NbLayoutModule, NbSelectModule, NbCheckboxModule, NbTagListComponent, NbTagModule } from '@nebular/theme';
 import { NbDateFnsDateModule } from '@nebular/date-fns';
 import { NbMomentDateModule } from '@nebular/moment';
 import { CdkDragDrop, DragDropModule, transferArrayItem } from '@angular/cdk/drag-drop';
@@ -63,7 +63,7 @@ import { NebularSharedModule } from '../../../../../@domain/nebular-shared.modul
     // Common Components
     AppModalHeaderComponent,
     AppModalFooterComponent,
-    SearchInputComponent,
+    SearchInputComponent,NbTagModule
   ],
   templateUrl: './detail-product.component.html',
   styleUrls: ['./detail-product.component.scss'] // Use styleUrls (plural)
@@ -173,47 +173,143 @@ export class DetailProductComponent extends BaseImplementation<RespProduct> impl
     });
   }
   
-  buildForm() {
-    this.formData = this.fb.group({
-      id: [''],
-      name: ['', Validators.required],
-      description: [''],
-      category: [''],
-      subcategory: [''],
-      productCode: [''],
-      barcode: [''],
-      sku: [''],
-      upc: [''],
-      supplierId: [''],
-      supplierName: [''],
-      manufacturer: [''],
-      brand: [''],
-      expirationDate: [''],
-      manufacturingDate: [''],
-      costPrice: [null],
-      sellingPrice: [null],
-      discount: [null],
-      currency: [''],
-      unitMeasure: [''],
-      minStock: [null],
-      maxStock: [null],
-      isFeatured: [false],
-      isNewArrival: [false],
-      batch: [''],
-      weight: [null],
-      height: [null],
-      width: [null],
-      length: [null],
-      thumbnailUrl: [''],
-      seoTitle: [''],
-      seoDescription: [''],
-      imageUrls: [''],
-      tags: [''],
-      status: [true],
-      typeImagen: [''],
-      sizes: this.fb.array([]),
-      images: this.fb.array([]),
+// En detail-product.component.ts
+
+buildForm() {
+  this.formData = this.fb.group({
+    id: [''],
+    name: ['', Validators.required],
+    description: [''],
+    category: [''],
+    subcategory: [''],
+    productCode: [''],
+    barcode: [''],
+    sku: [''],
+    upc: [''],
+    supplierId: [''],
+    supplierName: [''],
+    manufacturer: [''],
+    brand: [''],
+    expirationDate: [''],
+    manufacturingDate: [''],
+    costPrice: [null],
+    sellingPrice: [null],
+    discount: [null],
+    currency: [''],
+    unitMeasure: [''],
+    minStock: [null],
+    maxStock: [null],
+    isFeatured: [false],
+    isNewArrival: [false],
+    batch: [''],
+    weight: [null],
+    height: [null],
+    width: [null],
+    length: [null],
+    thumbnailUrl: [''],
+    seoTitle: [''],
+    seoDescription: [''],
+    imageUrls: [''],
+    tags: this.fb.array([]),
+    status: [true],
+    typeImagen: [''],
+    sizes: this.fb.array([]),
+    images: this.fb.array([]),
+    measurements: this.fb.array([]),
+    specifications: this.fb.array([]),
+
+    // ▼▼▼ BLOQUE FALTANTE - AÑADE ESTO ▼▼▼
+    salesGuide: this.fb.group({
+      valueProposition: [''],
+      tagline: [''], // Aunque no esté en el HTML aún, es bueno inicializarlo
+      targetAudience: this.fb.array([]), // Lo mismo para estos
+      useCases: this.fb.array([]),
+      keyBenefits: this.fb.array([]),
+      fitAndStyleGuide: [''],
+      careInstructions: this.fb.array([]),
+      faq: this.fb.array([])
+    }),
+    // ▲▲▲ FIN DEL BLOQUE A AÑADIR ▲▲▲
+  });
+}
+  get tags(): FormArray {
+    return this.formData.get('tags') as FormArray;
+  }
+    get measurements(): FormArray {
+    return this.formData.get('measurements') as FormArray;
+  }
+
+    addTag(input: HTMLInputElement): void {
+    const value = (input.value || '').trim();
+
+    if (value) {
+      // Añade el nuevo tag al FormArray
+      this.tags.push(this.fb.control(value));
+    }
+
+    // Limpia el input
+    input.value = '';
+  }
+
+    private createMeasurementGroup(): FormGroup {
+    return this.fb.group({
+      size: ['', Validators.required],
+      chestContour: [null],
+      shoulderWidth: [null],
+      totalLength: [null],
+      sleeveLength: [null]
     });
+  }
+
+  /**
+   * Añade una nueva fila vacía al formulario de medidas.
+   */
+  addMeasurement(): void {
+    this.measurements.push(this.createMeasurementGroup());
+  }
+    removeMeasurement(index: number): void {
+    this.measurements.removeAt(index);
+  }
+
+
+  // Método para QUITAR una etiqueta
+  removeTag(tagToRemove: { text: string }): void {
+    const index = this.tags.controls.findIndex(control => control.value === tagToRemove.text);
+    if (index >= 0) {
+      this.tags.removeAt(index);
+    }
+  }
+
+  // --- MÉTODOS PARA ESPECIFICACIONES GENÉRICAS (Estructura Flexible) ---
+  get specifications(): FormArray {
+    return this.formData.get('specifications') as FormArray;
+  }
+  private createSpecificationGroup(): FormGroup {
+    return this.fb.group({
+      groupName: ['', Validators.required],
+      attributes: this.fb.array([])
+    });
+  }
+  addSpecificationGroup(): void {
+    this.specifications.push(this.createSpecificationGroup());
+  }
+  removeSpecificationGroup(groupIndex: number): void {
+    this.specifications.removeAt(groupIndex);
+  }
+  getAttributes(groupIndex: number): FormArray {
+    return this.specifications.at(groupIndex).get('attributes') as FormArray;
+  }
+  private createAttributePair(): FormGroup {
+    return this.fb.group({
+      key: ['', Validators.required],
+      value: ['', Validators.required]
+    });
+  }
+  addAttribute(groupIndex: number): void {
+    this.getAttributes(groupIndex).push(this.createAttributePair());
+  }
+  removeAttribute(groupIndex: number, attributeIndex: number): void {
+    this.getAttributes(groupIndex).removeAt(attributeIndex);
   }
 
   patchFormValues(): void {
@@ -254,9 +350,53 @@ export class DetailProductComponent extends BaseImplementation<RespProduct> impl
       seoTitle: this.entityData.media?.seoTitle,
       seoDescription: this.entityData.media?.seoDescription,
       imageUrls: this.entityData.media?.imageUrls?.join(', ') || '',
-      tags: this.entityData.media?.tags?.join(', ') || '',
+     // tags: this.entityData.media?.tags?.join(', ') || '',
       status: this.entityData.status,
     });
+  this.tags.clear();
+
+  // 2. Si hay tags en la entidad, puebla el FormArray
+  if (this.entityData.tags && Array.isArray(this.entityData.tags)) {
+    this.entityData.tags.forEach(tag => {
+      this.tags.push(this.fb.control(tag));
+    });
+  }
+      this.measurements.clear(); // Limpiar filas existentes antes de poblar
+    if (this.entityData.measurements && Array.isArray(this.entityData.measurements)) {
+      this.entityData.measurements.forEach(measurement => {
+        const measurementGroup = this.createMeasurementGroup();
+        measurementGroup.patchValue(measurement); // Poblar el grupo con los datos
+        this.measurements.push(measurementGroup);
+      });
+    }
+        this.specifications.clear();
+    if (this.entityData.specifications && Array.isArray(this.entityData.specifications)) {
+      this.entityData.specifications.forEach(groupData => {
+        const specGroup = this.createSpecificationGroup();
+        specGroup.patchValue({ groupName: groupData.groupName });
+        
+        if (groupData.attributes && Array.isArray(groupData.attributes)) {
+            groupData.attributes.forEach(attrData => {
+              const attrPair = this.createAttributePair();
+              attrPair.patchValue(attrData);
+              (specGroup.get('attributes') as FormArray).push(attrPair);
+            });
+        }
+        this.specifications.push(specGroup);
+      });
+    }
+
+    
+    // ▼▼▼ Poblar el formulario de la guía de ventas ▼▼▼
+    if (this.entityData.salesGuide) {
+        this.formData.get('salesGuide')?.patchValue(this.entityData.salesGuide);
+        
+        // Poblar el FormArray de beneficios
+        this.keyBenefits.clear();
+        this.entityData.salesGuide.keyBenefits?.forEach(b => {
+            this.keyBenefits.push(this.fb.group(b));
+        });
+    }
 
     // 2. Clear out old data from UI arrays
     this.assignedImages = [];
@@ -329,15 +469,24 @@ export class DetailProductComponent extends BaseImplementation<RespProduct> impl
         sizeStock: []
     }));
 
-    const baseProductRequest: ReqProduct = {
-        ...formRaw,
-        expirationDate: this.datePipe.transform(formRaw.expirationDate, 'dd/MM/yyyy') || '',
-        manufacturingDate: this.datePipe.transform(formRaw.manufacturingDate, 'dd/MM/yyyy') || '',
-        pricing: { costPrice: formRaw.costPrice, sellingPrice: formRaw.sellingPrice, discount: formRaw.discount, currency: formRaw.currency },
-        inventory: { unitMeasure: formRaw.unitMeasure, minStock: formRaw.minStock, maxStock: formRaw.maxStock, isFeatured: formRaw.isFeatured, isNewArrival: formRaw.isNewArrival, batch: formRaw.batch, weight: formRaw.weight, height: formRaw.height, width: formRaw.width, length: formRaw.length },
-        media: { imageUrls: [], thumbnailUrl: formRaw.thumbnailUrl, tags: formRaw.tags?.split(',').map((tag: string) => tag.trim()) || [], seoTitle: formRaw.seoTitle, seoDescription: formRaw.seoDescription },
-        fileMetadata: [...assignedMetadata, ...catalogMetadata],
-    };
+const baseProductRequest: ReqProduct = {
+    ...formRaw,
+    expirationDate: this.datePipe.transform(formRaw.expirationDate, 'dd/MM/yyyy') || '',
+    manufacturingDate: this.datePipe.transform(formRaw.manufacturingDate, 'dd/MM/yyyy') || '',
+    tags: formRaw.tags, // <-- Correcto. formRaw.tags ya es un array de strings.
+    pricing: { costPrice: formRaw.costPrice, sellingPrice: formRaw.sellingPrice, discount: formRaw.discount, currency: formRaw.currency },
+    inventory: { unitMeasure: formRaw.unitMeasure, minStock: formRaw.minStock, maxStock: formRaw.maxStock, isFeatured: formRaw.isFeatured, isNewArrival: formRaw.isNewArrival, batch: formRaw.batch, weight: formRaw.weight, height: formRaw.height, width: formRaw.width, length: formRaw.length },
+     measurements: formRaw.measurements, 
+    // VVV Objeto 'media' corregido VVV
+    media: { 
+        imageUrls: [], 
+        thumbnailUrl: formRaw.thumbnailUrl, 
+        // Se eliminó la propiedad 'tags' de aquí
+        seoTitle: formRaw.seoTitle, 
+        seoDescription: formRaw.seoDescription 
+    },
+    fileMetadata: [...assignedMetadata, ...catalogMetadata],
+};
 
     this.uploadNewFiles(productId, formRaw.typeImagen).pipe(
         switchMap((uploadedFiles: FileMetadata[]) => {
@@ -438,6 +587,23 @@ export class DetailProductComponent extends BaseImplementation<RespProduct> impl
       }
     });
   }
+
+  // --- Métodos para manejar los "keyBenefits" ---
+get keyBenefits(): FormArray {
+  return this.formData.get('salesGuide.keyBenefits') as FormArray;
+}
+
+addBenefit(): void {
+  const benefitGroup = this.fb.group({
+    feature: ['', Validators.required],
+    benefit: ['', Validators.required]
+  });
+  this.keyBenefits.push(benefitGroup);
+}
+
+removeBenefit(index: number): void {
+  this.keyBenefits.removeAt(index);
+}
 
   handleDeleteImage(img: FileMetadata): void {
     if (!img.id) return;
