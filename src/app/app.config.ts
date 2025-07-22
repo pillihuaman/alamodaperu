@@ -43,6 +43,8 @@ import { ProductService } from './@data/services/ProductService';
 import { TenantInterceptor } from './@data/interceptors/TenantInterceptor';
 import { DebugInterceptor } from './@data/interceptors/DebugInterceptor';
 import { initApp } from './@data/interceptors/app.init';
+import { QuotationService } from './@data/services/quotation.service';
+import { QuotationRepository } from './@domain/repository/repository/quotation.repository';
 
 export function initConfig(constService: Const) {
   return () =>
@@ -107,9 +109,8 @@ export const appConfig: ApplicationConfig = {
     { provide: CommonRepository, useClass: CommonService },
     { provide: ProductViewImagenRepository, useClass: ProductViewImagenService },
     { provide: FileRepository, useClass: FileService },
-
     { provide: ProductRepository, useClass: ProductService },
-
+    { provide: QuotationRepository, useClass: QuotationService },
 
     Const,
     ApiService,

@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ElementRef, NgZone, OnInit, QueryList, Render
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule, FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { finalize, switchMap } from 'rxjs/operators';
 
 // Nebular & Third-Party Imports
 import { NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbDatepickerModule, NbTimepickerModule, NbDialogService, NbAccordionModule, NbDialogModule, NbLayoutModule, NbSelectModule, NbCheckboxModule, NbTagListComponent, NbTagModule } from '@nebular/theme';
@@ -439,68 +439,57 @@ buildForm() {
 
   // --- Form Submission ---
 
-  onSubmit() {
+onSubmit() {
     if (this.formData.invalid) {
+      this.formData.markAllAsTouched();
       this.showWarningMessage('Por favor, complete todos los campos obligatorios.', 'Formulario Inválido');
       return;
     }
     this.spinnerService.show();
 
     const formRaw = this.formData.getRawValue();
-    const productId = formRaw.id;
 
-    const assignedMetadata: FileMetadata[] = this.assignedImages.map((imgWrapper: CatalogImageWrapper) => {
-        const stockDetails: SizeStock[] = Object.keys(imgWrapper.sizeStockMap || {}).map(sizeKey => ({
-            size: sizeKey,
-            stock: (imgWrapper.sizeStockMap || {})[sizeKey] || 0
-        }));
-        const baseMetadata = imgWrapper.fileMetadata && imgWrapper.fileMetadata[0] ? imgWrapper.fileMetadata[0] : {} as FileMetadata;
-        return {
-            ...baseMetadata,
-            filename: baseMetadata.filename ?? '',
-            position: 'ASIGNADA',
-            sizeStock: stockDetails
-        } as FileMetadata;
-    });
+    // --- CORRECCIÓN CLAVE: Filtrar antes de mapear para evitar errores con undefined ---
+    const assignedMetadata = this.assignedImages
+      .filter(w => w.fileMetadata && w.fileMetadata.length > 0) // Solo procesa si fileMetadata existe y no está vacío
+      .map(w => {
+          const meta = w.fileMetadata![0]; // TypeScript ahora sabe que no es nulo
+          const sizeStock = Object.keys(w.sizeStockMap || {}).map(size => ({ size, stock: w.sizeStockMap![size] || 0 }));
+          return { ...meta, position: 'ASIGNADA', sizeStock };
+      });
 
-    const catalogMetadata: FileMetadata[] = this.catalogImagesMetadata.map((imgWrapper: CatalogImageWrapper) => ({
-        ...(imgWrapper.fileMetadata && imgWrapper.fileMetadata.length > 0 ? imgWrapper.fileMetadata[0] : {} as FileMetadata),
-        position: 'CATALOG',
-        sizeStock: []
-    }));
+    const catalogMetadata = this.catalogImagesMetadata
+      .filter(w => w.fileMetadata && w.fileMetadata.length > 0)
+      .map(w => ({ ...w.fileMetadata![0], position: 'CATALOG', sizeStock: [] }));
 
-const baseProductRequest: ReqProduct = {
-    ...formRaw,
-    expirationDate: this.datePipe.transform(formRaw.expirationDate, 'dd/MM/yyyy') || '',
-    manufacturingDate: this.datePipe.transform(formRaw.manufacturingDate, 'dd/MM/yyyy') || '',
-    tags: formRaw.tags, // <-- Correcto. formRaw.tags ya es un array de strings.
-    pricing: { costPrice: formRaw.costPrice, sellingPrice: formRaw.sellingPrice, discount: formRaw.discount, currency: formRaw.currency },
-    inventory: { unitMeasure: formRaw.unitMeasure, minStock: formRaw.minStock, maxStock: formRaw.maxStock, isFeatured: formRaw.isFeatured, isNewArrival: formRaw.isNewArrival, batch: formRaw.batch, weight: formRaw.weight, height: formRaw.height, width: formRaw.width, length: formRaw.length },
-     measurements: formRaw.measurements, 
-    // VVV Objeto 'media' corregido VVV
-    media: { 
-        imageUrls: [], 
-        thumbnailUrl: formRaw.thumbnailUrl, 
-        // Se eliminó la propiedad 'tags' de aquí
-        seoTitle: formRaw.seoTitle, 
-        seoDescription: formRaw.seoDescription 
-    },
-    fileMetadata: [...assignedMetadata, ...catalogMetadata],
-};
 
-    this.uploadNewFiles(productId, formRaw.typeImagen).pipe(
-        switchMap((uploadedFiles: FileMetadata[]) => {
-            const finalMetadata = [...assignedMetadata, ...catalogMetadata, ...uploadedFiles];
-            const finalProductRequest: ReqProduct = { ...baseProductRequest, fileMetadata: finalMetadata };
-            return this.productService.saveProduct(finalProductRequest);
-        })
+    // Construye el DTO final
+    const productRequest: ReqProduct = {
+      ...formRaw,
+      expirationDate: this.datePipe.transform(formRaw.expirationDate, 'dd/MM/yyyy') || null,
+      manufacturingDate: this.datePipe.transform(formRaw.manufacturingDate, 'dd/MM/yyyy') || null,
+      tags: formRaw.tags,
+      pricing: { costPrice: formRaw.costPrice, sellingPrice: formRaw.sellingPrice, discount: formRaw.discount, currency: formRaw.currency },
+      inventory: { unitMeasure: formRaw.unitMeasure, minStock: formRaw.minStock, maxStock: formRaw.maxStock, isFeatured: formRaw.isFeatured, isNewArrival: formRaw.isNewArrival, batch: formRaw.batch, weight: formRaw.weight, height: formRaw.height, width: formRaw.width, length: formRaw.length },
+      measurements: formRaw.measurements,
+      media: { imageUrls: [], thumbnailUrl: formRaw.thumbnailUrl, seoTitle: formRaw.seoTitle, seoDescription: formRaw.seoDescription },
+      // La metadata existente ya está procesada y filtrada
+      fileMetadata: [...assignedMetadata, ...catalogMetadata],
+    };
+debugger
+    // Llama al servicio con el DTO y los nuevos archivos
+    this.productService.saveProduct(productRequest, this.imageFiles).pipe(
+      finalize(() => this.spinnerService.hide())
     ).subscribe({
-        next: (response) => {
-            this.handleSuccessResponseSaveOrUpdate(response);
-            this.returnToList();
-        },
-        error: (error) => this.handleErrorResponseSaveOrUpdate(error),
-        complete: () => this.spinnerService.hide()
+      next: (response) => {
+        if (response.status?.success) {
+          this.showSuccessMessage('Producto guardado con éxito.', 'Operación Exitosa');
+          this.returnToList();
+        } else {
+          this.showWErrorMessage( 'Ocurrió un error al guardar.', 'Error');
+        }
+      },
+      error: (error) => this.handleErrorResponseSaveOrUpdate(error),
     });
   }
 

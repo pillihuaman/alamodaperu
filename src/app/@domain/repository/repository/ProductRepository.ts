@@ -14,6 +14,6 @@ export abstract class ProductRepository {
     barcode: any
   ): Observable<ResponseBody>
   abstract getProductById(id: string): Observable<RespProduct>;
-  abstract saveProduct(product: ReqProduct): Observable<RespProduct>;
+  abstract saveProduct(product: ReqProduct, images: File[]): Observable<ResponseBody> 
   abstract deleteProduct(id: String): Observable<ResponseBody>;
 }

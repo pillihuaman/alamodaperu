@@ -21,14 +21,21 @@ export const routes: Routes = [
         loadComponent: () => import('./@presentation/home/main/detail-main-page/detail-main-page.component')
           .then(m => m.DetailMainPageComponent)
       },
-           {
-        path: 'quotation',
+     {
+        path: 'quotations', 
+        loadComponent: () => import('./@presentation/home/cotizacion/quotation-list/quotation-list.component')
+          .then(m => m.QuotationListComponent)
+      },
+      {
+        // Ruta para VER o EDITAR una cotización existente por su ID
+        path: 'quotation/detail/:id', // La ruta que causaba el error
         loadComponent: () => import('./@presentation/home/cotizacion/quotation-detail/quotation-create.component')
-          .then(m => m.QuotationCreateComponent)
+          .then(m => m.QuotationCreateComponent),
+        data: { renderMode: 'client' } // Importante para SSR
       },
     ],
   },
-  {  
+  {
     path: 'auth',
     component: AuthComponent,
     //canActivate: [NotauthGuard], // Puedes habilitarlo si el guard funciona bien
@@ -99,7 +106,20 @@ export const routes: Routes = [
           import('./@presentation/pages/support/tenant/detail/support-tenant-detail.component')
             .then(m => m.SupportTenantDetailComponent),
         data: { renderMode: 'client' }
-      }
+      },
+         {
+        path: 'common-data/detail/:id',
+        loadComponent: () => import('./@presentation/pages/support/manage-common-data/manage-common-data.component')
+          .then(m => m.ManageCommonDataComponent),
+        data: { renderMode: 'client' }
+      },
+      {
+  // RUTA PARA CREAR UN NUEVO ELEMENTO
+  path: 'common-data/new', // O 'common-data/create' si lo prefieres
+  loadComponent: () => import('./@presentation/pages/support/manage-common-data/manage-common-data.component')
+    .then(m => m.ManageCommonDataComponent),
+  data: { renderMode: 'client' }
+},
     ],
   },
   {

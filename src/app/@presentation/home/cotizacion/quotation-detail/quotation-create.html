@@ -1,186 +1,217 @@
-<nb-card>
-  <nb-card-header>
-    <h2>Cotización de Conjuntos Deportivos</h2>
-    <p>Completa los datos para generar tu cotización personalizada.</p>
-  </nb-card-header>
+<!-- El <form> envuelve toda la tarjeta para una mejor semántica -->
+<form [formGroup]="quotationForm" (ngSubmit)="enviarCotizacion()">
+  <nb-card>
+    <nb-card-header>
+      <h2>Cotización de Conjuntos Deportivos</h2>
+      <p>Completa los datos para generar tu cotización personalizada.</p>
+    </nb-card-header>
 
-  <nb-card-body>
-        <nb-alert status="info" closable="true" class="mb-4">
-      <h6 class="alert-title">¡Atención! Cotización Preliminar</h6>
-      <p class="alert-text">
-        Este es un cálculo estimado. El precio final puede variar ligeramente según la complejidad del diseño.
-        Nos pondremos en contacto contigo para confirmar todos los detalles.
-      </p>
-    </nb-alert>
+    <nb-card-body>
+      <nb-alert status="info" closable="true" class="mb-4">
+        <h6 class="alert-title">¡Atención! Cotización Preliminar</h6>
+        <p class="alert-text">
+          Este es un cálculo estimado. El precio final puede variar ligeramente. Nos pondremos en contacto para confirmar todos los detalles.
+        </p>
+      </nb-alert>
+      
+      <nb-tabset fullWidth>
 
-    <form [formGroup]="quotationForm">
+        <!-- ========================================= -->
+        <!-- PESTAÑA 1: Información General y Diseño   -->
+        <!-- ========================================= -->
+        <nb-tab tabTitle="1. Información del Pedido">
+          <div class="form-grid">
 
-      <!-- 1. Datos de Contacto -->
-      <h5 class="section-title">1. Datos de Contacto</h5>
-      <div class="info-cliente">
-        <input nbInput fullWidth placeholder="Nombre del Equipo o Contacto" formControlName="clienteNombre">
-        <input nbInput fullWidth placeholder="Email de Contacto" formControlName="clienteEmail">
-        <input nbInput fullWidth placeholder="Teléfono de Contacto" formControlName="clienteTelefono">
-      </div>
+            <!-- Sección de Datos de Contacto -->
+            <h5 class="section-title-grid">Datos de Contacto</h5>
 
-      <!-- Guía de Tallas (Opcional) -->
-      <nb-accordion class="mb-4">
-        <nb-accordion-item>
-          <nb-accordion-item-header>
-            <nb-icon icon="ruler-outline"></nb-icon>
-            ¿No estás seguro de las tallas? Consulta nuestra guía
-          </nb-accordion-item-header>
-          <nb-accordion-item-body>
-            <img src="assets/imgs/guia-tallas-completa.jpg" alt="Guía de tallas para polos y shorts" class="guia-tallas-img">
-          </nb-accordion-item-body>
-        </nb-accordion-item>
-      </nb-accordion>
+            <nb-form-field>
+              <label>Nombre del Equipo o Contacto</label>
+              <input nbInput fullWidth placeholder="Ej: Los Campeones FC" formControlName="clienteNombre">
+              <ng-container *ngIf="quotationForm.get('clienteNombre')?.invalid && quotationForm.get('clienteNombre')?.touched">
+                <p class="caption status-danger" *ngIf="quotationForm.get('clienteNombre')?.errors?.['required']">
+                  El nombre es requerido.
+                </p>
+              </ng-container>
+            </nb-form-field>
 
-      <!-- 2. Lista de Jugadores y Prendas -->
-      <h5 class="section-title">2. Lista de Jugadores y Prendas</h5>
-      <div class="quotation-grid">
-        <div class="grid-header">
-          <div class="header-item">N°</div>
-          <div class="header-item">Nombre</div>
-          <div class="header-item">Número</div>
-          <div class="header-item">Talla</div>
-          <div class="header-item">Tipo</div>
-          <div class="header-item">Cantidad</div>
-          <div class="header-item">Acción</div>
-        </div>
-        <div formArrayName="items">
-          <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="grid-row">
-            <div class="grid-cell" data-label="N°">{{ i + 1 }}</div>
-            <div class="grid-cell" data-label="Nombre"><input nbInput fullWidth type="text" formControlName="nombre"></div>
-            <div class="grid-cell" data-label="Número"><input nbInput fullWidth type="number" formControlName="numeroCamisa"></div>
-            <div class="grid-cell" data-label="Talla">
-              <nb-select fullWidth formControlName="talla">
-                <nb-option *ngFor="let talla of tallasDisponibles" [value]="talla">{{ talla }}</nb-option>
-              </nb-select>
+            <nb-form-field>
+              <label>Email de Contacto</label>
+              <input nbInput fullWidth placeholder="tu@email.com" formControlName="clienteEmail" type="email">
+              <ng-container *ngIf="quotationForm.get('clienteEmail')?.invalid && quotationForm.get('clienteEmail')?.touched">
+                <p class="caption status-danger" *ngIf="quotationForm.get('clienteEmail')?.errors?.['required']">El email es requerido.</p>
+                <p class="caption status-danger" *ngIf="quotationForm.get('clienteEmail')?.errors?.['email']">Formato de email incorrecto.</p>
+              </ng-container>
+            </nb-form-field>
+
+            <nb-form-field>
+              <label>Teléfono de Contacto</label>
+              <input nbInput fullWidth placeholder="987654321" formControlName="clienteTelefono" type="tel">
+            </nb-form-field>
+
+            <!-- Sección de Diseño y Archivos -->
+            <h5 class="section-title-grid">Detalles y Archivos del Diseño</h5>
+
+            <nb-form-field class="full-width-field">
+                <label>Descripción detallada del diseño</label>
+                <textarea nbInput fullWidth rows="6" placeholder="Ej: Quiero el logo en el pecho izquierdo, el número en la espalda y el nombre del jugador arriba del número..." formControlName="descripcionDetallada"></textarea>
+            </nb-form-field>
+
+            <!-- Carga de Archivos -->
+            <div class="file-upload-group">
+                <label for="logo-input" class="file-input-label" nbTooltip="Archivos permitidos: PNG, JPG, PDF, AI, CDR">
+                  <nb-icon icon="upload-outline"></nb-icon>
+                  <span>Subir Logo</span>
+                </label>
+                <input id="logo-input" type="file" class="file-input-hidden" accept="image/*,.pdf,.ai,.cdr" (change)="onLogoSelect($event)">
             </div>
-            <div class="grid-cell tipo-prenda" data-label="Tipo">
-              <nb-checkbox formControlName="esConjuntoCompleto">Conjunto Completo</nb-checkbox>
-            </div>
-            <div class="grid-cell" data-label="Cantidad"><input nbInput fullWidth type="number" formControlName="cantidad"></div>
-            <div class="grid-cell" data-label="Acción">
-              <button nbButton ghost status="danger" size="small" (click)="eliminarItem(i)" [disabled]="items.length === 1">
-                <nb-icon icon="trash-2-outline"></nb-icon>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button nbButton status="success" (click)="agregarItem()" class="add-row-button">
-        <nb-icon icon="plus-outline"></nb-icon>Añadir Jugador
-      </button>
 
-      <!-- 3. Detalles del Diseño y Archivos -->
-      <h5 class="section-title">3. Detalles y Archivos del Diseño</h5>
-      <div class="additional-info-grid">
-        <div class="info-section">
-          <h6>Descripción detallada</h6>
-          <textarea nbInput fullWidth rows="10" placeholder="Ej: Quiero el logo en el pecho izquierdo, número en la espalda en color dorado, y el short azul marino." formControlName="descripcionDetallada"></textarea>
-        </div>
-        <div class="info-section">
-          <h6>Archivos de Referencia</h6>
-          <label for="logo-input" class="file-input-label">
-            <nb-icon icon="upload-outline"></nb-icon>
-            <span>Subir Logo del Equipo</span>
-          </label>
-          <input id="logo-input" type="file" class="file-input-hidden" accept="image/*,.pdf,.ai,.cdr" (change)="onLogoSelect($event)">
-          <label for="ref-input" class="file-input-label">
-            <nb-icon icon="upload-outline"></nb-icon>
-            <span>Subir Imágenes del Diseño ({{maxImagenes}})</span>
-          </label>
-          <input id="ref-input" type="file" class="file-input-hidden" multiple accept="image/*" (change)="onReferenciaSelect($event)" [disabled]="referenciaPreviews.length >= maxImagenes">
-        </div>
-        <div class="info-section preview-section">
-          <h6>Previsualización</h6>
-          <div class="previews-wrapper">
-            <div *ngIf="logoPreviewUrl" class="preview-box">
-              <img [src]="logoPreviewUrl" alt="Previsualización del logo" class="preview-image">
-              <button nbButton status="danger" size="tiny" class="delete-preview-btn" (click)="eliminarLogo()">
-                <nb-icon icon="close-outline"></nb-icon>
-              </button>
+            <div class="file-upload-group">
+                <label for="ref-input" class="file-input-label" nbTooltip="Puedes subir varias imágenes a la vez">
+                  <nb-icon icon="upload-outline"></nb-icon>
+                  <span>Subir Diseños (máx. {{maxImagenes}})</span>
+                </label>
+                <input id="ref-input" type="file" class="file-input-hidden" multiple accept="image/*" (change)="onReferenciaSelect($event)" [disabled]="referenciaPreviews.length >= maxImagenes">
             </div>
-            <div *ngFor="let preview of referenciaPreviews; let i = index" class="preview-box">
-              <img [src]="preview.url" [alt]="'Referencia ' + i" class="preview-image">
-              <button nbButton status="danger" size="tiny" class="delete-preview-btn" (click)="eliminarImagenReferencia(i)">
-                <nb-icon icon="close-outline"></nb-icon>
-              </button>
-            </div>
-            <div *ngIf="!logoPreviewUrl && referenciaPreviews.length === 0" class="no-preview-placeholder">
-              <nb-icon icon="image-outline"></nb-icon>
-              <p>Tus imágenes aparecerán aquí</p>
+            
+            <!-- Previsualización de Archivos -->
+            <div class="preview-section full-width-field">
+              <h6>Previsualización de Archivos</h6>
+              <div class="previews-wrapper">
+                <div *ngIf="logoPreview.state !== 'empty'" class="preview-box">
+                  <img [src]="logoPreview.url" alt="Previsualización del logo" class="preview-image">
+                  <button nbButton status="danger" size="tiny" class="delete-preview-btn" (click)="eliminarLogo()" type="button" nbTooltip="Eliminar Logo">
+                    <nb-icon icon="close-outline"></nb-icon>
+                  </button>
+                </div>
+                <div *ngFor="let preview of referenciaPreviews; let i = index" class="preview-box">
+                  <img [src]="preview.url" [alt]="'Referencia ' + i" class="preview-image">
+                  <button nbButton status="danger" size="tiny" class="delete-preview-btn" (click)="eliminarImagenReferencia(i)" type="button" nbTooltip="Eliminar Imagen">
+                    <nb-icon icon="close-outline"></nb-icon>
+                  </button>
+                </div>
+                <div *ngIf="logoPreview.state === 'empty' && referenciaPreviews.length === 0" class="no-preview-placeholder">
+                  <nb-icon icon="image-outline"></nb-icon>
+                  <p>Tus imágenes aparecerán aquí</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </form>
-  </nb-card-body>
+        </nb-tab>
 
-  <nb-card-footer>
-    <div class="footer-container">
-      <div class="summary-section">
-        <h4>Resumen de la Cotización</h4>
-        <div class="summary-item precios-base">
-          <span>Precio por Conjunto Completo:</span>
-          <strong>S/ {{ precioConjuntoCompleto.toFixed(2) }}</strong>
-        </div>
-        <div class="summary-item precios-base">
-          <span>Precio por Solo Polo:</span>
-          <strong>S/ {{ precioSoloPolo.toFixed(2) }}</strong>
-        </div>
-        <div class="summary-item">
-          <span>Costo de Diseño y Sublimado (por prenda):</span>
-          <strong>S/ {{ costoDisenoPorPrenda.toFixed(2) }}</strong>
-        </div>
-        <hr>
-        <div class="summary-item">
-          <span>Cantidad Total de Prendas:</span>
-          <strong>{{ cantidadTotalPrendas }}</strong>
-        </div>
-        <div class="summary-item">
-          <span>Subtotal (Costo de Prendas):</span>
-          <strong>S/ {{ subtotalPrendas.toFixed(2) }}</strong>
-        </div>
-        <div class="summary-item">
-          <span>Total (Diseño y Sublimado):</span>
-          <strong>S/ {{ totalDiseno.toFixed(2) }}</strong>
-        </div>
-        <div class="summary-item total">
-          <span>GRAN TOTAL:</span>
-          <strong>S/ {{ granTotal.toFixed(2) }}</strong>
-        </div>
-      </div>
-       <!-- ========================================= -->
-      <!-- 3. TÉRMINOS Y CONDICIONES DE TRABAJO -->
-      <!-- ========================================= -->
-      <div class="terms-section">
-        <h6 class="terms-title">Condiciones de Nuestro Servicio</h6>
-        <ul class="terms-list">
-          <li>
-            <nb-icon icon="checkmark-circle-2-outline" status="success"></nb-icon>
-            <span><strong>Garantía y Pago:</strong> Se requiere un adelanto del 50% para iniciar la producción. El 50% restante se paga al momento del envío o entrega.</span>
-          </li>
-          <li>
-            <nb-icon icon="clock-outline" status="info"></nb-icon>
-            <span><strong>Tiempo de Producción:</strong> Desde 3 días hábiles, dependiendo de la cantidad y complejidad del pedido.</span>
-          </li>
-          <li>
-            <nb-icon icon="car-outline" status="primary"></nb-icon>
-            <span><strong>Envíos a Nivel Nacional:</strong> Realizamos envíos a todo el Perú (costo de envío no incluido).</span>
-          </li>
-        </ul>
-        <button nbButton status="primary" hero (click)="enviarCotizacion()" [disabled]="quotationForm.invalid" class="mt-3">
-          Acepto las condiciones y deseo cotizar
-        </button>
-      </div>
+        <!-- ========================================= -->
+        <!-- PESTAÑA 2: Lista de Jugadores -->
+        <!-- ========================================= -->
+        <nb-tab tabTitle="2. Lista de Jugadores">
+            <div class="tab-content-wrapper">
+                <nb-accordion class="mb-4">
+                    <nb-accordion-item>
+                      <nb-accordion-item-header>
+                        <nb-icon icon="ruler-outline"></nb-icon>
+                        ¿No estás seguro de las tallas? Consulta nuestra guía
+                      </nb-accordion-item-header>
+                      <nb-accordion-item-body>
+                        <img src="assets/imgs/guia-tallas-completa.jpg" alt="Guía de tallas para polos y shorts" class="guia-tallas-img">
+                      </nb-accordion-item-body>
+                    </nb-accordion-item>
+                </nb-accordion>
 
-      <button nbButton status="primary" hero (click)="enviarCotizacion()" [disabled]="quotationForm.invalid">
-        Generar y Enviar Cotización
-      </button>
-    </div>
-    <app-chatbot [context]="'cotizacion-sublimado'"></app-chatbot>
-  </nb-card-footer>
-</nb-card>
+                <div class="quotation-grid">
+                    <div class="grid-header">
+                      <div>N°</div>
+                      <div>Nombre del Jugador</div>
+                      <div>Número</div>
+                      <div>Talla</div>
+                      <div>Tipo de Prenda</div>
+                      <div>Cantidad</div>
+                      <div>Acción</div>
+                    </div>
+                    <div formArrayName="items">
+                      <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="grid-row">
+                        <div class="grid-cell" data-label="N°">{{ i + 1 }}</div>
+                        <div class="grid-cell" data-label="Nombre"><input nbInput fullWidth type="text" formControlName="nombre" placeholder="Nombre en camiseta"></div>
+                        <div class="grid-cell" data-label="Número"><input nbInput fullWidth type="number" formControlName="numeroCamisa" placeholder="Ej: 10"></div>
+                        <div class="grid-cell" data-label="Talla">
+                          <nb-select fullWidth formControlName="talla" placeholder="Seleccionar talla">
+                            <nb-option *ngFor="let talla of tallasDisponibles" [value]="talla">{{ talla }}</nb-option>
+                          </nb-select>
+                        </div>
+                        <div class="grid-cell tipo-prenda" data-label="Tipo"><nb-checkbox formControlName="esConjuntoCompleto">Conjunto Completo</nb-checkbox></div>
+                        <div class="grid-cell" data-label="Cantidad"><input nbInput fullWidth type="number" formControlName="cantidad"></div>
+                        <div class="grid-cell" data-label="Acción">
+                          <button nbButton ghost status="danger" size="small" (click)="eliminarItem(i)" [disabled]="items.length === 1" type="button" nbTooltip="Eliminar Fila">
+                            <nb-icon icon="trash-2-outline"></nb-icon>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <button nbButton status="success" (click)="agregarItem()" class="add-row-button" type="button">
+                    <nb-icon icon="plus-outline"></nb-icon>Añadir Jugador
+                </button>
+            </div>
+        </nb-tab>
+
+      </nb-tabset>
+    </nb-card-body>
+
+    <!-- ========================================= -->
+    <!-- Footer con Resumen y Envío -->
+    <!-- ========================================= -->
+    <nb-card-footer>
+        <div class="footer-container">
+            <!-- Columna de Resumen de Cotización -->
+            <div class="summary-section">
+              <h4 class="footer-title">Resumen de la Cotización</h4>
+              <div class="summary-item"><span>Precio por Conjunto:</span><strong>S/ {{ precioConjuntoCompleto.toFixed(2) }}</strong></div>
+              <div class="summary-item"><span>Precio por Solo Polo:</span><strong>S/ {{ precioSoloPolo.toFixed(2) }}</strong></div>
+              <div class="summary-item"><span>Costo de Diseño (por prenda):</span><strong>S/ {{ costoDisenoPorPrenda.toFixed(2) }}</strong></div>
+              <hr>
+              <div class="summary-item"><span>Cantidad Total de Prendas:</span><strong>{{ cantidadTotalPrendas }}</strong></div>
+              <div class="summary-item"><span>Subtotal (Prendas):</span><strong>S/ {{ subtotalPrendas.toFixed(2) }}</strong></div>
+              <div class="summary-item"><span>Total (Diseño):</span><strong>S/ {{ totalDiseno.toFixed(2) }}</strong></div>
+              <div class="summary-item total"><span>GRAN TOTAL:</span><strong>S/ {{ granTotal.toFixed(2) }}</strong></div>
+            </div>
+            
+            <!-- Columna de Términos y Botón de Envío -->
+            <div class="terms-section">
+              <h6 class="footer-title">Condiciones del Servicio</h6>
+              <ul class="terms-list">
+                <li><nb-icon icon="checkmark-circle-2-outline" status="success"></nb-icon><span><strong>Pago:</strong> 50% de adelanto para iniciar, 50% restante contra entrega.</span></li>
+                <li><nb-icon icon="clock-outline" status="info"></nb-icon><span><strong>Producción:</strong> Desde 3 días hábiles, sujeto a complejidad y cantidad.</span></li>
+                <li><nb-icon icon="car-outline" status="primary"></nb-icon><span><strong>Envíos:</strong> A todo el Perú (costo de envío no incluido).</span></li>
+              </ul>
+    
+              <!-- ▼▼▼ AQUÍ ESTÁ LA CORRECCIÓN ▼▼▼ -->
+              <!-- Se eliminó el <nb-form-field> que envolvía al checkbox -->
+              <div class="terms-checkbox-container">
+                <nb-checkbox formControlName="aceptaTerminos" status="primary" class="terms-checkbox">
+                  He leído y acepto los términos y condiciones.
+                </nb-checkbox>
+                <ng-container *ngIf="quotationForm.get('aceptaTerminos')?.invalid && formSubmitted">
+                  <p class="caption status-danger">Debes aceptar los términos para continuar.</p>
+                </ng-container>
+              </div>
+              <!-- ▲▲▲ FIN DE LA CORRECCIÓN ▲▲▲ -->
+    
+              <button 
+                type="submit"
+                nbButton 
+                status="primary" 
+                hero 
+                fullWidth
+                [disabled]="quotationForm.invalid || isSubmitting || (isEditMode && !quotationForm.dirty)"
+                [nbSpinner]="isSubmitting"
+                nbSpinnerStatus="control"
+                class="submit-button">
+                <nb-icon *ngIf="!isSubmitting" icon="paper-plane-outline"></nb-icon>
+                {{ isEditMode ? 'Actualizar Cotización' : 'Generar y Enviar Cotización' }}
+              </button>
+            </div>
+        </div>
+    </nb-card-footer>
+  </nb-card>
+</form>
+
+<!-- Chatbot movido fuera de la tarjeta para no afectar el layout del footer -->
+<app-chatbot [context]="'cotizacion-sublimado'"></app-chatbot>

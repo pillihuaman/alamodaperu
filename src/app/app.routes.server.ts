@@ -25,6 +25,11 @@ export const serverRoutes: ServerRoute[] = [
     path: 'support/tenant/detail/:id',
     renderMode: RenderMode.Client
   },
+    {
+    path: 'home/quotation/detail/:id',
+    renderMode: RenderMode.Client
+  },
+  
   {
     path: '**',
     renderMode: RenderMode.Prerender // This catches everything else

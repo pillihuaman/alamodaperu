@@ -2,6 +2,7 @@ import { ModalModel } from '../@data/model/User/modalModel';
 
 export class GeneralConstans {
   public static tipoImagenCatalog: string = "CATALOG";
+    public static productionCostSublimadoTeamFutbol: string = "PRODUCTION_COSTS_SUBLIMADO_TEAM_FUTBOL";
   public static successCode: number = 1;
   public static errorCode: number = 2;
   public static warningCode: number = 3;
