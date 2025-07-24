@@ -128,7 +128,7 @@ export class ManageCommonDataComponent extends BaseImplementation<any> implement
     }
 
     this.isSubmitting = true;
-    
+    debugger
     // Construye el DTO para la petición a partir de los valores del formulario
     const requestPayload: SaveCommonDataReq = {
       id: this.configForm.value.id,

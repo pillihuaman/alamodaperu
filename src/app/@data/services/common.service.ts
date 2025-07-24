@@ -25,6 +25,10 @@ export class CommonService implements CommonRepository {
       return this.apiService.get(url);
   }
     saveOrUpdateCommonData(data: SaveCommonDataReq): Observable<ResponseBody> {
-    return this.apiService.put(this.endpoint, data);
+          const url =
+      `${Const.API_SUPPORT}` +
+      `/${Const.URL_TYPE_ACCES_PUBLIC}` +
+      `/v1/support/common`;
+    return this.apiService.put(url, data);
   }
 }

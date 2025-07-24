@@ -12,6 +12,7 @@ export interface RespQuotation {
   createdAt: string; // Se recibe como un string en formato ISO (ej: "2023-10-27T10:00:00Z")
   updatedAt: string;
   aceptaTerminos?: boolean;
+  
 }
 
 // --- Interfaces para los objetos anidados ---
@@ -27,7 +28,7 @@ export interface QuotationItem {
   shirtNumber: number | null;
   size: string;
   quantity: number;
-  isFullSet: boolean;
+  fullSet: boolean;
 }
 
 export interface DesignDetails {
@@ -49,4 +50,9 @@ export interface QuotationTotals {
   garmentsSubtotal: number; // El tipo BigDecimal de Java se maneja como number en TypeScript
   designTotal: number;
   grandTotal: number;
+  fullSetPrice: number | null;
+  poloOnlyPrice: number | null;
+  designCostPerGarment: number | null;
+  subtotal: number | null; // Asumo que es el mismo que garmentsSubtotal, pero lo incluyo por si acaso
+  igvAmount: number | null;
 }

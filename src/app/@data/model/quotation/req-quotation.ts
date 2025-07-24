@@ -1,3 +1,5 @@
+import { DesignDetails } from "./resp-quotation";
+
 // Esta interfaz debe coincidir con la clase ReqQuotation.java
 export interface ReqQuotation {
   clienteNombre: string;
@@ -7,6 +9,7 @@ export interface ReqQuotation {
   items: QuotationItem[];
   aceptaTerminos?: boolean;
   tipoCostoProduccion?: string;
+    designDetails?: DesignDetails; 
 }
 
 // Esta interfaz debe coincidir con la clase anidada Item en ReqQuotation.java
@@ -15,5 +18,5 @@ export interface QuotationItem {
   numeroCamisa: number | null;
   talla: string;
   cantidad: number;
-  esConjuntoCompleto: boolean;
+  fullSet: boolean;
 }
